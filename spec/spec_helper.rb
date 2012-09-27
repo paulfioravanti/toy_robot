@@ -1,4 +1,4 @@
 require 'rspec'
-require 'toy_robot/version'
+require 'support/utilities'
 
 include ToyRobot
