@@ -1,3 +1,23 @@
+def valid_directions
+  %w(NORTH EAST SOUTH WEST)
+end
+
+def boundary_variables
+  [
+    :@left_boundary_x,
+    :@right_boundary_x,
+    :@top_boundary_y,
+    :@bottom_boundary_y
+  ]
+end
+
+def coordinate_values
+  [
+    :@current_x,
+    :@current_y
+  ]
+end
+
 def test_data
   [
     {

@@ -5,8 +5,8 @@ require File.expand_path('../lib/toy_robot/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.name          = "toy_robot"
   gem.version       = ToyRobot::VERSION
-  gem.summary       = %q{TODO: Toy Robot Simulator}
-  gem.description   = %q{TODO: Toy Robot Simulator}
+  gem.summary       = %q{Toy Robot Simulator}
+  gem.description   = %q{A simulation of a toy robot moving on a square tabletop}
   gem.license       = "MIT"
   gem.authors       = ["Paul Fioravanti"]
   gem.email         = "paul.fioravanti@gmail.com"
