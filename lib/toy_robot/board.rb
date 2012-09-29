@@ -7,10 +7,14 @@ module ToyRobot
     attr_reader :left_boundary, :right_boundary,
                 :top_boundary, :bottom_boundary
 
-    validates :left_boundary, numericality: { only_integer: true }
-    validates :right_boundary, numericality: { only_integer: true }
-    validates :top_boundary, numericality: { only_integer: true }
-    validates :bottom_boundary, numericality: { only_integer: true }
+    validates :left_boundary,   presence: true,
+                                numericality: { only_integer: true }
+    validates :right_boundary,  presence: true,
+                                numericality: { only_integer: true }
+    validates :top_boundary,    presence: true,
+                                numericality: { only_integer: true }
+    validates :bottom_boundary, presence: true,
+                                numericality: { only_integer: true }
 
     def initialize(left_x, right_x, top_y, bottom_y)
       @left_boundary, @right_boundary = left_x, right_x

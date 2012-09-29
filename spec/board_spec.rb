@@ -33,6 +33,14 @@ describe Board do
         it { should_not be_valid }
       end
     end
+
+    context "when boundaries are not present" do
+      boundary_variables.each do |boundary|
+        before { board.instance_variable_set(boundary, nil) }
+        it { should_not be_valid }
+      end
+    end
+
   end
 
 end

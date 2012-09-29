@@ -22,13 +22,18 @@ describe Robot do
 
   describe "instance methods" do
     it { should respond_to(:place).with(3).arguments }
+    it { should respond_to(:move).with(0).arguments }
     it { should respond_to(:left).with(0).arguments }
     it { should respond_to(:right).with(0).arguments }
-    it { should respond_to(:move).with(0).arguments }
     it { should respond_to(:report).with(0).arguments }
   end
 
   describe "validations" do
+    context "for board" do
+      before { robot.instance_variable_set(:@board, nil) }
+      it { should_not be_valid }
+    end
+
     context "for current direction" do
       context "when it is invalid" do
         before { robot.cardinal_direction = "INVALID" }
