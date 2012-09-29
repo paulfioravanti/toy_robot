@@ -8,22 +8,22 @@ describe Board do
   subject { board }
 
   describe "model attributes" do
-    it { should respond_to(:left_boundary_x) }
-    it { should respond_to(:right_boundary_x) }
-    it { should respond_to(:top_boundary_y) }
-    it { should respond_to(:bottom_boundary_y) }
+    it { should respond_to(:left_boundary) }
+    it { should respond_to(:right_boundary) }
+    it { should respond_to(:top_boundary) }
+    it { should respond_to(:bottom_boundary) }
   end
 
   describe "initial state" do
     it { should be_valid }
-    its(:left_boundary_x) { should == 0 }
-    its(:right_boundary_x) { should == 4 }
-    its(:top_boundary_y) { should == 4 }
-    its(:bottom_boundary_y) { should == 0 }
+    its(:left_boundary) { should == 0 }
+    its(:right_boundary) { should == 4 }
+    its(:top_boundary) { should == 4 }
+    its(:bottom_boundary) { should == 0 }
   end
 
   describe "instance methods" do
-
+    it { should respond_to(:within_boundaries?).with(2).arguments }
   end
 
   describe "validations" do

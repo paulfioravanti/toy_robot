@@ -1,20 +1,20 @@
-def valid_directions
+def valid_cardinal_directions
   %w(NORTH EAST SOUTH WEST)
 end
 
 def boundary_variables
   [
-    :@left_boundary_x,
-    :@right_boundary_x,
-    :@top_boundary_y,
-    :@bottom_boundary_y
+    :@left_boundary,
+    :@right_boundary,
+    :@top_boundary,
+    :@bottom_boundary
   ]
 end
 
 def coordinate_values
   [
-    :@current_x,
-    :@current_y
+    :@x_position,
+    :@y_position
   ]
 end
 

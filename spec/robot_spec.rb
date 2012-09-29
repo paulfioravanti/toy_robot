@@ -3,21 +3,25 @@ require 'toy_robot'
 
 describe Robot do
 
-  let(:robot) { Robot.new }
+  let(:board) { Board.new(0, 4, 4, 0) }
+  let(:robot) { Robot.new(board) }
 
   subject { robot }
 
   describe "model attributes" do
-    it { should respond_to(:current_x) }
-    it { should respond_to(:current_y) }
-    it { should respond_to(:current_direction) }
+    it { should respond_to(:board) }
+    it { should respond_to(:x_position) }
+    it { should respond_to(:y_position) }
+    it { should respond_to(:cardinal_direction) }
   end
 
   describe "initial state" do
     it { should be_valid }
+    its(:board) { should == board }
   end
 
   describe "instance methods" do
+    it { should respond_to(:place).with(3).arguments }
     it { should respond_to(:left).with(0).arguments }
     it { should respond_to(:right).with(0).arguments }
     it { should respond_to(:move).with(0).arguments }
@@ -25,15 +29,14 @@ describe Robot do
   end
 
   describe "validations" do
-
     context "for current direction" do
       context "when it is invalid" do
-        before { robot.current_direction = "INVALID" }
+        before { robot.cardinal_direction = "INVALID" }
         it { should_not be_valid }
       end
 
       context "when it is nil" do
-        before { robot.current_direction = nil }
+        before { robot.cardinal_direction = nil }
         it { should be_valid }
       end
     end
@@ -53,141 +56,253 @@ describe Robot do
         end
       end
     end
-
   end
 
-  shared_examples_for "all board placements" do
-    its(:current_x) { should == expected_x }
-    its(:current_y) { should == expected_y }
-    its(:current_direction) { should == expected_direction }
+  shared_examples_for "all robot attributes at time of placement" do
+    its(:x_position) { should == expected_x }
+    its(:y_position) { should == expected_y }
+    its(:cardinal_direction) { should == expected_cardinal }
   end
 
   describe "being placed on a board" do
-    let(:board) { Board.new(0, 4, 4, 0) }
+    let(:expected_x) { 2 }
+    let(:expected_y) { 2 }
+    let(:expected_cardinal) { "NORTH" }
+
+    before do
+      robot.place(2, 2, "NORTH")
+    end
 
     context "in a valid position and direction" do
-      let(:expected_x) { 2 }
-      let(:expected_y) { 2 }
-      let(:expected_direction) { "NORTH" }
+      it_should_behave_like "all robot attributes at time of placement"
 
-      before do
-        board.place(robot, 2, 2, "NORTH")
+      context "and then re-placed validly" do
+        let(:expected_x) { 3 }
+        let(:expected_y) { 3 }
+        let(:expected_cardinal) { "SOUTH" }
+
+        before do
+          robot.place(3, 3, "SOUTH")
+        end
+
+        it_should_behave_like "all robot attributes at time of placement"
       end
-
-      it_should_behave_like "all board placements"
     end
 
     context "in an invalid position" do
-      let(:expected_x) { nil }
-      let(:expected_y) { nil }
-      let(:expected_direction) { nil }
-
-      context "on the x axis" do
-        context "in the east" do
+      # Expect no change from original placement of 2, 2, "NORTH"
+      context "too far on the x axis" do
+        context "to the east" do
           before do
-            board.place(robot, 5, 2, "NORTH")
+            robot.place(5, 2, "NORTH")
           end
 
-          it_should_behave_like "all board placements"
+          it_should_behave_like "all robot attributes at time of placement"
         end
 
-        context "in the west" do
+        context "to the west" do
           before do
-            board.place(robot, -1, 2, "NORTH")
+            robot.place(-1, 2, "NORTH")
           end
 
-          it_should_behave_like "all board placements"
+          it_should_behave_like "all robot attributes at time of placement"
         end
       end
 
-      context "on the y axis" do
-        context "in the north" do
+      context "too far on the y axis" do
+        context "to the north" do
           before do
-            board.place(robot, 2, 5, "NORTH")
+            robot.place(2, 5, "NORTH")
           end
 
-          it_should_behave_like "all board placements"
+          it_should_behave_like "all robot attributes at time of placement"
         end
 
-        context "in the south" do
+        context "to the south" do
           before do
-            board.place(robot, 2, -1, "NORTH")
+            robot.place(2, -1, "NORTH")
           end
 
-          it_should_behave_like "all board placements"
+          it_should_behave_like "all robot attributes at time of placement"
         end
       end
     end
-
   end
 
-  # describe "moving" do
-  #   let(:board) { Board.new(0, 4, 0, 4) }
-  #   context "when there is a space in front of it" do
-  #     context "to the north" do
-  #       before do
-  #         board.place(robot, 2, 2, "NORTH")
-  #       end
-  #     end
-  #     context "to the east" do
+  describe "moving" do
+    context "when there is a space ahead" do
+      before { robot.place(2, 2, "NORTH") }
 
-  #     end
-  #     context "to the south" do
+      context "to the north" do
+        let(:expected_x) { 2 }
+        let(:expected_y) { 3 }
+        let(:expected_cardinal) { "NORTH" }
 
-  #     end
-  #     context "to the west" do
+        before { robot.move }
 
-  #     end
-  #   end
-  #   context "when there is not a space in front of it" do
-  #     context "to the north" do
+        it_should_behave_like "all robot attributes at time of placement"
+      end
 
-  #     end
-  #     context "to the east" do
+      context "to the east" do
+        let(:expected_x) { 3 }
+        let(:expected_y) { 2 }
+        let(:expected_cardinal) { "EAST" }
 
-  #     end
-  #     context "to the south" do
+        before do
+          robot.right
+          robot.move
+        end
 
-  #     end
-  #     context "to the west" do
+        it_should_behave_like "all robot attributes at time of placement"
+      end
 
-  #     end
-  #   end
-  # end
+      context "to the south" do
+        let(:expected_x) { 2 }
+        let(:expected_y) { 1 }
+        let(:expected_cardinal) { "SOUTH" }
 
-  describe "reporting" do
-    before do
-      robot.current_x = 0
-      robot.current_y = 0
-      robot.current_direction = "NORTH"
+        before do
+          2.times { robot.right }
+          robot.move
+        end
+
+        it_should_behave_like "all robot attributes at time of placement"
+      end
+
+      context "to the west" do
+        let(:expected_x) { 1 }
+        let(:expected_y) { 2 }
+        let(:expected_cardinal) { "WEST" }
+
+        before do
+          robot.left
+          robot.move
+        end
+
+        it_should_behave_like "all robot attributes at time of placement"
+      end
     end
 
-    its(:report) do
-      should == { current_x: 0, current_y: 0, current_direction: "NORTH" }
+    context "when there is not a space ahead" do
+      context "to the north" do
+        let(:expected_x) { 2 }
+        let(:expected_y) { 4 }
+        let(:expected_cardinal) { "NORTH" }
+
+        before do
+          robot.place(2, 4, "NORTH")
+          robot.move
+        end
+
+        it_should_behave_like "all robot attributes at time of placement"
+      end
+
+      context "to the east" do
+        let(:expected_x) { 4 }
+        let(:expected_y) { 2 }
+        let(:expected_cardinal) { "EAST" }
+
+        before do
+          robot.place(4, 2, "EAST")
+          robot.move
+        end
+
+        it_should_behave_like "all robot attributes at time of placement"
+      end
+
+      context "to the south" do
+        let(:expected_x) { 2 }
+        let(:expected_y) { 0 }
+        let(:expected_cardinal) { "SOUTH" }
+
+        before do
+          robot.place(2, 0, "SOUTH")
+          robot.move
+        end
+
+        it_should_behave_like "all robot attributes at time of placement"
+      end
+
+      context "to the west" do
+        let(:expected_x) { 0 }
+        let(:expected_y) { 2 }
+        let(:expected_cardinal) { "WEST" }
+
+        before do
+          robot.place(0, 2, "WEST")
+          robot.move
+        end
+
+        it_should_behave_like "all robot attributes at time of placement"
+      end
+    end
+
+    context "without having been placed" do
+      let(:expected_x) { nil }
+      let(:expected_y) { nil }
+      let(:expected_cardinal) { nil }
+
+      before { robot.move }
+
+      it_should_behave_like "all robot attributes at time of placement"
     end
   end
 
   describe "turning" do
-    valid_directions.each_with_index do |direction, index|
+    context "after being placed" do
+      before { robot.place(2, 2, "NORTH") }
 
-      context "left" do
-        let(:left_turns) { valid_directions.rotate(-1) }
-        before do
-          robot.current_direction = direction
-          robot.left
+      valid_cardinal_directions.each_with_index do |direction, index|
+        context "left" do
+          let(:left_turns) { valid_cardinal_directions.rotate(-1) }
+
+          before do
+            robot.cardinal_direction = direction
+            robot.left
+          end
+
+          its(:cardinal_direction) { should == left_turns[index] }
         end
-        its(:current_direction) { should == left_turns[index] }
+
+        context "right" do
+          let(:right_turns) { valid_cardinal_directions.rotate }
+
+          before do
+            robot.cardinal_direction = direction
+            robot.right
+          end
+
+          its(:cardinal_direction) { should == right_turns[index] }
+        end
+      end
+    end
+
+    context "without having been placed" do
+      let(:expected_x) { nil }
+      let(:expected_y) { nil }
+      let(:expected_cardinal) { nil }
+
+      before { robot.left }
+
+      it_should_behave_like "all robot attributes at time of placement"
+    end
+  end
+
+  describe "reporting" do
+    context "after being placed" do
+      before do
+        robot.place(2, 2, "NORTH")
       end
 
-      context "right" do
-        let(:right_turns) { valid_directions.rotate }
-        before do
-          robot.current_direction = direction
-          robot.right
-        end
-        its(:current_direction) { should == right_turns[index] }
+      its(:report) do
+        should == { x_position: 2, y_position: 2, cardinal_direction: "NORTH" }
       end
+    end
 
+    context "without having been placed" do
+      its(:report) do
+        should == nil
+      end
     end
   end
 
