@@ -81,6 +81,7 @@ def invalid_test_data
   [
      { # Invalid commands, bad placing arguments, placing off board
        input: "INVALID\r
+               FRAGGLE\r
                PLACE A,0,NORTH\r
                PLACE 0,B,NORTH\r
                PLACE 0,0,INVALID\r
