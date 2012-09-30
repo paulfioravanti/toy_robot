@@ -50,8 +50,9 @@ def valid_test_data
               LEFT\r
               MOVE\r
               PLACE 1,2,EAST\r
+              MOVE\r
               REPORT",
-      output: "1,2,EAST\n"
+      output: "2,2,EAST\n"
     },
 
     { # Multiple placings
@@ -84,9 +85,9 @@ def invalid_test_data
                FRAGGLE\r
                PLACE A,0,NORTH\r
                PLACE 0,B,NORTH\r
-               PLACE 0,0,INVALID\r
-               PLACE 5,5,NORTH\r
-               PLACE -2,-2,NORTH\r
+               PLACE 0,0,DEATHSTAR\r
+               PLACE 5,5,SOUTH\r
+               PLACE -2,-2,WEST\r
                REPORT",
        output: ""
      }
