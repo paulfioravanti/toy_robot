@@ -47,22 +47,21 @@ module ToyRobot
       if numerical?(x) && numerical?(y)
         x, y, cardinal = x.to_i, y.to_i, cardinal.upcase
         # errors.delete(:coordinates)
-        if @board.within_boundaries?(x, y)
-          # p x, y
-          if VALID_CARDINAL_DIRECTIONS.include?(cardinal)
+        if @board.within_boundaries?(x, y) &&
+          VALID_CARDINAL_DIRECTIONS.include?(cardinal)
             @x_position, @y_position, @cardinal_direction = x, y, cardinal
             nil
             # errors.clear
-          else
-            nil
+          # else
+            # nil
             # errors.add(:cardinal_direction, "must be valid")
-          end
-        else
-          nil
+          # end
+        # else
+          # nil
           # errors.add(:x_position, "must be within board boundaries")
         end
-      else
-        nil
+      # else
+        # nil
         # errors.add(:x_position, "must be integers")
       end
     end
@@ -72,17 +71,19 @@ module ToyRobot
         x, y = @x_position, @y_position
         eval(move_formula)
         place(x, y)
-      else
-        nil
+      # else
+        # nil
       end
     end
 
     def left
-      placed? ? turn : nil
+      # placed? ? turn : nil
+      turn if placed?
     end
 
     def right
-      placed? ? turn : nil
+      # placed? ? turn : nil
+      turn if placed?
     end
 
     def report
@@ -93,9 +94,9 @@ module ToyRobot
           y_position: @y_position,
           cardinal_direction: @cardinal_direction
         }
-      else
+      # else
         # errors.add(:report, "only given when placed correctly")
-        nil
+        # nil
       end
 
     end
@@ -107,7 +108,7 @@ module ToyRobot
         direction = caller[0][/`(.*)'/, 1]
         index = VALID_CARDINAL_DIRECTIONS.index(@cardinal_direction)
         @cardinal_direction = new_direction(direction, index)
-        nil
+        return
       end
 
       def new_direction(direction, index)
