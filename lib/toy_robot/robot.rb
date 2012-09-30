@@ -50,7 +50,7 @@ module ToyRobot
         if @board.within_boundaries?(x, y) &&
           VALID_CARDINAL_DIRECTIONS.include?(cardinal)
             @x_position, @y_position, @cardinal_direction = x, y, cardinal
-            nil
+            return
             # errors.clear
           # else
             # nil
