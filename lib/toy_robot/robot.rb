@@ -3,8 +3,10 @@ require 'active_model'
 module ToyRobot
   class Robot
     include ActiveModel::Validations
+    # include ActiveModel::Conversion
+    # extend ActiveModel::Naming
 
-    attr_reader   :board
+    attr_reader   :board#, :errors
     attr_accessor :x_position, :y_position, :cardinal_direction
 
     validates :board, presence: true
@@ -16,13 +18,52 @@ module ToyRobot
     validates :cardinal_direction, inclusion: VALID_CARDINAL_DIRECTIONS,
                                    allow_nil: true
 
-    def initialize(board)
-      @board = board
+    def initialize(attributes = {})
+      attributes.each do |name, value|
+        instance_variable_set(:"@#{name}", value)
+      end if attributes
+      # @errors = ActiveModel::Errors.new(self)
     end
 
-    def place(x, y, cardinal=@cardinal_direction)
-      if @board.within_boundaries?(x, y)
-        @x_position, @y_position, @cardinal_direction = x, y, cardinal.upcase
+    # def persisted?
+    #   false
+    # end
+
+    # def read_attribute_for_validation(attr)
+    #   send(attr)
+    # end
+
+    # def self.human_attribute_name(attr, options = {})
+    #   attr
+    # end
+
+    # def self.lookup_ancestors
+    #   [self]
+    # end
+
+    def place(x, y, cardinal = @cardinal_direction)
+      # p x, y
+      # if ([x, y].each { |n| numerical?(n) })
+      if numerical?(x) && numerical?(y)
+        x, y, cardinal = x.to_i, y.to_i, cardinal.upcase
+        # errors.delete(:coordinates)
+        if @board.within_boundaries?(x, y)
+          # p x, y
+          if VALID_CARDINAL_DIRECTIONS.include?(cardinal)
+            @x_position, @y_position, @cardinal_direction = x, y, cardinal
+            nil
+            # errors.clear
+          else
+            nil
+            # errors.add(:cardinal_direction, "must be valid")
+          end
+        else
+          nil
+          # errors.add(:x_position, "must be within board boundaries")
+        end
+      else
+        nil
+        # errors.add(:x_position, "must be integers")
       end
     end
 
@@ -31,25 +72,32 @@ module ToyRobot
         x, y = @x_position, @y_position
         eval(move_formula)
         place(x, y)
+      else
+        nil
       end
     end
 
     def left
-      turn if placed?
+      placed? ? turn : nil
     end
 
     def right
-      turn if placed?
+      placed? ? turn : nil
     end
 
     def report
       if placed?
+        # errors.delete(:report)
         {
           x_position: @x_position,
           y_position: @y_position,
           cardinal_direction: @cardinal_direction
         }
+      else
+        # errors.add(:report, "only given when placed correctly")
+        nil
       end
+
     end
 
     private
@@ -59,6 +107,7 @@ module ToyRobot
         direction = caller[0][/`(.*)'/, 1]
         index = VALID_CARDINAL_DIRECTIONS.index(@cardinal_direction)
         @cardinal_direction = new_direction(direction, index)
+        nil
       end
 
       def new_direction(direction, index)
@@ -85,5 +134,8 @@ module ToyRobot
         true
       end
 
+      def numerical?(object)
+        true if Integer(object) rescue false
+      end
   end
 end

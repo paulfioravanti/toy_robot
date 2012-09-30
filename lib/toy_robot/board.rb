@@ -16,9 +16,10 @@ module ToyRobot
     validates :bottom_boundary, presence: true,
                                 numericality: { only_integer: true }
 
-    def initialize(left_x, right_x, top_y, bottom_y)
-      @left_boundary, @right_boundary = left_x, right_x
-      @top_boundary, @bottom_boundary = top_y, bottom_y
+    def initialize(attributes = {})
+      attributes.each do |name, value|
+        instance_variable_set(:"@#{name}", value)
+      end
     end
 
     def within_boundaries?(x, y)

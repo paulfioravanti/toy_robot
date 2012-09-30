@@ -3,8 +3,11 @@ require 'toy_robot'
 
 describe Robot do
 
-  let(:board) { Board.new(0, 4, 4, 0) }
-  let(:robot) { Robot.new(board) }
+  let(:board) do
+    Board.new(left_boundary: 0, right_boundary: 4,
+              top_boundary: 4, bottom_boundary: 0)
+  end
+  let(:robot) { Robot.new(board: board) }
 
   subject { robot }
 
@@ -295,19 +298,34 @@ describe Robot do
 
   describe "reporting" do
     context "after being placed" do
+      let(:expected_report) do
+        {
+          x_position: 2,
+          y_position: 2,
+          cardinal_direction: "NORTH"
+        }
+      end
+
       before do
         robot.place(2, 2, "NORTH")
       end
 
       its(:report) do
-        should == { x_position: 2, y_position: 2, cardinal_direction: "NORTH" }
+        should == expected_report
       end
     end
 
     context "without having been placed" do
+      let(:expected_report) { nil }
+
+      before { robot.report }
+
       its(:report) do
-        should == nil
+        should == expected_report
       end
+
+      # its(:errors) { should have_key(:report) }
+      # its("errors.full_messages") { should include(error_message) }
     end
   end
 
