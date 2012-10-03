@@ -66,6 +66,18 @@ describe Robot do
         end
       end
     end
+
+    context "for placed" do
+      context "when it is invalid" do
+        before { robot.placed = "INVALID" }
+        it { should_not be_valid }
+      end
+
+      context "when it is nil" do
+        before { robot.placed = nil }
+        it { should_not be_valid }
+      end
+    end
   end
 
   shared_examples_for "all robot attributes at time of placement" do

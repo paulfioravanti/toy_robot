@@ -17,6 +17,7 @@ module ToyRobot
     VALID_CARDINAL_DIRECTIONS = %w(NORTH EAST SOUTH WEST)
     validates :cardinal_direction, inclusion: VALID_CARDINAL_DIRECTIONS,
                                    allow_nil: true
+    validates :placed, inclusion: [true, false]
 
     def initialize(attributes = {})
       attributes.each do |name, value|
