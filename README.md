@@ -38,7 +38,7 @@ Check test coverage (after running rspec):
 
 ## Specification
 
-# Description
+### Description
 - The application is a simulation of a toy robot moving on a square tabletop, of dimensions 5 units x 5 units.
 - There are no other obstructions on the table surface.
 - The robot is free to roam around the surface of the table, but must be prevented from falling to destruction. Any movement
@@ -47,11 +47,11 @@ be allowed.
 
 
 *Create an application that can read in commands of the following form*
-- PLACE X,Y,F
-- MOVE
-- LEFT
-- RIGHT
-- REPORT
+PLACE X,Y,F
+MOVE
+LEFT
+RIGHT
+REPORT
 
 - PLACE will put the toy robot on the table in position X,Y and facing NORTH, SOUTH, EAST or WEST.
 - The origin (0,0) can be considered to be the SOUTH WEST most corner.
@@ -65,7 +65,7 @@ be allowed.
 - Provide test data to exercise the application.
 
 
-# Constraints
+### Constraints
 The toy robot must not fall off the table during movement. This also includes the initial placement of the toy robot.
 Any move that would cause the robot to fall must be ignored.
 
@@ -91,8 +91,7 @@ MOVE
 REPORT
 Output: 3,3,NORTH
 
-
-# Deliverables
+### Deliverables
 The Ruby  source files, the test data and any test code.
 It is not required to provide any graphical output showing the movement of the toy robot.
 
