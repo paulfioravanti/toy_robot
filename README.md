@@ -13,13 +13,13 @@ Install
 
 Run
 
-- Input commands manually on command line:
+Input commands manually on command line:
 
-      $ bin/toy_robot
+    $ bin/toy_robot
 
-- Input commands through a file
+Input commands through a file
 
-      $ bin/toy_robot -f [filename]
+    $ bin/toy_robot -f [filename]
 
 Run tests:
 
