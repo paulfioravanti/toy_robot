@@ -1,12 +1,12 @@
 require 'active_model'
+require 'toy_robot/toy_robot_helper'
 
 module ToyRobot
   class Robot
     include ActiveModel::Validations
-    # include ActiveModel::Conversion
-    # extend ActiveModel::Naming
+    include ToyRobotHelper
 
-    attr_reader   :board#, :errors
+    attr_reader   :board
     attr_accessor :x_position, :y_position, :cardinal_direction
 
     validates :board, presence: true
@@ -21,48 +21,17 @@ module ToyRobot
     def initialize(attributes = {})
       attributes.each do |name, value|
         instance_variable_set(:"@#{name}", value)
-      end if attributes
-      # @errors = ActiveModel::Errors.new(self)
+      end
     end
 
-    # def persisted?
-    #   false
-    # end
-
-    # def read_attribute_for_validation(attr)
-    #   send(attr)
-    # end
-
-    # def self.human_attribute_name(attr, options = {})
-    #   attr
-    # end
-
-    # def self.lookup_ancestors
-    #   [self]
-    # end
-
     def place(x, y, cardinal = @cardinal_direction)
-      # p x, y
-      # if ([x, y].each { |n| numerical?(n) })
-      if numerical?(x) && numerical?(y)
+      if numerical?(x, y)
         x, y, cardinal = x.to_i, y.to_i, cardinal.upcase
-        # errors.delete(:coordinates)
         if @board.within_boundaries?(x, y) &&
           VALID_CARDINAL_DIRECTIONS.include?(cardinal)
-            @x_position, @y_position, @cardinal_direction = x, y, cardinal
-            return
-            # errors.clear
-          # else
-            # nil
-            # errors.add(:cardinal_direction, "must be valid")
-          # end
-        # else
-          # nil
-          # errors.add(:x_position, "must be within board boundaries")
+          @x_position, @y_position, @cardinal_direction = x, y, cardinal
+          return
         end
-      # else
-        # nil
-        # errors.add(:x_position, "must be integers")
       end
     end
 
@@ -71,32 +40,24 @@ module ToyRobot
         x, y = @x_position, @y_position
         eval(move_formula)
         place(x, y)
-      # else
-        # nil
       end
     end
 
     def left
-      # placed? ? turn : nil
       turn if placed?
     end
 
     def right
-      # placed? ? turn : nil
       turn if placed?
     end
 
     def report
       if placed?
-        # errors.delete(:report)
         {
           x_position: @x_position,
           y_position: @y_position,
           cardinal_direction: @cardinal_direction
         }
-      # else
-        # errors.add(:report, "only given when placed correctly")
-        # nil
       end
 
     end
@@ -131,12 +92,8 @@ module ToyRobot
       def placed?
         [@x_position, @y_position, @cardinal_direction].each do |var|
           return false if var.nil?
+          true
         end
-        true
-      end
-
-      def numerical?(object)
-        true if Integer(object) rescue false
       end
   end
 end

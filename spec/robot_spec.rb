@@ -323,10 +323,6 @@ describe Robot do
       its(:report) do
         should == expected_report
       end
-
-      # its(:errors) { should have_key(:report) }
-      # its("errors.full_messages") { should include(error_message) }
     end
   end
-
 end

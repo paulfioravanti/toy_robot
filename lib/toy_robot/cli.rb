@@ -5,30 +5,22 @@ require 'toy_robot/robot'
 module ToyRobot
   class CLI < Thor
 
-    attr_writer :instructions
+    method_option :filename, aliases: ['-f'],
+                  desc: "name of the file containing robot instructions",
+                  banner: 'FILE'
 
-    class_option :filename, aliases: ['-f'],
-                 default: 'instructions.txt',
-                 desc: "name of the file containing robot instructions",
-                 banner: 'FILE'
-
-    desc "execute commands in FILE", "moves robot on a board as per commands"
+    desc "execute robot commands", "moves robot on a board as per commands"
     def execute
       board = Board.new(left_boundary: 0, right_boundary: 4,
                         top_boundary: 4, bottom_boundary: 0)
       robot = Robot.new(board: board)
-      instructions.each do |instruction|
-        command, args = parse_instruction(instruction)
-        if valid_robot_command?(command, args)
-          response = robot.send(command, *args)
-          # p response
-          # if command == :report #&& robot.valid?
-          puts format(response) unless response.nil?
-          # else
-            # puts robot.errors.full_messages if robot.errors.any?
-          # end
-        # else
-          # puts %Q{"#{instruction}" command incorrect or not recognised}
+      instruction_set do |instructions|
+        instructions.each do |instruction|
+          command, args = parse_instruction(instruction)
+          if valid_robot_command?(command, args)
+            response = robot.send(command, *args)
+            puts format(response) if response
+          end
         end
       end
     end
@@ -36,9 +28,18 @@ module ToyRobot
     default_task :execute
 
     no_tasks do
-      def instructions
-        @instructions ||=
-          File.readlines(options[:filename]).map { |a| a.chomp }
+      def instruction_set
+        if options[:filename]
+          yield File.readlines(options[:filename]).map { |a| a.strip.chomp }
+        else
+          puts usage
+          print "> "
+          while line = gets
+            break if line =~ /EXIT/i
+            yield [line]
+            print "> "
+          end
+        end
       end
 
       def format(output)
@@ -56,6 +57,17 @@ module ToyRobot
       def valid_robot_command?(command, args)
         [:place, :move, :left, :right, :report].include?(command) &&
         (args.size == 0 || (args.size == 3 if command == :place))
+      end
+
+      def usage
+        "Valid Commands:\n"\
+        "PLACE X,Y,F eg: PLACE 0,0,NORTH\n"\
+        "MOVE\n"\
+        "LEFT\n"\
+        "RIGHT\n"\
+        "REPORT\n"\
+        "EXIT\n"\
+        "-------\n"
       end
     end
   end

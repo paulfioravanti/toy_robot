@@ -74,6 +74,15 @@ def valid_test_data
               MOVE\r
               REPORT",
       output: "4,4,EAST\n"
+    },
+
+    { # Multiple calls to report
+      input: "PLACE 0,0,WEST\r
+              REPORT\r
+              PLACE 4,4,NORTH\r
+              REPORT",
+      output: "0,0,WEST\n"\
+              "4,4,NORTH\n"
     }
   ]
 end
@@ -92,4 +101,19 @@ def invalid_test_data
        output: ""
      }
   ]
+end
+
+def usage
+  "Valid Commands:\n"\
+  "PLACE X,Y,F eg: PLACE 0,0,NORTH\n"\
+  "MOVE\n"\
+  "LEFT\n"\
+  "RIGHT\n"\
+  "REPORT\n"\
+  "EXIT\n"\
+  "-------\n"
+end
+
+def prompt
+  "> "
 end
