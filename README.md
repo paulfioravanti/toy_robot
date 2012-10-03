@@ -12,10 +12,9 @@ If you find this repo useful, please help me level-up on [Coderwall](http://code
 
 Install
 
-    $ cd toy_robot
     $ bundle install
 
-Run
+## Usage
 
 Input commands manually on command line:
 
@@ -41,4 +40,4 @@ Check test coverage (after running rspec):
 
 Copyright (c) 2012 Paul Fioravanti
 
-See {file:LICENSE.txt} for details.
+See [LICENSE.txt](https://github.com/paulfioravanti/toy_robot/blob/master/LICENSE.txt)  for details.
