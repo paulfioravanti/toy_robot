@@ -60,6 +60,7 @@ REPORT
 - LEFT and RIGHT will rotate the robot 90 degrees in the specified direction without changing the position of the robot.
 - REPORT will announce the X,Y and F of the robot. This can be in any form, but standard output is sufficient.
 
+
 - A robot that is not on the table can choose the ignore the MOVE, LEFT, RIGHT and REPORT commands.
 - Input can be from a file, or from standard input, as the developer chooses.
 - Provide test data to exercise the application.
@@ -92,7 +93,7 @@ REPORT
 Output: 3,3,NORTH
 
 ### Deliverables
-The Ruby  source files, the test data and any test code.
+The Ruby source files, the test data and any test code.
 It is not required to provide any graphical output showing the movement of the toy robot.
 
 ## Copyright
