@@ -13,7 +13,7 @@ module ToyRobot
     def execute
       board = Board.new(left_boundary: 0, right_boundary: 4,
                         top_boundary: 4, bottom_boundary: 0)
-      robot = Robot.new(board: board)
+      robot = Robot.new(board: board, placed: false)
       instruction_set do |instructions|
         instructions.each do |instruction|
           command, args = parse_instruction(instruction)

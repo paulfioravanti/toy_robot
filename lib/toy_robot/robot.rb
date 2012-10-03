@@ -7,7 +7,7 @@ module ToyRobot
     include ToyRobotHelper
 
     attr_reader   :board
-    attr_accessor :x_position, :y_position, :cardinal_direction
+    attr_accessor :x_position, :y_position, :cardinal_direction, :placed
 
     validates :board, presence: true
     validates :x_position, numericality: { only_integer: true },
@@ -30,13 +30,14 @@ module ToyRobot
         if @board.within_boundaries?(x, y) &&
           VALID_CARDINAL_DIRECTIONS.include?(cardinal)
           @x_position, @y_position, @cardinal_direction = x, y, cardinal
+          @placed = true
           return
         end
       end
     end
 
     def move
-      if placed?
+      if @placed
         x, y = @x_position, @y_position
         eval(move_formula)
         place(x, y)
@@ -44,22 +45,21 @@ module ToyRobot
     end
 
     def left
-      turn if placed?
+      turn if @placed
     end
 
     def right
-      turn if placed?
+      turn if @placed
     end
 
     def report
-      if placed?
+      if @placed
         {
           x_position: @x_position,
           y_position: @y_position,
           cardinal_direction: @cardinal_direction
         }
       end
-
     end
 
     private
@@ -86,13 +86,6 @@ module ToyRobot
           when "EAST"  then "x += 1"
           when "SOUTH" then "y -= 1"
           when "WEST"  then "x -= 1"
-        end
-      end
-
-      def placed?
-        [@x_position, @y_position, @cardinal_direction].each do |var|
-          return false if var.nil?
-          true
         end
       end
   end

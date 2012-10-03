@@ -7,7 +7,7 @@ describe Robot do
     Board.new(left_boundary: 0, right_boundary: 4,
               top_boundary: 4, bottom_boundary: 0)
   end
-  let(:robot) { Robot.new(board: board) }
+  let(:robot) { Robot.new(board: board, placed: false) }
 
   subject { robot }
 
@@ -16,11 +16,13 @@ describe Robot do
     it { should respond_to(:x_position) }
     it { should respond_to(:y_position) }
     it { should respond_to(:cardinal_direction) }
+    it { should respond_to(:placed) }
   end
 
   describe "initial state" do
     it { should be_valid }
     its(:board) { should == board }
+    its(:placed) { should == false }
   end
 
   describe "instance methods" do
