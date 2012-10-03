@@ -1,8 +1,10 @@
-# Toy Robot Simulator
+# Toy Robot Simulator [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/paulfioravanti/toy_robot)
 
 ## Description
 
 A simulation of a toy robot moving on a square tabletop, of dimensions 5 units x 5 units.
+
+If you find this repo useful, please help me level-up on [Coderwall](http://coderwall.com/) with an [![endorse](http://api.coderwall.com/pfioravanti/endorse.png)](http://coderwall.com/pfioravanti)
 
 ## Installation
 
