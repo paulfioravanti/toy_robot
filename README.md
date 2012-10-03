@@ -68,26 +68,26 @@ REPORT
 The toy robot must not fall off the table during movement. This also includes the initial placement of the toy robot.
 Any move that would cause the robot to fall must be ignored.
 
-Example Input and Output:
-a)
-PLACE 0,0,NORTH
-MOVE
-REPORT
-Output: 0,1,NORTH
+Example Input and Output:  
+a)  
+PLACE 0,0,NORTH  
+MOVE  
+REPORT  
+Output: 0,1,NORTH  
 
-b)
-PLACE 0,0,NORTH
-LEFT
-REPORT
-Output: 0,0,WEST
+b)  
+PLACE 0,0,NORTH  
+LEFT  
+REPORT  
+Output: 0,0,WEST  
 
-c)
-PLACE 1,2,EAST
-MOVE
-MOVE
-LEFT
-MOVE
-REPORT
+c)  
+PLACE 1,2,EAST  
+MOVE  
+MOVE  
+LEFT  
+MOVE  
+REPORT  
 Output: 3,3,NORTH
 
 ### Deliverables
