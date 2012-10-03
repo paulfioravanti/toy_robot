@@ -31,7 +31,7 @@ Check test coverage (after running rspec):
 
 ## Issues
 
-- Couldn't figure out how to write tests simulating manual command input (using STDIN), therefore test coverage stays at 99.43% for now.
+- Couldn't figure out how to write tests simulating manual command input (using STDIN), and started a question on StackOverflow about it [here](http://stackoverflow.com/q/12673485/567863).  So, test coverage stays at 99.43% for now.
 
 ## Copyright
 
