@@ -1,7 +1,8 @@
 module ToyRobot
   module ToyRobotHelper
     def numerical?(*args)
-      args.each { |arg| true if Integer(arg) rescue return false }
+      args.each { |arg| return false if arg.to_s.match(/[^-?\d+]/) }
+      true
     end
   end
 end

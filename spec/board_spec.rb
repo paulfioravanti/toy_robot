@@ -3,10 +3,7 @@ require 'toy_robot'
 
 describe Board do
 
-  let(:board) do
-    Board.new(left_boundary: 0, right_boundary: 4,
-              top_boundary: 4, bottom_boundary: 0)
-  end
+  let(:board) { Board.new }
 
   subject { board }
 

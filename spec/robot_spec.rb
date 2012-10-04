@@ -3,11 +3,7 @@ require 'toy_robot'
 
 describe Robot do
 
-  let(:board) do
-    Board.new(left_boundary: 0, right_boundary: 4,
-              top_boundary: 4, bottom_boundary: 0)
-  end
-  let(:robot) { Robot.new(board: board, placed: false) }
+  let(:robot) { Robot.new }
 
   subject { robot }
 
@@ -21,8 +17,18 @@ describe Robot do
 
   describe "initial state" do
     it { should be_valid }
-    its(:board) { should == board }
-    its(:placed) { should == false }
+    its(:board) { should_not be_nil }
+    # its(:placed) { should == false }
+    its(:placed) { should be_nil }
+
+    context "of its board" do
+      subject { robot.board }
+      its(:left_boundary) { should == 0 }
+      its(:right_boundary) { should == 4 }
+      its(:top_boundary) { should == 4 }
+      its(:bottom_boundary) { should == 0 }
+    end
+
   end
 
   describe "instance methods" do
@@ -70,11 +76,6 @@ describe Robot do
     context "for placed" do
       context "when it is invalid" do
         before { robot.placed = "INVALID" }
-        it { should_not be_valid }
-      end
-
-      context "when it is nil" do
-        before { robot.placed = nil }
         it { should_not be_valid }
       end
     end

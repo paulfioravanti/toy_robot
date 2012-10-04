@@ -11,15 +11,13 @@ module ToyRobot
 
     desc "execute robot commands", "moves robot on a board as per commands"
     def execute
-      board = Board.new(left_boundary: 0, right_boundary: 4,
-                        top_boundary: 4, bottom_boundary: 0)
-      robot = Robot.new(board: board, placed: false)
+      robot = Robot.new
       instruction_set do |instructions|
         instructions.each do |instruction|
           command, args = parse_instruction(instruction)
-          if valid_robot_command?(command, args)
-            response = robot.send(command, *args)
-            puts format(response) if response
+          if valid_robot_command?(command, args) &&
+             response = robot.send(command, *args)
+            puts format(response)
           end
         end
       end
