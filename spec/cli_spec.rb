@@ -14,65 +14,37 @@ describe CLI do
     let(:default_file) { "instructions.txt" }
     let(:output) { capture(:stdout) { cli.execute } }
 
+    shared_examples_for "all command executions from a file" do
+      it "should parse the file contents and output a result" do
+        cli.stub(:options) { { filename: default_file } }
+        File.stub(:readlines).with(default_file) do
+          StringIO.new(input).map { |a| a.strip.chomp }
+        end
+        output.should == expected_output
+      end
+    end
+
     context "containing valid test data" do
       valid_test_data.each do |data|
-        expected_output = data[:output]
+        let(:input) { data[:input] }
+        let(:expected_output) { data[:output] }
 
-        it "should parse the file contents and output a result" do
-          cli.stub(:options) { { filename: default_file } }
-          File.stub(:readlines).with(default_file) do
-            StringIO.new(data[:input]).map { |a| a.strip.chomp }
-          end
-          output.should == expected_output
-        end
+        it_should_behave_like "all command executions from a file"
       end
     end
 
     context "containing invalid test data" do
       invalid_test_data.each do |data|
-        expected_output = data[:output]
+        let(:input) { data[:input] }
+        let(:expected_output) { data[:output] }
 
-        it "should parse the file contents and output a result" do
-          cli.stub(:options) { { filename: default_file } }
-          File.stub(:readlines).with(default_file) do
-            StringIO.new(data[:input]).map { |a| a.strip.chomp }
-          end
-          output.should == expected_output
-        end
+        it_should_behave_like "all command executions from a file"
       end
     end
   end
 
   describe "executing instructions from the command line" do
     let(:output) { capture(:stdout) { cli.execute } }
-
-    context "with valid commands" do
-      valid_test_data.each do |data|
-        let(:expected_output) { data[:output] }
-        let(:commands) { StringIO.new(data[:input]).map { |a| a.strip } }
-
-        it "should process the commands and output the results" do
-          cli.stub(:gets).and_return(*commands, "EXIT")
-          expected_output.split(/\n/).each do |value|
-            output.should =~ /#{value}/
-          end
-        end
-      end
-    end
-
-    context "with invalid commands" do
-      invalid_test_data.each do |data|
-        let(:expected_output) { data[:output] }
-        let(:commands) { StringIO.new(data[:input]).map { |a| a.strip } }
-
-        it "should process the commands and output the results" do
-          cli.stub(:gets).and_return(*commands, "EXIT")
-          output.split(/\n/).each do |value|
-            value =~ /#{expected_output}/
-          end
-        end
-      end
-    end
 
     it "should contain a command prompt" do
       cli.stub(:gets) { "EXIT" }
@@ -84,6 +56,31 @@ describe CLI do
       output.should include(usage)
     end
 
-  end
+    shared_examples_for "all command executions from the command line" do
+      it "should process the commands and output the results" do
+        cli.stub(:gets).and_return(*commands, "EXIT")
+        expected_output.split(/\n/).each do |value|
+          output.should include(value)
+        end
+      end
+    end
 
+    context "with valid commands" do
+      valid_test_data.each do |data|
+        let(:expected_output) { data[:output] }
+        let(:commands) { StringIO.new(data[:input]).map { |a| a.strip } }
+
+        it_should_behave_like "all command executions from the command line"
+      end
+    end
+
+    context "with invalid commands" do
+      invalid_test_data.each do |data|
+        let(:expected_output) { data[:output] }
+        let(:commands) { StringIO.new(data[:input]).map { |a| a.strip } }
+
+        it_should_behave_like "all command executions from the command line"
+      end
+    end
+  end
 end
