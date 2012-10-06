@@ -46,6 +46,34 @@ describe CLI do
   describe "executing instructions from the command line" do
     let(:output) { capture(:stdout) { cli.execute } }
 
+    context "with valid commands" do
+      valid_test_data.each do |data|
+        let(:expected_output) { data[:output] }
+        let(:commands) { StringIO.new(data[:input]).map { |a| a.strip } }
+
+        it "should process the commands and output the results" do
+          cli.stub(:gets).and_return(*commands, "EXIT")
+          expected_output.split(/\n/).each do |value|
+            output.should =~ /#{value}/
+          end
+        end
+      end
+    end
+
+    context "with invalid commands" do
+      invalid_test_data.each do |data|
+        let(:expected_output) { data[:output] }
+        let(:commands) { StringIO.new(data[:input]).map { |a| a.strip } }
+
+        it "should process the commands and output the results" do
+          cli.stub(:gets).and_return(*commands, "EXIT")
+          output.split(/\n/).each do |value|
+            value =~ /#{expected_output}/
+          end
+        end
+      end
+    end
+
     it "should contain a command prompt" do
       cli.stub(:gets) { "EXIT" }
       output.should include(prompt)
@@ -55,21 +83,6 @@ describe CLI do
       cli.stub(:gets) { "EXIT" }
       output.should include(usage)
     end
-
-    # context "with valid commands" do
-    #   valid_test_data.each do |data|
-    #     let(:expected_output) { data[:output] }
-    #     let(:commands) { StringIO.new(data[:input]).map { |a| a.strip } }
-
-    #     it "should process the commands and output the results" do
-
-    #     end
-    #   end
-    # end
-
-    # context "with invalid commands" do
-
-    # end
 
   end
 
