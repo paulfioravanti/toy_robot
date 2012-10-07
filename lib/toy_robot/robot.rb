@@ -4,6 +4,14 @@ module ToyRobot
   # A Toy Robot that moves around a Board, without falling off it
   class Robot
     include ActiveModel::Validations
+    extend ActiveModel::Callbacks
+
+    define_model_callbacks :move, :report, :left, :right, only: :before
+
+    before_move   :placed?
+    before_report :placed?
+    before_left   :placed?
+    before_right  :placed?
 
     attr_reader   :board
     attr_accessor :x_position, :y_position, :cardinal_direction, :placed
@@ -16,42 +24,45 @@ module ToyRobot
     VALID_CARDINALS = %w(NORTH EAST SOUTH WEST)
     validates :cardinal_direction, inclusion: VALID_CARDINALS,
                                    allow_nil: true
-    validates :placed, inclusion: [true],
+    validates :placed, inclusion: [true, false],
                        allow_nil: true
 
     def initialize
       @board = Board.new
+      @placed = false
     end
 
-    def place(x_position, y_position, cardinal = @cardinal_direction)
-      x_position, y_position, cardinal =
-        x_position.to_i, y_position.to_i, cardinal.upcase
-      if @board.within_boundaries?(x_position, y_position) &&
+    def place(x_pos, y_pos, cardinal)
+      x_pos, y_pos, cardinal = x_pos.to_i, y_pos.to_i, cardinal.upcase
+      if @board.within_boundaries?(x_pos, y_pos) &&
         VALID_CARDINALS.include?(cardinal)
-        @x_position, @y_position, @cardinal_direction =
-          x_position, y_position, cardinal
-        @placed ||= true
+        @x_position, @y_position, @cardinal_direction = x_pos, y_pos, cardinal
+        @placed = true
         return
       end
     end
 
     def move
-      if @placed
-        x_position, y_position = calculate_move
-        place(x_position, y_position)
+      run_callbacks :move do
+        x_pos, y_pos = calculate_move
+        place(x_pos, y_pos, @cardinal_direction)
       end
     end
 
     def left
-      turn("left")
+      run_callbacks :left do
+        turn("left")
+      end
     end
 
     def right
-      turn("right")
+      run_callbacks :right do
+        turn("right")
+      end
     end
 
     def report
-      if @placed
+      run_callbacks :report do
         {
           x_position: @x_position,
           y_position: @y_position,
@@ -62,14 +73,15 @@ module ToyRobot
 
     private
 
+      def placed?
+        return false unless @placed
+      end
+
       def turn(direction)
-        if @placed
-          index = VALID_CARDINALS.index(@cardinal_direction)
-          @cardinal_direction = case direction
-            when "left" then VALID_CARDINALS.rotate(-1)[index]
-            when "right" then VALID_CARDINALS.rotate[index]
-          end
-          return
+        index = VALID_CARDINALS.index(@cardinal_direction)
+        @cardinal_direction = case direction
+          when "left" then VALID_CARDINALS.rotate(-1)[index]
+          when "right" then VALID_CARDINALS.rotate[index]
         end
       end
 

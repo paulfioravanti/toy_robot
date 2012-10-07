@@ -6,6 +6,10 @@ describe CLI do
 
   subject { cli }
 
+  describe "model attributes" do
+    it { should respond_to(:robot, :command, :args, :output) }
+  end
+
   describe "instance methods" do
     it { should respond_to(:execute) }
   end
@@ -18,7 +22,7 @@ describe CLI do
       it "should parse the file contents and output a result" do
         cli.stub(:options) { { filename: default_file } }
         File.stub(:readlines).with(default_file) do
-          StringIO.new(input).map { |a| a.strip.chomp }
+          StringIO.new(input).map { |line| line.strip.chomp }
         end
         output.should == expected_output
       end

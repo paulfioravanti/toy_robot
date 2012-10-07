@@ -18,7 +18,7 @@ describe Robot do
   describe "initial state" do
     it { should be_valid }
     its(:board) { should_not be_nil }
-    its(:placed) { should be_nil }
+    its(:placed) { should be_false }
 
     context "of its board" do
       subject { robot.board }
@@ -330,7 +330,7 @@ describe Robot do
     end
 
     context "without having been placed" do
-      let(:expected_report) { nil }
+      let(:expected_report) { false }
 
       before { robot.report }
 

@@ -6,7 +6,7 @@ module ToyRobot
   # Command line interface for the toy Robot
   class CLI < Thor
 
-    attr_accessor :command, :args, :output
+    attr_accessor :robot, :command, :args, :output
 
     method_option :filename, aliases: ['-f'],
                   desc: "name of the file containing robot instructions",
@@ -14,14 +14,13 @@ module ToyRobot
 
     desc "execute robot commands", "moves robot on a board as per commands"
     def execute
-      robot = Robot.new
+      @robot = Robot.new
       instructions do |instruction|
         @args = instruction.scan(/-?\w+/)
         @command = @args.shift.downcase.to_sym
         if valid_robot_command? &&
-          # (robot.placed if @command != :place) &&
-          @output = robot.send(command, *args)
-          puts formatted_output
+          @output = @robot.send(@command, *@args)
+          puts formatted_output #if @command == :report
         end
       end
     end
@@ -35,7 +34,7 @@ module ToyRobot
             yield line.strip.chomp
           end
         else
-          puts usage
+          print usage
           while line = gets
             break if line =~ /EXIT/i
             yield line
@@ -51,13 +50,28 @@ module ToyRobot
       end
 
       def valid_robot_command?
-        args_size = @args.size
-        (@command == :place && args_size == 3 && coordinates_numerical?) ||
-        [:move, :left, :right, :report].include?(@command) && args_size == 0
+        valid_place_command? || valid_singular_command?
+      end
+
+      def valid_place_command?
+        @command == :place &&
+        @args.size == 3 &&
+        coordinates_numerical? &&
+        valid_cardinal?
+      end
+
+      def valid_singular_command?
+        [:move, :left, :right, :report].include?(@command) &&
+        @args.size == 0 &&
+        @robot.placed
       end
 
       def coordinates_numerical?
         @args[0..1].each { |arg| return false if arg.to_s.match(/[^-?\d+]/) }
+      end
+
+      def valid_cardinal?
+        %w(NORTH north EAST east SOUTH south WEST west).include?(@args[2])
       end
 
       def usage
