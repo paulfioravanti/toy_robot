@@ -6,12 +6,9 @@ module ToyRobot
     include ActiveModel::Validations
     extend ActiveModel::Callbacks
 
-    define_model_callbacks :move, :report, :left, :right, only: :before
+    define_model_callbacks :command, only: :before
 
-    before_move   :placed?
-    before_report :placed?
-    before_left   :placed?
-    before_right  :placed?
+    before_command  :placed?
 
     attr_reader   :board
     attr_accessor :x_position, :y_position, :cardinal_direction, :placed
@@ -24,8 +21,7 @@ module ToyRobot
     VALID_CARDINALS = %w(NORTH EAST SOUTH WEST)
     validates :cardinal_direction, inclusion: VALID_CARDINALS,
                                    allow_nil: true
-    validates :placed, inclusion: [true, false],
-                       allow_nil: true
+    validates :placed, inclusion: [true, false]
 
     def initialize
       @board = Board.new
@@ -43,26 +39,26 @@ module ToyRobot
     end
 
     def move
-      run_callbacks :move do
+      run_callbacks :command do
         x_pos, y_pos = calculate_move
         place(x_pos, y_pos, @cardinal_direction)
       end
     end
 
     def left
-      run_callbacks :left do
+      run_callbacks :command do
         turn("left")
       end
     end
 
     def right
-      run_callbacks :right do
+      run_callbacks :command do
         turn("right")
       end
     end
 
     def report
-      run_callbacks :report do
+      run_callbacks :command do
         {
           x_position: @x_position,
           y_position: @y_position,
