@@ -26,7 +26,7 @@ Input commands through a file
 
     $ bin/toy_robot -f [filename]
 
-## Code Quality
+## Testing
 
 Run tests:
 
