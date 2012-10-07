@@ -1,10 +1,12 @@
-# Toy Robot Simulator [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/paulfioravanti/toy_robot)
+# Toy Robot Simulator
 
 ## Description
 
 A simulation of a toy robot moving on a square tabletop, of dimensions 5 units x 5 units.  See [Specification](https://github.com/paulfioravanti/toy_robot#specification) below for details.
 
-All code is written in pure Ruby, with some help from [ActiveModel::Validations](http://api.rubyonrails.org/classes/ActiveModel/Validations.html) for model validation checks and [Thor](https://github.com/wycats/thor) for the command-line interface, and is tested using RSpec.
+All code is written in pure Ruby, with some help from [ActiveModel::Validations](http://api.rubyonrails.org/classes/ActiveModel/Validations.html) for model validation checks and [Thor](https://github.com/wycats/thor) for the command-line interface. 
+
+Code quality is attempted by using [RSpec](http://rspec.info/) for testing, [SimpleCov](https://github.com/colszowka/simplecov) for code test coverage, [Reek](https://github.com/troessner/reek) to fix code smells, and [Code Climate](https://codeclimate.com/) for quality metrics.
 
 If you find this repo useful, please help me level-up on [Coderwall](http://coderwall.com/) with an [![endorse](http://api.coderwall.com/pfioravanti/endorse.png)](http://coderwall.com/pfioravanti)
 
@@ -24,6 +26,8 @@ Input commands through a file
 
     $ bin/toy_robot -f [filename]
 
+## Code Quality
+
 Run tests:
 
     $ rspec spec/
@@ -31,6 +35,14 @@ Run tests:
 Check test coverage (after running rspec):
 
     $ open coverage/index.html
+
+Check code smells:
+
+    $ rake reek
+
+Check quality metrics:
+
+[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/paulfioravanti/toy_robot)
 
 ## Specification
 
