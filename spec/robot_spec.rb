@@ -18,7 +18,6 @@ describe Robot do
   describe "initial state" do
     it { should be_valid }
     its(:board) { should_not be_nil }
-    # its(:placed) { should == false }
     its(:placed) { should be_nil }
 
     context "of its board" do
@@ -275,9 +274,9 @@ describe Robot do
     context "after being placed" do
       before { robot.place(2, 2, "NORTH") }
 
-      valid_cardinal_directions.each_with_index do |direction, index|
+      valid_cardinals.each_with_index do |direction, index|
         context "left" do
-          let(:left_turns) { valid_cardinal_directions.rotate(-1) }
+          let(:left_turns) { valid_cardinals.rotate(-1) }
 
           before do
             robot.cardinal_direction = direction
@@ -288,7 +287,7 @@ describe Robot do
         end
 
         context "right" do
-          let(:right_turns) { valid_cardinal_directions.rotate }
+          let(:right_turns) { valid_cardinals.rotate }
 
           before do
             robot.cardinal_direction = direction

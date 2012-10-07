@@ -1,10 +1,9 @@
 require 'active_model'
-require 'toy_robot/toy_robot_helper'
 
 module ToyRobot
+  # A Toy Robot that moves around a Board, without falling off it
   class Robot
     include ActiveModel::Validations
-    include ToyRobotHelper
 
     attr_reader   :board
     attr_accessor :x_position, :y_position, :cardinal_direction, :placed
@@ -14,8 +13,8 @@ module ToyRobot
                            allow_nil: true
     validates :y_position, numericality: { only_integer: true },
                            allow_nil: true
-    VALID_CARDINAL_DIRECTIONS = %w(NORTH EAST SOUTH WEST)
-    validates :cardinal_direction, inclusion: VALID_CARDINAL_DIRECTIONS,
+    VALID_CARDINALS = %w(NORTH EAST SOUTH WEST)
+    validates :cardinal_direction, inclusion: VALID_CARDINALS,
                                    allow_nil: true
     validates :placed, inclusion: [true],
                        allow_nil: true
@@ -24,31 +23,31 @@ module ToyRobot
       @board = Board.new
     end
 
-    def place(x, y, cardinal = @cardinal_direction)
-      if numerical?(x, y)
-        x, y, cardinal = x.to_i, y.to_i, cardinal.upcase
-        if @board.within_boundaries?(x, y) &&
-          VALID_CARDINAL_DIRECTIONS.include?(cardinal)
-          @x_position, @y_position, @cardinal_direction = x, y, cardinal
-          @placed ||= true
-          return
-        end
+    def place(x_position, y_position, cardinal = @cardinal_direction)
+      x_position, y_position, cardinal =
+        x_position.to_i, y_position.to_i, cardinal.upcase
+      if @board.within_boundaries?(x_position, y_position) &&
+        VALID_CARDINALS.include?(cardinal)
+        @x_position, @y_position, @cardinal_direction =
+          x_position, y_position, cardinal
+        @placed ||= true
+        return
       end
     end
 
     def move
       if @placed
-        x, y = calculate_move
-        place(x, y)
+        x_position, y_position = calculate_move
+        place(x_position, y_position)
       end
     end
 
     def left
-      turn("left") if @placed
+      turn("left")
     end
 
     def right
-      turn("right") if @placed
+      turn("right")
     end
 
     def report
@@ -64,17 +63,14 @@ module ToyRobot
     private
 
       def turn(direction)
-        index = VALID_CARDINAL_DIRECTIONS.index(@cardinal_direction)
-        @cardinal_direction = new_direction(direction, index)
-        return
-      end
-
-      def new_direction(direction, index)
-        turns = case direction
-          when "left" then VALID_CARDINAL_DIRECTIONS.rotate(-1)
-          when "right" then VALID_CARDINAL_DIRECTIONS.rotate
+        if @placed
+          index = VALID_CARDINALS.index(@cardinal_direction)
+          @cardinal_direction = case direction
+            when "left" then VALID_CARDINALS.rotate(-1)[index]
+            when "right" then VALID_CARDINALS.rotate[index]
+          end
+          return
         end
-        turns[index]
       end
 
       def calculate_move

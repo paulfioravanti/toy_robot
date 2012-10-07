@@ -1,4 +1,4 @@
-def valid_cardinal_directions
+def valid_cardinals
   %w(NORTH EAST SOUTH WEST)
 end
 

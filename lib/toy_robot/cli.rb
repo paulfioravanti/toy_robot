@@ -3,7 +3,10 @@ require 'toy_robot/board'
 require 'toy_robot/robot'
 
 module ToyRobot
+  # Command line interface for the toy Robot
   class CLI < Thor
+
+    attr_accessor :command, :args, :output
 
     method_option :filename, aliases: ['-f'],
                   desc: "name of the file containing robot instructions",
@@ -12,13 +15,13 @@ module ToyRobot
     desc "execute robot commands", "moves robot on a board as per commands"
     def execute
       robot = Robot.new
-      instruction_set do |instructions|
-        instructions.each do |instruction|
-          command, args = parse_instruction(instruction)
-          if valid_robot_command?(command, args) &&
-             response = robot.send(command, *args)
-            puts format(response)
-          end
+      instructions do |instruction|
+        @args = instruction.scan(/-?\w+/)
+        @command = @args.shift.downcase.to_sym
+        if valid_robot_command? &&
+          # (robot.placed if @command != :place) &&
+          @output = robot.send(command, *args)
+          puts formatted_output
         end
       end
     end
@@ -26,35 +29,35 @@ module ToyRobot
     default_task :execute
 
     no_tasks do
-      def instruction_set
-        if options[:filename]
-          yield File.readlines(options[:filename]).map { |a| a.strip.chomp }
+      def instructions
+        if file = options[:filename]
+          File.readlines(file).map do |line|
+            yield line.strip.chomp
+          end
         else
           puts usage
-          print "> "
           while line = gets
             break if line =~ /EXIT/i
-            yield [line]
+            yield line
             print "> "
           end
         end
       end
 
-      def format(output)
-        "#{output[:x_position]},"\
-        "#{output[:y_position]},"\
-        "#{output[:cardinal_direction]}"
+      def formatted_output
+        "#{@output[:x_position]},"\
+        "#{@output[:y_position]},"\
+        "#{@output[:cardinal_direction]}"
       end
 
-      def parse_instruction(instruction)
-        args = instruction.scan(/-?\w+/)
-        command = args.shift.downcase.to_sym
-        [command, args]
+      def valid_robot_command?
+        args_size = @args.size
+        (@command == :place && args_size == 3 && coordinates_numerical?) ||
+        [:move, :left, :right, :report].include?(@command) && args_size == 0
       end
 
-      def valid_robot_command?(command, args)
-        [:place, :move, :left, :right, :report].include?(command) &&
-        (args.size == 0 || (args.size == 3 if command == :place))
+      def coordinates_numerical?
+        @args[0..1].each { |arg| return false if arg.to_s.match(/[^-?\d+]/) }
       end
 
       def usage
@@ -65,7 +68,8 @@ module ToyRobot
         "RIGHT\n"\
         "REPORT\n"\
         "EXIT\n"\
-        "-------\n"
+        "-------\n"\
+        "> "
       end
     end
   end

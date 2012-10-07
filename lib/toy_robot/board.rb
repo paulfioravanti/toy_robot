@@ -1,6 +1,7 @@
 require 'active_model'
 
 module ToyRobot
+  # A Board that a Robot can roam around on
   class Board
     include ActiveModel::Validations
 
@@ -21,11 +22,11 @@ module ToyRobot
       @right_boundary, @top_boundary = 4, 4
     end
 
-    def within_boundaries?(x, y)
-      x >= @left_boundary &&
-      x <= @right_boundary  &&
-      y <= @top_boundary &&
-      y >= @bottom_boundary
+    def within_boundaries?(x_position, y_position)
+      x_position >= @left_boundary &&
+      x_position <= @right_boundary  &&
+      y_position <= @top_boundary &&
+      y_position >= @bottom_boundary
     end
 
   end
