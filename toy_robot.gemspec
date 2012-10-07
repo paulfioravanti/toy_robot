@@ -24,5 +24,4 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'yard', '~> 0.8'
   gem.add_development_dependency 'thor', '~> 0.16'
   gem.add_development_dependency 'activemodel', '~> 3.2'
-  gem.add_development_dependency 'simplecov', '~> 0.6'
 end
