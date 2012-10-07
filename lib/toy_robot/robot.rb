@@ -8,7 +8,7 @@ module ToyRobot
 
     define_model_callbacks :command, only: :before
 
-    before_command  :placed?
+    before_command :placed?
 
     attr_reader   :board
     attr_accessor :x_position, :y_position, :cardinal_direction, :placed
