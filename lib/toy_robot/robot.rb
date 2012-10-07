@@ -30,8 +30,7 @@ module ToyRobot
 
     def place(x_pos, y_pos, cardinal)
       x_pos, y_pos, cardinal = x_pos.to_i, y_pos.to_i, cardinal.upcase
-      if @board.within_boundaries?(x_pos, y_pos) &&
-        VALID_CARDINALS.include?(cardinal)
+      if @board.within_boundaries?(x_pos, y_pos)
         @x_position, @y_position, @cardinal_direction = x_pos, y_pos, cardinal
         @placed = true
         return
