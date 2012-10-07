@@ -20,7 +20,7 @@ module ToyRobot
         @command = @args.shift.downcase.to_sym
         if valid_robot_command? &&
           @output = @robot.send(@command, *@args)
-          puts formatted_output #if @command == :report
+          puts formatted_output
         end
       end
     end
