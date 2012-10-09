@@ -4,7 +4,7 @@
 
 A simulation of a toy robot moving on a square tabletop, of dimensions 5 units x 5 units.  See [Specification](https://github.com/paulfioravanti/toy_robot#specification) below for details.
 
-All code is written in pure Ruby, with some help from [ActiveModel::Validations](http://api.rubyonrails.org/classes/ActiveModel/Validations.html) for model validation checks and [Thor](https://github.com/wycats/thor) for the command-line interface. 
+All code is written in pure Ruby, with some help from [ActiveModel::Validations](http://api.rubyonrails.org/classes/ActiveModel/Validations.html) for model validation checks, [ActiveModel::Callbacks](http://api.rubyonrails.org/classes/ActiveModel/Callbacks.html) for Rails `before_filter`-like behaviour, and [Thor](https://github.com/wycats/thor) for the command-line interface. 
 
 If you find this repo useful, please help me level-up on [Coderwall](http://coderwall.com/) with an [![endorse](http://api.coderwall.com/pfioravanti/endorse.png)](http://coderwall.com/pfioravanti)
 
