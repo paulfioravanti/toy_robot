@@ -6,20 +6,20 @@ describe CLI do
 
   subject { cli }
 
-  describe "model attributes" do
-    it { should respond_to(:robot, :command, :args, :output) }
+  it "model attributes" do
+    should respond_to(:robot, :command, :args, :output)
   end
 
-  describe "instance methods" do
-    it { should respond_to(:execute) }
+  it "instance methods" do
+    should respond_to(:execute)
   end
 
-  describe "executing instructions from a file" do
+  describe "#execute with options[:filename]" do
     let(:default_file) { "instructions.txt" }
     let(:output) { capture(:stdout) { cli.execute } }
 
-    shared_examples_for "all command executions from a file" do
-      it "should parse the file contents and output a result" do
+    shared_examples_for "a command executed from a file" do
+      it "parses the file contents and output a result" do
         cli.stub(:options) { { filename: default_file } }
         File.stub(:readlines).with(default_file) do
           StringIO.new(input).map { |line| line.strip.chomp }
@@ -28,40 +28,40 @@ describe CLI do
       end
     end
 
-    context "containing valid test data" do
+    context "with valid test data" do
       valid_test_data.each do |data|
         let(:input) { data[:input] }
         let(:expected_output) { data[:output] }
 
-        it_should_behave_like "all command executions from a file"
+        it_should_behave_like "a command executed from a file"
       end
     end
 
-    context "containing invalid test data" do
+    context "with invalid test data" do
       invalid_test_data.each do |data|
         let(:input) { data[:input] }
         let(:expected_output) { data[:output] }
 
-        it_should_behave_like "all command executions from a file"
+        it_should_behave_like "a command executed from a file"
       end
     end
   end
 
-  describe "executing instructions from the command line" do
+  describe "#execute without options[:filename]" do
     let(:output) { capture(:stdout) { cli.execute } }
 
-    it "should contain a command prompt" do
+    it "shows a command prompt" do
       cli.stub(:gets) { "EXIT" }
       output.should include(prompt)
     end
 
-    it "should contain the command usage message" do
+    it "shows the usage message" do
       cli.stub(:gets) { "EXIT" }
       output.should include(usage)
     end
 
-    shared_examples_for "all command executions from the command line" do
-      it "should process the commands and output the results" do
+    shared_examples_for "a command executed from the command line" do
+      it "processes the commands and output the results" do
         cli.stub(:gets).and_return(*commands, "EXIT")
         expected_output.split(/\n/).each do |value|
           output.should include(value)
@@ -74,7 +74,7 @@ describe CLI do
         let(:expected_output) { data[:output] }
         let(:commands) { StringIO.new(data[:input]).map { |a| a.strip } }
 
-        it_should_behave_like "all command executions from the command line"
+        it_should_behave_like "a command executed from the command line"
       end
     end
 
@@ -83,7 +83,7 @@ describe CLI do
         let(:expected_output) { data[:output] }
         let(:commands) { StringIO.new(data[:input]).map { |a| a.strip } }
 
-        it_should_behave_like "all command executions from the command line"
+        it_should_behave_like "a command executed from the command line"
       end
     end
   end

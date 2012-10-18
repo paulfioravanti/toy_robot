@@ -1,23 +1,3 @@
-def valid_cardinals
-  %w(NORTH EAST SOUTH WEST)
-end
-
-def boundary_variables
-  [
-    :@left_boundary,
-    :@right_boundary,
-    :@top_boundary,
-    :@bottom_boundary
-  ]
-end
-
-def coordinate_values
-  [
-    :@x_position,
-    :@y_position
-  ]
-end
-
 def valid_test_data
   [
     { # Provided example 1

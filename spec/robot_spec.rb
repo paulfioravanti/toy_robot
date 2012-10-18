@@ -7,12 +7,20 @@ describe Robot do
 
   subject { robot }
 
-  describe "model attributes" do
-    it { should respond_to(:board) }
-    it { should respond_to(:x_position) }
-    it { should respond_to(:y_position) }
-    it { should respond_to(:cardinal_direction) }
-    it { should respond_to(:placed) }
+  it "model attributes" do
+    should respond_to(:board)
+    should respond_to(:x_position)
+    should respond_to(:y_position)
+    should respond_to(:cardinal_direction)
+    should respond_to(:placed)
+  end
+
+  it "instance methods" do
+    should respond_to(:place).with(3).arguments
+    should respond_to(:move).with(0).arguments
+    should respond_to(:left).with(0).arguments
+    should respond_to(:right).with(0).arguments
+    should respond_to(:report).with(0).arguments
   end
 
   describe "initial state" do
@@ -30,21 +38,13 @@ describe Robot do
 
   end
 
-  describe "instance methods" do
-    it { should respond_to(:place).with(3).arguments }
-    it { should respond_to(:move).with(0).arguments }
-    it { should respond_to(:left).with(0).arguments }
-    it { should respond_to(:right).with(0).arguments }
-    it { should respond_to(:report).with(0).arguments }
-  end
-
   describe "validations" do
     context "for board" do
       before { robot.instance_variable_set(:@board, nil) }
       it { should_not be_valid }
     end
 
-    context "for current direction" do
+    context "for cardinal_direction" do
       context "when it is invalid" do
         before { robot.cardinal_direction = "INVALID" }
         it { should_not be_valid }
@@ -56,7 +56,9 @@ describe Robot do
       end
     end
 
-    context "for coordinates" do
+    context "for x_position, y_position" do
+      coordinate_values = [ :@x_position, :@y_position ]
+
       context "when they are not integers" do
         coordinate_values.each do |coordinate|
           before { robot.instance_variable_set(coordinate, "invalid") }
@@ -80,13 +82,13 @@ describe Robot do
     end
   end
 
-  shared_examples_for "all robot attributes at time of placement" do
+  shared_examples_for "a robot at time of placement" do
     its(:x_position) { should == expected_x }
     its(:y_position) { should == expected_y }
     its(:cardinal_direction) { should == expected_cardinal }
   end
 
-  describe "being placed on a board" do
+  describe "#place" do
     let(:expected_x) { 2 }
     let(:expected_y) { 2 }
     let(:expected_cardinal) { "NORTH" }
@@ -95,10 +97,10 @@ describe Robot do
       robot.place(2, 2, "NORTH")
     end
 
-    context "in a valid position and direction" do
-      it_should_behave_like "all robot attributes at time of placement"
+    context "with a valid position and direction" do
+      it_should_behave_like "a robot at time of placement"
 
-      context "and then re-placed validly" do
+      context "and then #place again validly" do
         let(:expected_x) { 3 }
         let(:expected_y) { 3 }
         let(:expected_cardinal) { "SOUTH" }
@@ -107,11 +109,11 @@ describe Robot do
           robot.place(3, 3, "SOUTH")
         end
 
-        it_should_behave_like "all robot attributes at time of placement"
+        it_should_behave_like "a robot at time of placement"
       end
     end
 
-    context "in an invalid position" do
+    context "with an invalid position" do
       # Expect no change from original placement of 2, 2, "NORTH"
       context "too far on the x axis" do
         context "to the east" do
@@ -119,7 +121,7 @@ describe Robot do
             robot.place(5, 2, "NORTH")
           end
 
-          it_should_behave_like "all robot attributes at time of placement"
+          it_should_behave_like "a robot at time of placement"
         end
 
         context "to the west" do
@@ -127,7 +129,7 @@ describe Robot do
             robot.place(-1, 2, "NORTH")
           end
 
-          it_should_behave_like "all robot attributes at time of placement"
+          it_should_behave_like "a robot at time of placement"
         end
       end
 
@@ -137,7 +139,7 @@ describe Robot do
             robot.place(2, 5, "NORTH")
           end
 
-          it_should_behave_like "all robot attributes at time of placement"
+          it_should_behave_like "a robot at time of placement"
         end
 
         context "to the south" do
@@ -145,13 +147,13 @@ describe Robot do
             robot.place(2, -1, "NORTH")
           end
 
-          it_should_behave_like "all robot attributes at time of placement"
+          it_should_behave_like "a robot at time of placement"
         end
       end
     end
   end
 
-  describe "moving" do
+  describe "#move" do
     context "when there is a space ahead" do
       before { robot.place(2, 2, "NORTH") }
 
@@ -162,7 +164,7 @@ describe Robot do
 
         before { robot.move }
 
-        it_should_behave_like "all robot attributes at time of placement"
+        it_should_behave_like "a robot at time of placement"
       end
 
       context "to the east" do
@@ -175,7 +177,7 @@ describe Robot do
           robot.move
         end
 
-        it_should_behave_like "all robot attributes at time of placement"
+        it_should_behave_like "a robot at time of placement"
       end
 
       context "to the south" do
@@ -188,7 +190,7 @@ describe Robot do
           robot.move
         end
 
-        it_should_behave_like "all robot attributes at time of placement"
+        it_should_behave_like "a robot at time of placement"
       end
 
       context "to the west" do
@@ -201,7 +203,7 @@ describe Robot do
           robot.move
         end
 
-        it_should_behave_like "all robot attributes at time of placement"
+        it_should_behave_like "a robot at time of placement"
       end
     end
 
@@ -216,7 +218,7 @@ describe Robot do
           robot.move
         end
 
-        it_should_behave_like "all robot attributes at time of placement"
+        it_should_behave_like "a robot at time of placement"
       end
 
       context "to the east" do
@@ -229,7 +231,7 @@ describe Robot do
           robot.move
         end
 
-        it_should_behave_like "all robot attributes at time of placement"
+        it_should_behave_like "a robot at time of placement"
       end
 
       context "to the south" do
@@ -242,7 +244,7 @@ describe Robot do
           robot.move
         end
 
-        it_should_behave_like "all robot attributes at time of placement"
+        it_should_behave_like "a robot at time of placement"
       end
 
       context "to the west" do
@@ -255,27 +257,29 @@ describe Robot do
           robot.move
         end
 
-        it_should_behave_like "all robot attributes at time of placement"
+        it_should_behave_like "a robot at time of placement"
       end
     end
 
-    context "without having been placed" do
+    context "without having been #placed?" do
       let(:expected_x) { nil }
       let(:expected_y) { nil }
       let(:expected_cardinal) { nil }
 
       before { robot.move }
 
-      it_should_behave_like "all robot attributes at time of placement"
+      it_should_behave_like "a robot at time of placement"
     end
   end
 
   describe "turning" do
-    context "after being placed" do
+    context "after a #place" do
+      valid_cardinals = %w(NORTH EAST SOUTH WEST)
+
       before { robot.place(2, 2, "NORTH") }
 
       valid_cardinals.each_with_index do |direction, index|
-        context "left" do
+        context "#left" do
           let(:left_turns) { valid_cardinals.rotate(-1) }
 
           before do
@@ -286,7 +290,7 @@ describe Robot do
           its(:cardinal_direction) { should == left_turns[index] }
         end
 
-        context "right" do
+        context "#right" do
           let(:right_turns) { valid_cardinals.rotate }
 
           before do
@@ -299,19 +303,19 @@ describe Robot do
       end
     end
 
-    context "without having been placed" do
+    context "before a #place" do
       let(:expected_x) { nil }
       let(:expected_y) { nil }
       let(:expected_cardinal) { nil }
 
       before { robot.left }
 
-      it_should_behave_like "all robot attributes at time of placement"
+      it_should_behave_like "a robot at time of placement"
     end
   end
 
-  describe "reporting" do
-    context "after being placed" do
+  describe "#report" do
+    context "after a #place" do
       let(:expected_report) do
         {
           x_position: 2,
@@ -329,7 +333,7 @@ describe Robot do
       end
     end
 
-    context "without having been placed" do
+    context "before a #place" do
       let(:expected_report) { false }
 
       before { robot.report }
