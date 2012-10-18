@@ -18,7 +18,7 @@ describe CLI do
     let(:default_file) { "instructions.txt" }
     let(:output) { capture(:stdout) { cli.execute } }
 
-    shared_examples_for "a command executed from a file" do
+    shared_examples_for "commands executed from a file" do
       it "parses the file contents and output a result" do
         cli.stub(:options) { { filename: default_file } }
         File.stub(:readlines).with(default_file) do
@@ -33,7 +33,7 @@ describe CLI do
         let(:input) { data[:input] }
         let(:expected_output) { data[:output] }
 
-        it_should_behave_like "a command executed from a file"
+        it_should_behave_like "commands executed from a file"
       end
     end
 
@@ -42,7 +42,7 @@ describe CLI do
         let(:input) { data[:input] }
         let(:expected_output) { data[:output] }
 
-        it_should_behave_like "a command executed from a file"
+        it_should_behave_like "commands executed from a file"
       end
     end
   end
@@ -60,7 +60,7 @@ describe CLI do
       output.should include(usage)
     end
 
-    shared_examples_for "a command executed from the command line" do
+    shared_examples_for "commands executed from the command line" do
       it "processes the commands and output the results" do
         cli.stub(:gets).and_return(*commands, "EXIT")
         expected_output.split(/\n/).each do |value|
@@ -74,7 +74,7 @@ describe CLI do
         let(:expected_output) { data[:output] }
         let(:commands) { StringIO.new(data[:input]).map { |a| a.strip } }
 
-        it_should_behave_like "a command executed from the command line"
+        it_should_behave_like "commands executed from the command line"
       end
     end
 
@@ -83,7 +83,7 @@ describe CLI do
         let(:expected_output) { data[:output] }
         let(:commands) { StringIO.new(data[:input]).map { |a| a.strip } }
 
-        it_should_behave_like "a command executed from the command line"
+        it_should_behave_like "commands executed from the command line"
       end
     end
   end
