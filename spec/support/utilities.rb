@@ -91,7 +91,8 @@ def usage
   "RIGHT\n"\
   "REPORT\n"\
   "EXIT\n"\
-  "-------\n"
+  "-------\n"\
+  "> "
 end
 
 def prompt
