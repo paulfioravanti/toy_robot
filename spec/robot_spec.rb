@@ -7,7 +7,7 @@ describe Robot do
 
   subject { robot }
 
-  it "model attributes" do
+  specify "model attributes" do
     should respond_to(:board)
     should respond_to(:x_position)
     should respond_to(:y_position)
@@ -15,7 +15,7 @@ describe Robot do
     should respond_to(:placed)
   end
 
-  it "instance methods" do
+  specify "instance methods" do
     should respond_to(:place).with(3).arguments
     should respond_to(:move).with(0).arguments
     should respond_to(:left).with(0).arguments
@@ -30,6 +30,7 @@ describe Robot do
 
     context "of its board" do
       subject { robot.board }
+
       its(:left_boundary) { should == 0 }
       its(:right_boundary) { should == 4 }
       its(:top_boundary) { should == 4 }
@@ -57,8 +58,6 @@ describe Robot do
     end
 
     context "for x_position, y_position" do
-      coordinate_values = [ :@x_position, :@y_position ]
-
       context "when they are not integers" do
         coordinate_values.each do |coordinate|
           before { robot.instance_variable_set(coordinate, "invalid") }
@@ -274,12 +273,13 @@ describe Robot do
 
   describe "turning" do
     context "after a #place" do
-      valid_cardinals = %w(NORTH EAST SOUTH WEST)
+
+      subject { robot.cardinal_direction }
 
       before { robot.place(2, 2, "NORTH") }
 
       valid_cardinals.each_with_index do |direction, index|
-        context "#left" do
+        context "then #left" do
           let(:left_turns) { valid_cardinals.rotate(-1) }
 
           before do
@@ -287,10 +287,10 @@ describe Robot do
             robot.left
           end
 
-          its(:cardinal_direction) { should == left_turns[index] }
+          it { should == left_turns[index] }
         end
 
-        context "#right" do
+        context "then #right" do
           let(:right_turns) { valid_cardinals.rotate }
 
           before do
@@ -298,7 +298,7 @@ describe Robot do
             robot.right
           end
 
-          its(:cardinal_direction) { should == right_turns[index] }
+          it { should == right_turns[index] }
         end
       end
     end
@@ -315,6 +315,15 @@ describe Robot do
   end
 
   describe "#report" do
+
+    subject { robot.report }
+
+    context "before a #place" do
+      let(:expected_report) { false }
+
+      it { should == expected_report }
+    end
+
     context "after a #place" do
       let(:expected_report) do
         {
@@ -328,19 +337,7 @@ describe Robot do
         robot.place(2, 2, "NORTH")
       end
 
-      its(:report) do
-        should == expected_report
-      end
-    end
-
-    context "before a #place" do
-      let(:expected_report) { false }
-
-      before { robot.report }
-
-      its(:report) do
-        should == expected_report
-      end
+      it { should == expected_report }
     end
   end
 end

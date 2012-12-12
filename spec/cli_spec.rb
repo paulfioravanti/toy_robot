@@ -6,11 +6,11 @@ describe CLI do
 
   subject { cli }
 
-  it "model attributes" do
+  specify "model attributes" do
     should respond_to(:robot, :command, :args, :output)
   end
 
-  it "instance methods" do
+  specify "instance methods" do
     should respond_to(:execute)
   end
 
@@ -19,13 +19,16 @@ describe CLI do
     let(:output) { capture(:stdout) { cli.execute } }
 
     shared_examples_for "commands executed from a file" do
-      it "parses the file contents and output a result" do
+      subject { output }
+
+      before do
         cli.stub(:options) { { filename: default_file } }
         File.stub(:readlines).with(default_file) do
           StringIO.new(input).map { |line| line.strip.chomp }
         end
-        output.should == expected_output
       end
+
+      it { should == expected_output }
     end
 
     context "with valid test data" do
@@ -50,21 +53,25 @@ describe CLI do
   describe "#execute without options[:filename]" do
     let(:output) { capture(:stdout) { cli.execute } }
 
-    it "shows a command prompt" do
-      cli.stub(:gets) { "EXIT" }
-      output.should include(prompt)
+    describe "initial output" do
+      subject { output }
+
+      before { cli.stub(:gets) { "EXIT" } }
+
+      it { should include(prompt) }
+      it { should include(usage) }
     end
 
-    it "shows the usage message" do
-      cli.stub(:gets) { "EXIT" }
-      output.should include(usage)
-    end
 
     shared_examples_for "commands executed from the command line" do
-      it "processes the commands and output the results" do
+      subject { output }
+      before do
         cli.stub(:gets).and_return(*commands, "EXIT")
+      end
+
+      it "outputs a prompt and the result for each command" do
         expected_output.split(/\n/).each do |value|
-          output.should include(value)
+          output.should include(prompt << value)
         end
       end
     end
