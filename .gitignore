@@ -3,3 +3,7 @@ doc/
 pkg/
 vendor/cache/*.gem
 coverage/
+
+# Ignore bundler config
+/.bundle
+bundler_stubs/
