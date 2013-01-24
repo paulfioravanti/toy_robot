@@ -22,6 +22,6 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'rspec', '~> 2.12'
   gem.add_development_dependency 'rubygems-tasks', '~> 0.2'
   gem.add_development_dependency 'yard', '~> 0.8.3'
-  gem.add_development_dependency 'thor', '~> 0.16'
+  gem.add_development_dependency 'thor', '~> 0.17'
   gem.add_development_dependency 'activemodel', '~> 3.2'
 end
