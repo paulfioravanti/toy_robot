@@ -24,10 +24,23 @@ def valid_test_data
       output: "3,3,NORTH\n"
     },
 
+    { # Blocked by blocks, can't progress;
+      # Attempt place on top of block
+      input: "PLACE 0,0,NORTH\r
+              MOVE\r
+              PLACE_BLOCK\r
+              MOVE\r
+              PLACE 0,2,NORTH\r
+              REPORT",
+      output: "0,1,NORTH\n"
+    },
+
     { # Commands before placing
       input: "MOVE\r
               MOVE\r
               LEFT\r
+              RIGHT\r
+              PLACE_BLOCK\r
               MOVE\r
               PLACE 1,2,EAST\r
               MOVE\r
@@ -69,17 +82,22 @@ end
 
 def invalid_test_data
   [
-     { # Invalid commands, bad placing arguments, placing off board
-       input: "INVALID\r
-               FRAGGLE\r
-               PLACE A,0,NORTH\r
-               PLACE 0,B,NORTH\r
-               PLACE 0,0,DEATHSTAR\r
-               PLACE 5,5,SOUTH\r
-               PLACE -2,-2,WEST\r
-               REPORT",
-       output: ""
-     }
+    { # Invalid commands, bad placing arguments, placing off board
+      input: "INVALID\r
+              FRAGGLE\r
+              PLACE A,0,NORTH\r
+              PLACE 0,B,NORTH\r
+              PLACE 0,0,DEATHSTAR\r
+              PLACE 5,5,SOUTH\r
+              PLACE -2,-2,WEST\r
+              REPORT",
+      output: ""
+    },
+
+    { # No commands, just a return carriage
+      input: "\r",
+      output: ""
+    }
   ]
 end
 

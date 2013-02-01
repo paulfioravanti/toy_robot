@@ -105,6 +105,10 @@ Output: 3,3,NORTH
 The Ruby source files, the test data and any test code.
 It is not required to provide any graphical output showing the movement of the toy robot.
 
+### Implementation of further requirements
+
+- The `PLACE_BLOCK` commands put a block on the next square in the direction the robot is facing.  The Robot cannot pass through any blocks.  Any attempts to move through a block, be placed on a block, or place a block on a block are ignored.
+
 ## Copyright
 
 Copyright (c) 2012 Paul Fioravanti

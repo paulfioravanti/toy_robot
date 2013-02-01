@@ -17,11 +17,10 @@ module ToyRobot
       @robot = Robot.new
       instructions do |instruction|
         @args = instruction.scan(/-?\w+/)
-        @command = @args.shift.downcase.to_sym
-        if valid_robot_command? &&
-          @output = @robot.send(@command, *@args)
-          puts formatted_output
-        end
+        command = @args.shift
+        @command = command.downcase.to_sym if command
+        @output = @robot.send(@command, *@args) if valid_robot_command?
+        puts formatted_output if @output && @command == :report
       end
     end
 
@@ -61,9 +60,8 @@ module ToyRobot
       end
 
       def valid_singular_command?
-        [:move, :left, :right, :report].include?(@command) &&
-        @args.size == 0 &&
-        @robot.placed
+        [:move, :left, :right, :report, :place_block].include?(@command) &&
+        @args.size == 0
       end
 
       def coordinates_numerical?

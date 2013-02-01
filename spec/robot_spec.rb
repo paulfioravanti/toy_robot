@@ -13,10 +13,12 @@ describe Robot do
     should respond_to(:y_position)
     should respond_to(:cardinal_direction)
     should respond_to(:placed)
+    should respond_to(:blocks)
   end
 
   specify "instance methods" do
     should respond_to(:place).with(3).arguments
+    should respond_to(:place_block).with(0).arguments
     should respond_to(:move).with(0).arguments
     should respond_to(:left).with(0).arguments
     should respond_to(:right).with(0).arguments
@@ -25,8 +27,12 @@ describe Robot do
 
   describe "initial state" do
     it { should be_valid }
-    its(:board) { should_not be_nil }
+    its(:board)  { should_not be_nil }
     its(:placed) { should be_false }
+    its(:blocks) do
+      should_not be_nil
+      should be_empty
+    end
 
     context "of its board" do
       subject { robot.board }
@@ -36,7 +42,6 @@ describe Robot do
       its(:top_boundary) { should == 4 }
       its(:bottom_boundary) { should == 0 }
     end
-
   end
 
   describe "validations" do
@@ -81,9 +86,13 @@ describe Robot do
     end
   end
 
-  shared_examples_for "a robot at time of placement" do
+  shared_examples_for "an object at time of placement" do
     its(:x_position) { should == expected_x }
     its(:y_position) { should == expected_y }
+  end
+
+  shared_examples_for "a robot at time of placement" do
+    it_should_behave_like "an object at time of placement"
     its(:cardinal_direction) { should == expected_cardinal }
   end
 
@@ -152,11 +161,106 @@ describe Robot do
     end
   end
 
+  describe "#place_block" do
+    context "in a valid position" do
+
+      before do
+        robot.place(2, 2, "NORTH")
+        robot.place_block
+      end
+
+      its(:blocks) { should have(1).items }
+
+      context "in front of robot" do
+        context "facing NORTH" do
+          let(:expected_x) { 2 }
+          let(:expected_y) { 3 }
+
+          subject { robot.blocks.last }
+
+          it_should_behave_like "an object at time of placement"
+        end
+
+        context "facing EAST" do
+          let(:expected_x) { 3 }
+          let(:expected_y) { 2 }
+
+          before do
+            robot.right
+            robot.place_block
+          end
+
+          subject { robot.blocks.last }
+
+          it_should_behave_like "an object at time of placement"
+        end
+
+        context "facing SOUTH" do
+          let(:expected_x) { 2 }
+          let(:expected_y) { 1 }
+
+          before do
+            2.times { robot.right }
+            robot.place_block
+          end
+
+          subject { robot.blocks.last }
+
+          it_should_behave_like "an object at time of placement"
+        end
+
+        context "facing WEST" do
+          let(:expected_x) { 1 }
+          let(:expected_y) { 2 }
+
+          before do
+            robot.left
+            robot.place_block
+          end
+
+          subject { robot.blocks.last }
+
+          it_should_behave_like "an object at time of placement"
+        end
+      end
+    end
+
+    context "in an invalid position" do
+      context "over board boundaries" do
+
+        before do
+          robot.place(2, 4, "NORTH")
+          robot.place_block
+        end
+
+        its(:blocks) { should have(0).items }
+      end
+
+      context "where a block already exists" do
+
+        before do
+          robot.place(2, 2, "NORTH")
+          2.times { robot.place_block }
+        end
+
+        its(:blocks) { should have(1).items }
+      end
+    end
+
+    context "without having been placed" do
+
+      before { robot.place_block }
+
+      its(:blocks) { should have(0).items }
+    end
+  end
+
   describe "#move" do
     context "when there is a space ahead" do
+
       before { robot.place(2, 2, "NORTH") }
 
-      context "to the north" do
+      context "to the NORTH" do
         let(:expected_x) { 2 }
         let(:expected_y) { 3 }
         let(:expected_cardinal) { "NORTH" }
@@ -166,7 +270,7 @@ describe Robot do
         it_should_behave_like "a robot at time of placement"
       end
 
-      context "to the east" do
+      context "to the EAST" do
         let(:expected_x) { 3 }
         let(:expected_y) { 2 }
         let(:expected_cardinal) { "EAST" }
@@ -179,7 +283,7 @@ describe Robot do
         it_should_behave_like "a robot at time of placement"
       end
 
-      context "to the south" do
+      context "to the SOUTH" do
         let(:expected_x) { 2 }
         let(:expected_y) { 1 }
         let(:expected_cardinal) { "SOUTH" }
@@ -192,7 +296,7 @@ describe Robot do
         it_should_behave_like "a robot at time of placement"
       end
 
-      context "to the west" do
+      context "to the WEST" do
         let(:expected_x) { 1 }
         let(:expected_y) { 2 }
         let(:expected_cardinal) { "WEST" }
@@ -207,7 +311,7 @@ describe Robot do
     end
 
     context "when there is not a space ahead" do
-      context "to the north" do
+      context "to the NORTH" do
         let(:expected_x) { 2 }
         let(:expected_y) { 4 }
         let(:expected_cardinal) { "NORTH" }
@@ -220,7 +324,7 @@ describe Robot do
         it_should_behave_like "a robot at time of placement"
       end
 
-      context "to the east" do
+      context "to the EAST" do
         let(:expected_x) { 4 }
         let(:expected_y) { 2 }
         let(:expected_cardinal) { "EAST" }
@@ -233,7 +337,7 @@ describe Robot do
         it_should_behave_like "a robot at time of placement"
       end
 
-      context "to the south" do
+      context "to the SOUTH" do
         let(:expected_x) { 2 }
         let(:expected_y) { 0 }
         let(:expected_cardinal) { "SOUTH" }
@@ -246,7 +350,7 @@ describe Robot do
         it_should_behave_like "a robot at time of placement"
       end
 
-      context "to the west" do
+      context "to the WEST" do
         let(:expected_x) { 0 }
         let(:expected_y) { 2 }
         let(:expected_cardinal) { "WEST" }
@@ -260,7 +364,7 @@ describe Robot do
       end
     end
 
-    context "without having been #placed?" do
+    context "without having been placed" do
       let(:expected_x) { nil }
       let(:expected_y) { nil }
       let(:expected_cardinal) { nil }
@@ -268,6 +372,62 @@ describe Robot do
       before { robot.move }
 
       it_should_behave_like "a robot at time of placement"
+    end
+
+    context "when there is a block in the way" do
+      # Expect no coordinate change from original placement of 2, 2
+
+      let(:expected_x) { 2 }
+      let(:expected_y) { 2 }
+
+      before { robot.place(2, 2, "NORTH") }
+
+      context "to the NORTH" do
+        let(:expected_cardinal) { "NORTH" }
+
+        before do
+          robot.place_block
+          robot.move
+        end
+
+        it_should_behave_like "a robot at time of placement"
+      end
+
+      context "to the EAST" do
+        let(:expected_cardinal) { "EAST" }
+
+        before do
+          robot.right
+          robot.place_block
+          robot.move
+        end
+
+        it_should_behave_like "a robot at time of placement"
+      end
+
+      context "to the SOUTH" do
+        let(:expected_cardinal) { "SOUTH" }
+
+        before do
+          2.times { robot.right }
+          robot.place_block
+          robot.move
+        end
+
+        it_should_behave_like "a robot at time of placement"
+      end
+
+      context "to the WEST" do
+        let(:expected_cardinal) { "WEST" }
+
+        before do
+          robot.left
+          robot.place_block
+          robot.move
+        end
+
+        it_should_behave_like "a robot at time of placement"
+      end
     end
   end
 

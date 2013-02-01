@@ -1,4 +1,5 @@
 require 'active_model'
+require 'toy_robot/block'
 
 module ToyRobot
   # A Toy Robot that moves around a Board, without falling off it
@@ -11,7 +12,8 @@ module ToyRobot
     before_command :placed?
 
     attr_reader   :board
-    attr_accessor :x_position, :y_position, :cardinal_direction, :placed
+    attr_accessor :x_position, :y_position, :cardinal_direction, :placed,
+                  :blocks
 
     validates :board, presence: true
     validates :x_position, numericality: { only_integer: true },
@@ -25,20 +27,21 @@ module ToyRobot
 
     def initialize
       @board = Board.new
+      @blocks = []
       @placed = false
     end
 
     def place(x_pos, y_pos, cardinal)
       x_pos, y_pos, cardinal = x_pos.to_i, y_pos.to_i, cardinal.upcase
-      if @board.within_boundaries?(x_pos, y_pos)
+      if placeable?(x_pos, y_pos)
         @x_position, @y_position, @cardinal_direction = x_pos, y_pos, cardinal
-        @placed = true and return
+        @placed = true
       end
     end
 
     def move
       run_callbacks :command do
-        x_pos, y_pos = calculate_move
+        x_pos, y_pos = frontal_coordinates
         place(x_pos, y_pos, @cardinal_direction)
       end
     end
@@ -65,10 +68,36 @@ module ToyRobot
       end
     end
 
+    def place_block
+      run_callbacks :command do
+        x_pos, y_pos = frontal_coordinates
+        if placeable?(x_pos, y_pos)
+          @blocks << Block.new(x_pos, y_pos)
+        end
+      end
+    end
+
     private
 
       def placed?
-        return false unless @placed
+        @placed
+      end
+
+      def placeable?(x_pos, y_pos)
+        within_boundaries?(x_pos, y_pos) && space_empty?(x_pos, y_pos)
+      end
+
+      def within_boundaries?(x_pos, y_pos)
+        @board.within_boundaries?(x_pos, y_pos)
+      end
+
+      def space_empty?(x_pos, y_pos)
+        @blocks.each do |block|
+          if block.x_position == x_pos && block.y_position == y_pos
+            return false
+          end
+        end
+        true
       end
 
       def turn(direction)
@@ -79,7 +108,7 @@ module ToyRobot
         end
       end
 
-      def calculate_move
+      def frontal_coordinates
         formula = case @cardinal_direction
           when "NORTH" then [@x_position, @y_position + 1]
           when "EAST"  then [@x_position + 1, @y_position]
