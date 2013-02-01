@@ -9,8 +9,7 @@ describe Robot do
 
   specify "model attributes" do
     should respond_to(:board)
-    should respond_to(:x_position)
-    should respond_to(:y_position)
+    should respond_to(:position)
     should respond_to(:cardinal_direction)
     should respond_to(:placed)
     should respond_to(:blocks)
@@ -62,22 +61,6 @@ describe Robot do
       end
     end
 
-    context "for x_position, y_position" do
-      context "when they are not integers" do
-        coordinate_values.each do |coordinate|
-          before { robot.instance_variable_set(coordinate, "invalid") }
-          it { should_not be_valid }
-        end
-      end
-
-      context "when they are nil" do
-        coordinate_values.each do |coordinate|
-          before { robot.instance_variable_set(coordinate, nil) }
-          it { should be_valid }
-        end
-      end
-    end
-
     context "for placed" do
       context "when it is invalid" do
         before { robot.placed = "INVALID" }
@@ -87,8 +70,7 @@ describe Robot do
   end
 
   shared_examples_for "an object at time of placement" do
-    its(:x_position) { should == expected_x }
-    its(:y_position) { should == expected_y }
+    its(:position) { should == expected_position }
   end
 
   shared_examples_for "a robot at time of placement" do
@@ -97,8 +79,9 @@ describe Robot do
   end
 
   describe "#place" do
-    let(:expected_x) { 2 }
-    let(:expected_y) { 2 }
+    let(:expected_position) do
+      double("position", x_coordinate: 2, y_coordinate: 2)
+    end
     let(:expected_cardinal) { "NORTH" }
 
     before do
@@ -109,8 +92,9 @@ describe Robot do
       it_should_behave_like "a robot at time of placement"
 
       context "and then #place again validly" do
-        let(:expected_x) { 3 }
-        let(:expected_y) { 3 }
+        let(:expected_position) do
+          double("position", x_coordinate: 3, y_coordinate: 3)
+        end
         let(:expected_cardinal) { "SOUTH" }
 
         before do
@@ -173,8 +157,9 @@ describe Robot do
 
       context "in front of robot" do
         context "facing NORTH" do
-          let(:expected_x) { 2 }
-          let(:expected_y) { 3 }
+          let(:expected_position) do
+            double("position", x_coordinate: 2, y_coordinate: 3)
+          end
 
           subject { robot.blocks.last }
 
@@ -182,8 +167,9 @@ describe Robot do
         end
 
         context "facing EAST" do
-          let(:expected_x) { 3 }
-          let(:expected_y) { 2 }
+          let(:expected_position) do
+            double("position", x_coordinate: 3, y_coordinate: 2)
+          end
 
           before do
             robot.right
@@ -196,8 +182,9 @@ describe Robot do
         end
 
         context "facing SOUTH" do
-          let(:expected_x) { 2 }
-          let(:expected_y) { 1 }
+          let(:expected_position) do
+            double("position", x_coordinate: 2, y_coordinate: 1)
+          end
 
           before do
             2.times { robot.right }
@@ -210,8 +197,9 @@ describe Robot do
         end
 
         context "facing WEST" do
-          let(:expected_x) { 1 }
-          let(:expected_y) { 2 }
+          let(:expected_position) do
+            double("position", x_coordinate: 1, y_coordinate: 2)
+          end
 
           before do
             robot.left
@@ -261,8 +249,9 @@ describe Robot do
       before { robot.place(2, 2, "NORTH") }
 
       context "to the NORTH" do
-        let(:expected_x) { 2 }
-        let(:expected_y) { 3 }
+        let(:expected_position) do
+          double("position", x_coordinate: 2, y_coordinate: 3)
+        end
         let(:expected_cardinal) { "NORTH" }
 
         before { robot.move }
@@ -271,8 +260,9 @@ describe Robot do
       end
 
       context "to the EAST" do
-        let(:expected_x) { 3 }
-        let(:expected_y) { 2 }
+        let(:expected_position) do
+          double("position", x_coordinate: 3, y_coordinate: 2)
+        end
         let(:expected_cardinal) { "EAST" }
 
         before do
@@ -284,8 +274,9 @@ describe Robot do
       end
 
       context "to the SOUTH" do
-        let(:expected_x) { 2 }
-        let(:expected_y) { 1 }
+        let(:expected_position) do
+          double("position", x_coordinate: 2, y_coordinate: 1)
+        end
         let(:expected_cardinal) { "SOUTH" }
 
         before do
@@ -297,8 +288,9 @@ describe Robot do
       end
 
       context "to the WEST" do
-        let(:expected_x) { 1 }
-        let(:expected_y) { 2 }
+        let(:expected_position) do
+          double("position", x_coordinate: 1, y_coordinate: 2)
+        end
         let(:expected_cardinal) { "WEST" }
 
         before do
@@ -312,8 +304,9 @@ describe Robot do
 
     context "when there is not a space ahead" do
       context "to the NORTH" do
-        let(:expected_x) { 2 }
-        let(:expected_y) { 4 }
+        let(:expected_position) do
+          double("position", x_coordinate: 2, y_coordinate: 4)
+        end
         let(:expected_cardinal) { "NORTH" }
 
         before do
@@ -325,8 +318,9 @@ describe Robot do
       end
 
       context "to the EAST" do
-        let(:expected_x) { 4 }
-        let(:expected_y) { 2 }
+        let(:expected_position) do
+          double("position", x_coordinate: 4, y_coordinate: 2)
+        end
         let(:expected_cardinal) { "EAST" }
 
         before do
@@ -338,8 +332,9 @@ describe Robot do
       end
 
       context "to the SOUTH" do
-        let(:expected_x) { 2 }
-        let(:expected_y) { 0 }
+        let(:expected_position) do
+          double("position", x_coordinate: 2, y_coordinate: 0)
+        end
         let(:expected_cardinal) { "SOUTH" }
 
         before do
@@ -351,8 +346,9 @@ describe Robot do
       end
 
       context "to the WEST" do
-        let(:expected_x) { 0 }
-        let(:expected_y) { 2 }
+        let(:expected_position) do
+          double("position", x_coordinate: 0, y_coordinate: 2)
+        end
         let(:expected_cardinal) { "WEST" }
 
         before do
@@ -365,8 +361,7 @@ describe Robot do
     end
 
     context "without having been placed" do
-      let(:expected_x) { nil }
-      let(:expected_y) { nil }
+      let(:expected_position) { nil }
       let(:expected_cardinal) { nil }
 
       before { robot.move }
@@ -377,8 +372,9 @@ describe Robot do
     context "when there is a block in the way" do
       # Expect no coordinate change from original placement of 2, 2
 
-      let(:expected_x) { 2 }
-      let(:expected_y) { 2 }
+      let(:expected_position) do
+        double("position", x_coordinate: 2, y_coordinate: 2)
+      end
 
       before { robot.place(2, 2, "NORTH") }
 
@@ -464,8 +460,7 @@ describe Robot do
     end
 
     context "before a #place" do
-      let(:expected_x) { nil }
-      let(:expected_y) { nil }
+      let(:expected_position) { nil }
       let(:expected_cardinal) { nil }
 
       before { robot.left }
@@ -487,8 +482,8 @@ describe Robot do
     context "after a #place" do
       let(:expected_report) do
         {
-          x_position: 2,
-          y_position: 2,
+          x_coordinate: 2,
+          y_coordinate: 2,
           cardinal_direction: "NORTH"
         }
       end

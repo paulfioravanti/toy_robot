@@ -16,11 +16,11 @@ module ToyRobot
     def execute
       @robot = Robot.new
       instructions do |instruction|
-        @args = instruction.scan(/-?\w+/)
-        command = @args.shift
-        @command = command.downcase.to_sym if command
-        @output = @robot.send(@command, *@args) if valid_robot_command?
-        puts formatted_output if @output && @command == :report
+        parse_instruction(instruction)
+        if valid_robot_command?
+          @output = @robot.send(@command, *@args)
+          formatted_report
+        end
       end
     end
 
@@ -42,10 +42,18 @@ module ToyRobot
         end
       end
 
-      def formatted_output
-        "#{@output[:x_position]},"\
-        "#{@output[:y_position]},"\
-        "#{@output[:cardinal_direction]}"
+      def parse_instruction(instruction)
+        @args = instruction.scan(/-?\w+/)
+        command = @args.shift
+        @command = command.downcase.to_sym if command
+      end
+
+      def formatted_report
+        if @command == :report && @output
+          puts "#{@output[:x_coordinate]},"\
+               "#{@output[:y_coordinate]},"\
+               "#{@output[:cardinal_direction]}"
+        end
       end
 
       def valid_robot_command?

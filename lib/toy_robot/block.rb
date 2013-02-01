@@ -5,13 +5,12 @@ module ToyRobot
   class Block
     include ActiveModel::Validations
 
-    attr_reader :x_position, :y_position
+    attr_reader :position
 
-    validates :x_position, numericality: { only_integer: true }
-    validates :y_position, numericality: { only_integer: true }
+    validates :position, presence: true
 
-    def initialize(x_pos, y_pos)
-      @x_position, @y_position = x_pos, y_pos
+    def initialize(position)
+      @position = position
     end
   end
 end

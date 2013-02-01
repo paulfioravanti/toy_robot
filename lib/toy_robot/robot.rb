@@ -1,5 +1,6 @@
 require 'active_model'
 require 'toy_robot/block'
+require 'toy_robot/position'
 
 module ToyRobot
   # A Toy Robot that moves around a Board, without falling off it
@@ -12,14 +13,9 @@ module ToyRobot
     before_command :placed?
 
     attr_reader   :board
-    attr_accessor :x_position, :y_position, :cardinal_direction, :placed,
-                  :blocks
+    attr_accessor :position, :cardinal_direction, :placed, :blocks
 
     validates :board, presence: true
-    validates :x_position, numericality: { only_integer: true },
-                           allow_nil: true
-    validates :y_position, numericality: { only_integer: true },
-                           allow_nil: true
     VALID_CARDINALS = %w(NORTH EAST SOUTH WEST)
     validates :cardinal_direction, inclusion: VALID_CARDINALS,
                                    allow_nil: true
@@ -32,17 +28,29 @@ module ToyRobot
     end
 
     def place(x_pos, y_pos, cardinal)
-      x_pos, y_pos, cardinal = x_pos.to_i, y_pos.to_i, cardinal.upcase
-      if placeable?(x_pos, y_pos)
-        @x_position, @y_position, @cardinal_direction = x_pos, y_pos, cardinal
+      position = Position.new(x_pos.to_i, y_pos.to_i)
+      cardinal = cardinal.upcase
+      if placeable?(position)
+        @position, @cardinal_direction = position, cardinal
         @placed = true
+      end
+    end
+
+    def place_block
+      run_callbacks :command do
+        block_position = frontal_position
+        if placeable?(block_position)
+          @blocks << Block.new(block_position)
+        end
       end
     end
 
     def move
       run_callbacks :command do
-        x_pos, y_pos = frontal_coordinates
-        place(x_pos, y_pos, @cardinal_direction)
+        new_position = frontal_position
+        if placeable?(new_position)
+          @position = new_position
+        end
       end
     end
 
@@ -61,19 +69,10 @@ module ToyRobot
     def report
       run_callbacks :command do
         {
-          x_position: @x_position,
-          y_position: @y_position,
+          x_coordinate: @position.x_coordinate,
+          y_coordinate: @position.y_coordinate,
           cardinal_direction: @cardinal_direction
         }
-      end
-    end
-
-    def place_block
-      run_callbacks :command do
-        x_pos, y_pos = frontal_coordinates
-        if placeable?(x_pos, y_pos)
-          @blocks << Block.new(x_pos, y_pos)
-        end
       end
     end
 
@@ -83,17 +82,13 @@ module ToyRobot
         @placed
       end
 
-      def placeable?(x_pos, y_pos)
-        within_boundaries?(x_pos, y_pos) && space_empty?(x_pos, y_pos)
+      def placeable?(position)
+        @board.within_boundaries?(position) && space_empty?(position)
       end
 
-      def within_boundaries?(x_pos, y_pos)
-        @board.within_boundaries?(x_pos, y_pos)
-      end
-
-      def space_empty?(x_pos, y_pos)
+      def space_empty?(position)
         @blocks.each do |block|
-          if block.x_position == x_pos && block.y_position == y_pos
+          if block.position == position
             return false
           end
         end
@@ -108,12 +103,13 @@ module ToyRobot
         end
       end
 
-      def frontal_coordinates
+      def frontal_position
+        x_coord, y_coord = @position.coordinates
         formula = case @cardinal_direction
-          when "NORTH" then [@x_position, @y_position + 1]
-          when "EAST"  then [@x_position + 1, @y_position]
-          when "SOUTH" then [@x_position, @y_position - 1]
-          when "WEST"  then [@x_position - 1, @y_position]
+          when "NORTH" then Position.new(x_coord, y_coord + 1)
+          when "EAST"  then Position.new(x_coord + 1, y_coord)
+          when "SOUTH" then Position.new(x_coord, y_coord - 1)
+          when "WEST"  then Position.new(x_coord - 1, y_coord)
         end
       end
   end

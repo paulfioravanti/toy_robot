@@ -22,11 +22,12 @@ module ToyRobot
       @right_boundary, @top_boundary = 4, 4
     end
 
-    def within_boundaries?(x_position, y_position)
-      x_position >= @left_boundary &&
-      x_position <= @right_boundary  &&
-      y_position <= @top_boundary &&
-      y_position >= @bottom_boundary
+    def within_boundaries?(position)
+      x_coord, y_coord = position.x_coordinate, position.y_coordinate
+      x_coord >= @left_boundary &&
+      x_coord <= @right_boundary  &&
+      y_coord <= @top_boundary &&
+      y_coord >= @bottom_boundary
     end
 
   end

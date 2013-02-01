@@ -126,8 +126,8 @@ def boundaries
   ]
 end
 
-def coordinate_values
-  [ :@x_position, :@y_position ]
+def position_values
+  [ :@x_coordinate, :@y_coordinate ]
 end
 
 def valid_cardinals

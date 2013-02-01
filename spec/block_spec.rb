@@ -3,38 +3,34 @@ require 'toy_robot'
 
 describe Block do
 
-  let(:block) { Block.new(2, 3) }
+  let(:position) { Position.new(2, 3) }
+  let(:block) { Block.new(position) }
 
   subject { block }
 
   specify "model attributes" do
-    should respond_to(:x_position)
-    should respond_to(:y_position)
+    should respond_to(:position)
   end
 
   describe "initial state" do
-    let(:expected_x) { 2 }
-    let(:expected_y) { 3 }
-
     it { should be_valid }
-    its(:x_position) { should == expected_x }
-    its(:y_position) { should == expected_y }
+
+    context "of its position" do
+      let(:expected_x) { 2 }
+      let(:expected_y) { 3 }
+
+      subject { block.position }
+
+      its(:x_coordinate) { should == expected_x }
+      its(:y_coordinate) { should == expected_y }
+    end
   end
 
   describe "validations" do
-    context "for x_position, y_position" do
-      context "when they are not integers" do
-        coordinate_values.each do |coordinate|
-          before { block.instance_variable_set(coordinate, "invalid") }
-          it { should_not be_valid }
-        end
-      end
-
-      context "when they are nil" do
-        coordinate_values.each do |coordinate|
-          before { block.instance_variable_set(coordinate, nil) }
-          it { should_not be_valid }
-        end
+    context "for position" do
+      context "when it is nil" do
+        before { block.instance_variable_set(:@position, nil) }
+        it { should_not be_valid }
       end
     end
   end

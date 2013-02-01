@@ -15,7 +15,7 @@ describe Board do
   end
 
   specify "instance methods" do
-    should respond_to(:within_boundaries?).with(2).arguments
+    should respond_to(:within_boundaries?).with(1).argument
   end
 
   describe "initial state" do
