@@ -19,9 +19,8 @@ module ToyRobot
         parse_instruction(instruction)
         if valid_robot_command?
           @output = @robot.send(@command, *@args)
-          formatted_report
+          output_formatted_report
         end
-        @command = nil
       end
     end
 
@@ -49,13 +48,14 @@ module ToyRobot
         @command = command.downcase.to_sym if command
       end
 
-      def formatted_report
+      def output_formatted_report
         if @command == :report && @output
           puts "#{@output[:map]}"\
                "Robot Position: #{@output[:x_coordinate]},"\
                "#{@output[:y_coordinate]},"\
                "#{@output[:cardinal_direction]}"\
         end
+        @command = nil
       end
 
       def valid_robot_command?

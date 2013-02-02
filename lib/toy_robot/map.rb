@@ -23,6 +23,7 @@ module ToyRobot
       if blocks = robot.blocks
         initialize_blocks(blocks)
       end
+      @output = ""
       map_header
       map_content
     end
@@ -55,7 +56,6 @@ module ToyRobot
       end
 
       def map_header
-        @output = ""
         @x_range.each { |x_coord| @output << "   #{x_coord}" }
         @output << "\n"
       end
