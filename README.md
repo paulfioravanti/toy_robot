@@ -108,7 +108,7 @@ It is not required to provide any graphical output showing the movement of the t
 ### Implementation of further undocumented features
 
 - The `PLACE_BLOCK` commands put a block on the next square in the direction the robot is facing.  The Robot cannot pass through any blocks.  Any attempts to move through a block, be placed on a block, or place a block on a block are ignored.
-- The `REPORT` command has been enhanced with a visual map of the board, showing the position and direction of the robot (the point of the triangle icon being the direction the robot is facing), as well as the locations of all objects on the board.
+- The `REPORT` command has been enhanced with a visual map of the board, showing the position and direction of the robot (the point of the triangle icon being the direction the robot is facing), as well as the locations of all blocks on the board.
 
 ## Copyright
 
