@@ -55,8 +55,28 @@ describe Map do
   describe "map output" do
     # Map examples in utilities.rb
     context "with only a robot" do
-      let(:expected_map) { robot_centered_map }
-      its(:output) { should == expected_map }
+      context "facing NORTH" do
+        let(:expected_map) { robot_north_map }
+        its(:output) { should == expected_map }
+      end
+
+      context "facing EAST" do
+        let(:expected_map) { robot_east_map }
+        before { robot.place(2, 2, "EAST") }
+        its(:output) { should == expected_map }
+      end
+
+      context "facing SOUTH" do
+        let(:expected_map) { robot_south_map }
+        before { robot.place(2, 2, "SOUTH") }
+        its(:output) { should == expected_map }
+      end
+
+      context "facing WEST" do
+        let(:expected_map) { robot_west_map }
+        before { robot.place(2, 2, "WEST") }
+        its(:output) { should == expected_map }
+      end
     end
 
     context "with a robot and blocks" do
@@ -72,17 +92,17 @@ describe Map do
           robot.place_block
           robot.left
         end
-        robot.place(0, 0, "NORTH")
+        robot.place(0, 0, "EAST")
         4.times do
           robot.place_block
           robot.right
         end
-        robot.place(4, 4, "NORTH")
+        robot.place(4, 4, "SOUTH")
         4.times do
           robot.place_block
           robot.right
         end
-        robot.place(4, 0, "NORTH")
+        robot.place(4, 0, "WEST")
         4.times do
           robot.place_block
           robot.left
