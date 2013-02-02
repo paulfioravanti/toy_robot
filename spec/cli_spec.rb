@@ -25,7 +25,12 @@ describe CLI do
       end
     end
 
-    it { should == expected_output }
+    # it { should include(expected_output) }
+    it "should include expected output" do
+      expected_output.each do |o|
+        output.should include(o)
+      end
+    end
   end
 
   describe "#execute with options[:filename]" do
@@ -58,8 +63,8 @@ describe CLI do
     end
 
     it "outputs a prompt and the result for each command" do
-      expected_output.split(/\n/).each do |value|
-        output.should include(prompt << value)
+      expected_output.each do |value|
+        output.should include(value)
       end
     end
   end

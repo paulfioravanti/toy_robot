@@ -21,6 +21,7 @@ module ToyRobot
           @output = @robot.send(@command, *@args)
           formatted_report
         end
+        @command = nil
       end
     end
 
@@ -50,9 +51,10 @@ module ToyRobot
 
       def formatted_report
         if @command == :report && @output
-          puts "#{@output[:x_coordinate]},"\
+          puts "#{@output[:map]}"\
+               "Robot Position: #{@output[:x_coordinate]},"\
                "#{@output[:y_coordinate]},"\
-               "#{@output[:cardinal_direction]}"
+               "#{@output[:cardinal_direction]}"\
         end
       end
 

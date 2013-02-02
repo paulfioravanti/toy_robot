@@ -482,6 +482,7 @@ describe Robot do
     context "after a #place" do
       let(:expected_report) do
         {
+          map: Map.new(robot).output,
           x_coordinate: 2,
           y_coordinate: 2,
           cardinal_direction: "NORTH"

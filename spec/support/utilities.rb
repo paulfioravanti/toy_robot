@@ -1,17 +1,19 @@
+# encoding: UTF-8
+
 def valid_test_data
   [
     { # Provided example 1
       input: "PLACE 0,0,NORTH\r
               MOVE\r
               REPORT",
-      output: "0,1,NORTH\n"
+      output: ["0,1,NORTH\n"]
     },
 
     { # Provided example 2
       input: "PLACE 0,0,NORTH\r
               LEFT\r
               REPORT",
-      output: "0,0,WEST\n"
+      output: ["0,0,WEST\n"]
     },
 
     { # Provided example 3
@@ -21,7 +23,7 @@ def valid_test_data
               LEFT\r
               MOVE\r
               REPORT",
-      output: "3,3,NORTH\n"
+      output: ["3,3,NORTH\n"]
     },
 
     { # Blocked by blocks, can't progress;
@@ -32,7 +34,7 @@ def valid_test_data
               MOVE\r
               PLACE 0,2,NORTH\r
               REPORT",
-      output: "0,1,NORTH\n"
+      output: ["0,1,NORTH\n"]
     },
 
     { # Commands before placing
@@ -45,7 +47,7 @@ def valid_test_data
               PLACE 1,2,EAST\r
               MOVE\r
               REPORT",
-      output: "2,2,EAST\n"
+      output: ["2,2,EAST\n"]
     },
 
     { # Multiple placings
@@ -53,7 +55,7 @@ def valid_test_data
               PLACE 0,0,NORTH\r
               PLACE 4,4,WEST\r
               REPORT",
-      output: "4,4,WEST\n"
+      output: ["4,4,WEST\n"]
     },
 
     { # Attempting to go out of bounds
@@ -66,7 +68,7 @@ def valid_test_data
               RIGHT\r
               MOVE\r
               REPORT",
-      output: "4,4,EAST\n"
+      output: ["4,4,EAST\n"]
     },
 
     { # Multiple calls to report
@@ -74,8 +76,7 @@ def valid_test_data
               REPORT\r
               PLACE 4,4,NORTH\r
               REPORT",
-      output: "0,0,WEST\n"\
-              "4,4,NORTH\n"
+      output: ["0,0,WEST\n", "4,4,NORTH\n"]
     }
   ]
 end
@@ -91,12 +92,12 @@ def invalid_test_data
               PLACE 5,5,SOUTH\r
               PLACE -2,-2,WEST\r
               REPORT",
-      output: ""
+      output: [""]
     },
 
     { # No commands, just a return carriage
       input: "\r",
-      output: ""
+      output: [""]
     }
   ]
 end
@@ -132,4 +133,22 @@ end
 
 def valid_cardinals
   %w(NORTH EAST SOUTH WEST)
+end
+
+def robot_centered_map
+  "   0   1   2   3   4\n"\
+  "4 [ ] [ ] [ ] [ ] [ ]\n"\
+  "3 [ ] [ ] [ ] [ ] [ ]\n"\
+  "2 [ ] [ ] [Λ] [ ] [ ]\n"\
+  "1 [ ] [ ] [ ] [ ] [ ]\n"\
+  "0 [ ] [ ] [ ] [ ] [ ]\n"
+end
+
+def robot_and_blocks_map
+  "   0   1   2   3   4\n"\
+  "4 [ ] [X] [ ] [X] [ ]\n"\
+  "3 [X] [ ] [X] [ ] [X]\n"\
+  "2 [ ] [X] [ ] [X] [ ]\n"\
+  "1 [X] [ ] [X] [ ] [X]\n"\
+  "0 [ ] [X] [ ] [X] [Λ]\n"
 end

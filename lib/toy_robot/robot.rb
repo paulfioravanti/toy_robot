@@ -1,6 +1,7 @@
 require 'active_model'
 require 'toy_robot/block'
 require 'toy_robot/position'
+require 'toy_robot/map'
 
 module ToyRobot
   # A Toy Robot that moves around a Board, without falling off it
@@ -71,7 +72,8 @@ module ToyRobot
         {
           x_coordinate: @position.x_coordinate,
           y_coordinate: @position.y_coordinate,
-          cardinal_direction: @cardinal_direction
+          cardinal_direction: @cardinal_direction,
+          map: Map.new(self).output
         }
       end
     end
