@@ -107,9 +107,12 @@ It is not required to provide any graphical output showing the movement of the t
 
 ## Additional Features
 
-- Placing Blocks
+### Placing Blocks
+
 The PLACE_BLOCK command puts a block on the next square in the direction the robot is facing.  The Robot cannot pass through any blocks.  Any attempts to move through a block, be placed on a block, or place a block on a block are ignored.
-- Visual Map of Board
+
+### Visual Map of Board
+
 The REPORT command has been enhanced with a visual map of the board, showing the position and direction of the robot (Λ > V <), as well as the locations of all blocks.
 
 ## Copyright
