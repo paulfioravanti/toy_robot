@@ -113,7 +113,15 @@ The PLACE_BLOCK command puts a block on the next square in the direction the rob
 
 ### Visual Map of Board
 
-The REPORT command has been enhanced with a visual map of the board, showing the position and direction of the robot (Λ > V <), as well as the locations of all blocks.
+The REPORT command has been enhanced with a visual map of the board, showing the position and direction of the robot (Λ > V <), as well as the locations of all blocks (X).  For example:
+
+       0   1   2   3   4
+    4 [ ] [ ] [ ] [ ] [ ]
+    3 [ ] [X] [ ] [ ] [ ]
+    2 [ ] [ ] [Λ] [ ] [ ]
+    1 [X] [ ] [ ] [ ] [ ]
+    0 [ ] [ ] [ ] [ ] [X]
+    Robot Position: 2,2,NORTH
 
 ## Copyright
 
