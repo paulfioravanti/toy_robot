@@ -39,7 +39,7 @@ module ToyRobot
 
     def place_block
       run_callbacks :command do
-        block_position = frontal_position
+        block_position = forward_position
         if placeable?(block_position)
           @blocks << Block.new(block_position)
         end
@@ -48,7 +48,7 @@ module ToyRobot
 
     def move
       run_callbacks :command do
-        new_position = frontal_position
+        new_position = forward_position
         if placeable?(new_position)
           @position = new_position
         end
@@ -105,9 +105,9 @@ module ToyRobot
         end
       end
 
-      def frontal_position
+      def forward_position
         x_coord, y_coord = @position.coordinates
-        formula = case @cardinal_direction
+        position = case @cardinal_direction
           when "NORTH" then Position.new(x_coord, y_coord + 1)
           when "EAST"  then Position.new(x_coord + 1, y_coord)
           when "SOUTH" then Position.new(x_coord, y_coord - 1)
