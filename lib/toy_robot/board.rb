@@ -23,7 +23,7 @@ module ToyRobot
     end
 
     def within_boundaries?(position)
-      x_coord, y_coord = position.x_coordinate, position.y_coordinate
+      x_coord, y_coord = position.coordinates
       x_coord >= @left_boundary &&
       x_coord <= @right_boundary  &&
       y_coord <= @top_boundary &&
