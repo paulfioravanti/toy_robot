@@ -30,15 +30,6 @@ describe Robot do
       should_not be_nil
       should be_empty
     end
-
-    context "of its board" do
-      subject { robot.board }
-
-      its(:left_boundary) { should == 0 }
-      its(:right_boundary) { should == 4 }
-      its(:top_boundary) { should == 4 }
-      its(:bottom_boundary) { should == 0 }
-    end
   end
 
   describe "validations" do
