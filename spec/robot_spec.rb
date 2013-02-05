@@ -11,7 +11,6 @@ describe Robot do
     should respond_to(:board)
     should respond_to(:position)
     should respond_to(:cardinal_direction)
-    # should respond_to(:placed)
     should respond_to(:blocks)
   end
 
