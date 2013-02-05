@@ -104,7 +104,7 @@ module ToyRobot
 
       def forward_position
         x_coord, y_coord = @position.coordinates
-        position = case @cardinal_direction
+        case @cardinal_direction
           when "NORTH" then Position.new(x_coord, y_coord + 1)
           when "EAST"  then Position.new(x_coord + 1, y_coord)
           when "SOUTH" then Position.new(x_coord, y_coord - 1)
