@@ -14,18 +14,16 @@ module ToyRobot
     before_command :placed?
 
     attr_reader   :board
-    attr_accessor :position, :cardinal_direction, :placed, :blocks
+    attr_accessor :position, :cardinal_direction, :blocks
 
     validates :board, presence: true
     VALID_CARDINALS = %w(NORTH EAST SOUTH WEST)
     validates :cardinal_direction, inclusion: VALID_CARDINALS,
                                    allow_nil: true
-    validates :placed, inclusion: [true, false]
 
     def initialize
       @board = Board.new
       @blocks = []
-      @placed = false
     end
 
     def place(x_pos, y_pos, cardinal)
@@ -33,7 +31,6 @@ module ToyRobot
       cardinal = cardinal.upcase
       if placeable?(position)
         @position, @cardinal_direction = position, cardinal
-        @placed = true
       end
     end
 
@@ -81,7 +78,7 @@ module ToyRobot
     private
 
       def placed?
-        @placed
+        @position ? true : false
       end
 
       def placeable?(position)

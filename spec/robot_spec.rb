@@ -11,7 +11,7 @@ describe Robot do
     should respond_to(:board)
     should respond_to(:position)
     should respond_to(:cardinal_direction)
-    should respond_to(:placed)
+    # should respond_to(:placed)
     should respond_to(:blocks)
   end
 
@@ -27,7 +27,6 @@ describe Robot do
   describe "initial state" do
     it { should be_valid }
     its(:board)  { should_not be_nil }
-    its(:placed) { should be_false }
     its(:blocks) do
       should_not be_nil
       should be_empty
@@ -58,13 +57,6 @@ describe Robot do
       context "when it is nil" do
         before { robot.cardinal_direction = nil }
         it { should be_valid }
-      end
-    end
-
-    context "for placed" do
-      context "when it is invalid" do
-        before { robot.placed = "INVALID" }
-        it { should_not be_valid }
       end
     end
   end
