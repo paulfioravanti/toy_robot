@@ -30,6 +30,10 @@ module ToyRobot
 
     private
 
+      def spacer
+        " "
+      end
+
       def initialize_board
         @x_range = (@board.left_boundary..@board.right_boundary).to_a
         @y_range = (@board.bottom_boundary..@board.top_boundary).to_a.reverse
@@ -50,13 +54,15 @@ module ToyRobot
         line_start, line_end = @x_range.first, @x_range.last
         @y_range.product(@x_range) do |y_coord, x_coord|
           @output << "#{y_coord}" if x_coord == line_start
-          @output << element_at([x_coord, y_coord])
+          @output << spacer + element_at([x_coord, y_coord])
           @output << "\n" if x_coord == line_end
         end
       end
 
       def map_header
-        @x_range.each { |x_coord| @output << "   #{x_coord}" }
+        @x_range.each do |x_coord|
+          @output << (spacer * 3) + "#{x_coord}"
+        end
         @output << "\n"
       end
 
@@ -64,18 +70,18 @@ module ToyRobot
         if coordinates == @robot_coordinates
           output_robot_direction
         elsif @block_coordinates.include?(coordinates)
-          " [X]"
+          "[X]"
         else
-          " [ ]"
+          "[ ]"
         end
       end
 
       def output_robot_direction
         case @robot_direction
-          when "NORTH" then " [Λ]"
-          when "EAST"  then " [>]"
-          when "SOUTH" then " [V]"
-          when "WEST"  then " [<]"
+          when "NORTH" then "[Λ]"
+          when "EAST"  then "[>]"
+          when "SOUTH" then "[V]"
+          when "WEST"  then "[<]"
         end
       end
   end
