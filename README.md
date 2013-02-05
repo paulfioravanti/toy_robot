@@ -42,7 +42,7 @@ Check code smells:
 
 Check quality metrics:
 
-[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/paulfioravanti/toy_robot)
+[![Code Climate](https://codeclimate.com/github/paulfioravanti/toy_robot.png)](https://codeclimate.com/github/paulfioravanti/toy_robot)
 
 ## Specification
 
