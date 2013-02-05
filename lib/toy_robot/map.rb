@@ -6,23 +6,20 @@ module ToyRobot
   class Map
     include ActiveModel::Validations
 
-    attr_reader :board, :x_range, :y_range,
-                :robot_coordinates, :robot_direction,
+    attr_reader :robot, :x_range, :y_range,
                 :block_coordinates, :output
 
+    validates :robot, presence: true
     validates :x_range, presence: true
     validates :y_range, presence: true
-    validates :robot_coordinates, presence: true
-    validates :robot_direction, presence: true
 
     def initialize(robot)
-      @board = robot.board
-      initialize_board
-      initialize_robot(robot)
+      @robot = robot
+      board = @robot.board
+      @x_range = (board.left_boundary..board.right_boundary).to_a
+      @y_range = (board.bottom_boundary..board.top_boundary).to_a.reverse
       @block_coordinates = []
-      if blocks = robot.blocks
-        initialize_blocks(blocks)
-      end
+      initialize_blocks
       @output = ""
       map_header
       map_content
@@ -34,19 +31,11 @@ module ToyRobot
         " "
       end
 
-      def initialize_board
-        @x_range = (@board.left_boundary..@board.right_boundary).to_a
-        @y_range = (@board.bottom_boundary..@board.top_boundary).to_a.reverse
-      end
-
-      def initialize_robot(robot)
-        @robot_coordinates = robot.position.coordinates
-        @robot_direction = robot.cardinal_direction
-      end
-
-      def initialize_blocks(blocks)
-        blocks.each do |block|
-          @block_coordinates << block.position.coordinates
+      def initialize_blocks
+        if blocks = @robot.blocks
+          blocks.each do |block|
+            @block_coordinates << block.position.coordinates
+          end
         end
       end
 
@@ -67,7 +56,7 @@ module ToyRobot
       end
 
       def element_at(coordinates)
-        if coordinates == @robot_coordinates
+        if coordinates == @robot.position.coordinates
           output_robot_direction
         elsif @block_coordinates.include?(coordinates)
           "[X]"
@@ -77,7 +66,7 @@ module ToyRobot
       end
 
       def output_robot_direction
-        case @robot_direction
+        case @robot.cardinal_direction
           when "NORTH" then "[Λ]"
           when "EAST"  then "[>]"
           when "SOUTH" then "[V]"

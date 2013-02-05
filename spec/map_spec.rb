@@ -13,8 +13,7 @@ describe Map do
   subject { map }
 
   specify "model attributes" do
-    should respond_to(:x_range, :y_range)
-    should respond_to(:robot_coordinates, :robot_direction)
+    should respond_to(:robot, :x_range, :y_range)
     should respond_to(:block_coordinates, :output)
   end
 
@@ -23,6 +22,14 @@ describe Map do
   end
 
   describe "validations" do
+
+    context "for robot" do
+      context "when it is nil" do
+        before { map.instance_variable_set(:@robot, nil) }
+        it { should_not be_valid }
+      end
+    end
+
     context "for x_range" do
       context "when it is nil" do
         before { map.instance_variable_set(:@x_range, nil) }
@@ -33,20 +40,6 @@ describe Map do
     context "for y_range" do
       context "when it is nil" do
         before { map.instance_variable_set(:@y_range, nil) }
-        it { should_not be_valid }
-      end
-    end
-
-    context "for robot_coordinates" do
-      context "when it is nil" do
-        before { map.instance_variable_set(:@robot_coordinates, nil) }
-        it { should_not be_valid }
-      end
-    end
-
-    context "for robot_direction" do
-      context "when it is nil" do
-        before { map.instance_variable_set(:@robot_direction, nil) }
         it { should_not be_valid }
       end
     end
