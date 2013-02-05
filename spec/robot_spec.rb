@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 require 'spec_helper'
 require 'toy_robot'
 
@@ -138,12 +140,13 @@ describe Robot do
       its(:blocks) { should have(1).items }
 
       context "in front of robot" do
+
+        subject { robot.blocks.last }
+
         context "facing NORTH" do
           let(:expected_position) do
             double("position", x_coordinate: 2, y_coordinate: 3)
           end
-
-          subject { robot.blocks.last }
 
           it_should_behave_like "an object at time of placement"
         end
@@ -158,8 +161,6 @@ describe Robot do
             robot.place_block
           end
 
-          subject { robot.blocks.last }
-
           it_should_behave_like "an object at time of placement"
         end
 
@@ -173,8 +174,6 @@ describe Robot do
             robot.place_block
           end
 
-          subject { robot.blocks.last }
-
           it_should_behave_like "an object at time of placement"
         end
 
@@ -187,8 +186,6 @@ describe Robot do
             robot.left
             robot.place_block
           end
-
-          subject { robot.blocks.last }
 
           it_should_behave_like "an object at time of placement"
         end
@@ -462,14 +459,7 @@ describe Robot do
     end
 
     context "after a #place" do
-      let(:expected_report) do
-        {
-          map: Map.new(robot).output,
-          x_coordinate: 2,
-          y_coordinate: 2,
-          cardinal_direction: "NORTH"
-        }
-      end
+      let(:expected_report) { robot_2_2_north_report }
 
       before do
         robot.place(2, 2, "NORTH")

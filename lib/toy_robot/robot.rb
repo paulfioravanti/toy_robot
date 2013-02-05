@@ -66,12 +66,9 @@ module ToyRobot
 
     def report
       run_callbacks :command do
-        {
-          x_coordinate: @position.x_coordinate,
-          y_coordinate: @position.y_coordinate,
-          cardinal_direction: @cardinal_direction,
-          map: Map.new(self).output
-        }
+        "#{Map.new(self).output}"\
+        "Robot Position: #{@position.coordinates.join(',')},"\
+        "#{@cardinal_direction}"
       end
     end
 

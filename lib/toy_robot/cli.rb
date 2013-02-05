@@ -6,7 +6,7 @@ module ToyRobot
   # Command line interface for the toy Robot
   class CLI < Thor
 
-    attr_accessor :robot, :command, :args, :output
+    attr_accessor :robot, :command, :args, :response
 
     method_option :filename, aliases: ['-f'],
                   desc: "name of the file containing robot instructions",
@@ -18,8 +18,8 @@ module ToyRobot
       instructions do |instruction|
         parse_instruction(instruction)
         if valid_robot_command?
-          @output = @robot.send(@command, *@args)
-          output_formatted_report
+          @response = @robot.send(@command, *@args)
+          output_response if @response
         end
       end
     end
@@ -48,12 +48,9 @@ module ToyRobot
         @command = command.downcase.to_sym if command
       end
 
-      def output_formatted_report
-        if @command == :report && @output
-          puts "#{@output[:map]}"\
-               "Robot Position: #{@output[:x_coordinate]},"\
-               "#{@output[:y_coordinate]},"\
-               "#{@output[:cardinal_direction]}"\
+      def output_response
+        if @command == :report
+          puts @response
         end
         @command = nil
       end
