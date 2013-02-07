@@ -1,7 +1,8 @@
 require 'active_model'
-require 'toy_robot/block'
-require 'toy_robot/position'
-require 'toy_robot/map'
+
+require 'block'
+require 'position'
+require 'map'
 
 module ToyRobot
   # A Toy Robot that moves around a Board, without falling off it

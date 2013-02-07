@@ -1,6 +1,8 @@
 require 'thor'
-require 'toy_robot/board'
-require 'toy_robot/robot'
+
+$LOAD_PATH << File.join(File.dirname(__FILE__), "..", "toy_robot")
+require 'board'
+require 'robot'
 
 module ToyRobot
   # Command line interface for the toy Robot
