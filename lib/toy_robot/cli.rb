@@ -13,8 +13,6 @@ module ToyRobot
     method_option :filename, aliases: ['-f'],
                   desc: "name of the file containing robot instructions",
                   banner: 'FILE'
-    method_option :extended, aliases: ['-e'],
-                  desc: "flag to use extended mode"
     desc "execute robot commands", "moves robot on a board as per commands"
     def execute
       @robot = Robot.new
