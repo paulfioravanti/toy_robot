@@ -13,7 +13,8 @@ module ToyRobot
     method_option :filename, aliases: ['-f'],
                   desc: "name of the file containing robot instructions",
                   banner: 'FILE'
-
+    method_option :extended, aliases: ['-e'],
+                  desc: "flag to use extended mode"
     desc "execute robot commands", "moves robot on a board as per commands"
     def execute
       @robot = Robot.new
@@ -51,7 +52,7 @@ module ToyRobot
       end
 
       def output_response
-        if @command == :report
+        if [:report, :map].include?(@command)
           puts @response
         end
         @command = nil
@@ -69,7 +70,7 @@ module ToyRobot
       end
 
       def valid_singular_command?
-        [:move, :left, :right, :report, :place_block].include?(@command) &&
+        [:move, :left, :right, :report, :place_block, :map].include?(@command) &&
         @args.size == 0
       end
 
@@ -82,12 +83,30 @@ module ToyRobot
       end
 
       def usage
-        "Valid Commands:\n"\
+        usage = usage_header
+        usage << usage_standard
+        usage << usage_extended
+        usage << usage_footer
+      end
+
+      def usage_header
+        "Valid Commands:\n"
+      end
+
+      def usage_standard
         "PLACE X,Y,F eg: PLACE 0,0,NORTH\n"\
         "MOVE\n"\
         "LEFT\n"\
         "RIGHT\n"\
-        "REPORT\n"\
+        "REPORT\n"
+      end
+
+      def usage_extended
+        "PLACE_BLOCK\n"\
+        "MAP\n"
+      end
+
+      def usage_footer
         "EXIT\n"\
         "-------\n"\
         "> "

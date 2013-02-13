@@ -105,7 +105,7 @@ Output: 3,3,NORTH
 The Ruby source files, the test data and any test code.
 It is not required to provide any graphical output showing the movement of the toy robot.
 
-## Additional Features
+## Extensions
 
 ### Placing Blocks
 
@@ -113,7 +113,7 @@ The PLACE_BLOCK command puts a block on the next square in the direction the rob
 
 ### Visual Map of Board
 
-The REPORT command has been enhanced with a visual map of the board, showing the position and direction of the robot (Λ > V <), as well as the locations of all blocks (X).  For example:
+The MAP command shows a visual map of the board, showing the position and direction of the robot (Λ > V <), as well as the locations of all blocks (X) and a standard report.  For example:
 
        0   1   2   3   4
     4 [ ] [ ] [ ] [ ] [ ]

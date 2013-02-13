@@ -67,13 +67,23 @@ module ToyRobot
 
     def report
       run_callbacks :command do
+        robot_position
+      end
+    end
+
+    def map
+      run_callbacks :command do
         "#{Map.new(self).output}"\
-        "Robot Position: #{@position.coordinates.join(',')},"\
-        "#{@cardinal_direction}"
+        "Robot Position: #{robot_position}"
       end
     end
 
     private
+
+      def robot_position
+        "#{@position.coordinates.join(',')},"\
+        "#{@cardinal_direction}"
+      end
 
       def placed?
         @position ? true : false

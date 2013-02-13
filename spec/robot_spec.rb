@@ -23,6 +23,7 @@ describe Robot do
     should respond_to(:left).with(0).arguments
     should respond_to(:right).with(0).arguments
     should respond_to(:report).with(0).arguments
+    should respond_to(:map).with(0).arguments
   end
 
   describe "initial state" do
@@ -130,6 +131,13 @@ describe Robot do
   end
 
   describe "#place_block" do
+    context "before a #place" do
+
+      before { robot.place_block }
+
+      its(:blocks) { should have(0).items }
+    end
+
     context "in a valid position" do
 
       before do
@@ -213,16 +221,18 @@ describe Robot do
         its(:blocks) { should have(1).items }
       end
     end
-
-    context "without having been placed" do
-
-      before { robot.place_block }
-
-      its(:blocks) { should have(0).items }
-    end
   end
 
   describe "#move" do
+    context "before a #place" do
+      let(:expected_position) { nil }
+      let(:expected_cardinal) { nil }
+
+      before { robot.move }
+
+      it_should_behave_like "a robot at time of placement"
+    end
+
     context "when there is a space ahead" do
 
       before { robot.place(2, 2, "NORTH") }
@@ -339,15 +349,6 @@ describe Robot do
       end
     end
 
-    context "without having been placed" do
-      let(:expected_position) { nil }
-      let(:expected_cardinal) { nil }
-
-      before { robot.move }
-
-      it_should_behave_like "a robot at time of placement"
-    end
-
     context "when there is a block in the way" do
       # Expect no coordinate change from original placement of 2, 2
 
@@ -407,6 +408,15 @@ describe Robot do
   end
 
   describe "turning" do
+    context "before a #place" do
+      let(:expected_position) { nil }
+      let(:expected_cardinal) { nil }
+
+      before { robot.left }
+
+      it_should_behave_like "a robot at time of placement"
+    end
+
     context "after a #place" do
 
       subject { robot.cardinal_direction }
@@ -437,15 +447,6 @@ describe Robot do
         end
       end
     end
-
-    context "before a #place" do
-      let(:expected_position) { nil }
-      let(:expected_cardinal) { nil }
-
-      before { robot.left }
-
-      it_should_behave_like "a robot at time of placement"
-    end
   end
 
   describe "#report" do
@@ -466,6 +467,27 @@ describe Robot do
       end
 
       it { should == expected_report }
+    end
+  end
+
+  describe "#map" do
+
+    subject { robot.map }
+
+    context "before a #place" do
+      let(:expected_map) { false }
+
+      it { should == expected_map }
+    end
+
+    context "after a #place" do
+      let(:expected_map) { robot_2_2_north_map }
+
+      before do
+        robot.place(2, 2, "NORTH")
+      end
+
+      it { should == expected_map }
     end
   end
 end
