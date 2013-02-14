@@ -17,21 +17,19 @@ module ToyRobot
                   desc: "flag for extended mode"
     desc "execute robot commands", "moves robot on a board as per commands"
     def execute
-      initialize_permitted_commands
-      @robot = Robot.new
+      initialize_world
       instructions do |instruction|
         parse_instruction(instruction)
-        if valid_robot_command?
-          @response = @robot.send(@command, *@args)
-          output_response if @response
-        end
+        execute_instruction
       end
     end
 
     default_task :execute
 
     no_tasks do
-      def initialize_permitted_commands
+
+      def initialize_world
+        @robot = Robot.new
         @permitted_commands =
           [:place, :move, :left, :right, :report, :exit]
         @permitted_commands += [:block, :map] if options[:extended]
@@ -69,6 +67,13 @@ module ToyRobot
         @args = instruction.scan(/-?\w+/)
         command = @args.shift
         @command = command.downcase.to_sym if command
+      end
+
+      def execute_instruction
+        if valid_robot_command?
+          @response = @robot.send(@command, *@args)
+          output_response if @response
+        end
       end
 
       def output_response
