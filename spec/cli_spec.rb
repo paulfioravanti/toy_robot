@@ -8,7 +8,7 @@ describe CLI do
   subject { cli }
 
   specify "model attributes" do
-    should respond_to(:robot, :command, :args, :response)
+    should respond_to(:robot, :command, :args, :response, :permitted_commands)
   end
 
   specify "instance methods" do
