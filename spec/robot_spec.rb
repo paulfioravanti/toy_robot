@@ -18,11 +18,11 @@ describe Robot do
 
   specify "instance methods" do
     should respond_to(:place).with(3).arguments
-    should respond_to(:place_block).with(0).arguments
     should respond_to(:move).with(0).arguments
     should respond_to(:left).with(0).arguments
     should respond_to(:right).with(0).arguments
     should respond_to(:report).with(0).arguments
+    should respond_to(:block).with(0).arguments
     should respond_to(:map).with(0).arguments
   end
 
@@ -130,10 +130,10 @@ describe Robot do
     end
   end
 
-  describe "#place_block" do
+  describe "#block" do
     context "before a #place" do
 
-      before { robot.place_block }
+      before { robot.block }
 
       its(:blocks) { should have(0).items }
     end
@@ -142,7 +142,7 @@ describe Robot do
 
       before do
         robot.place(2, 2, "NORTH")
-        robot.place_block
+        robot.block
       end
 
       its(:blocks) { should have(1).items }
@@ -166,7 +166,7 @@ describe Robot do
 
           before do
             robot.right
-            robot.place_block
+            robot.block
           end
 
           it_should_behave_like "an object at time of placement"
@@ -179,7 +179,7 @@ describe Robot do
 
           before do
             2.times { robot.right }
-            robot.place_block
+            robot.block
           end
 
           it_should_behave_like "an object at time of placement"
@@ -192,7 +192,7 @@ describe Robot do
 
           before do
             robot.left
-            robot.place_block
+            robot.block
           end
 
           it_should_behave_like "an object at time of placement"
@@ -205,7 +205,7 @@ describe Robot do
 
         before do
           robot.place(2, 4, "NORTH")
-          robot.place_block
+          robot.block
         end
 
         its(:blocks) { should have(0).items }
@@ -215,7 +215,7 @@ describe Robot do
 
         before do
           robot.place(2, 2, "NORTH")
-          2.times { robot.place_block }
+          2.times { robot.block }
         end
 
         its(:blocks) { should have(1).items }
@@ -362,7 +362,7 @@ describe Robot do
         let(:expected_cardinal) { "NORTH" }
 
         before do
-          robot.place_block
+          robot.block
           robot.move
         end
 
@@ -374,7 +374,7 @@ describe Robot do
 
         before do
           robot.right
-          robot.place_block
+          robot.block
           robot.move
         end
 
@@ -386,7 +386,7 @@ describe Robot do
 
         before do
           2.times { robot.right }
-          robot.place_block
+          robot.block
           robot.move
         end
 
@@ -398,7 +398,7 @@ describe Robot do
 
         before do
           robot.left
-          robot.place_block
+          robot.block
           robot.move
         end
 

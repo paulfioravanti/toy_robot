@@ -24,6 +24,18 @@ Input commands through a file
 
     $ bin/toy_robot -f [filename]
 
+**Extended mode**
+
+To enable functionality in the [Extensions](https://github.com/paulfioravanti/toy_robot#extensions), pass in the `-e` flag:
+
+Command line:
+
+    $ bin/toy_robot -e
+
+From a file:
+
+    $ bin/toy_robot -e -f [filename]
+
 ## Testing
 
 Code quality is attempted by using [RSpec](http://rspec.info/) for testing, [SimpleCov](https://github.com/colszowka/simplecov) for code test coverage, [Reek](https://github.com/troessner/reek) to fix code smells, and [Code Climate](https://codeclimate.com/) for quality metrics.
@@ -109,7 +121,7 @@ It is not required to provide any graphical output showing the movement of the t
 
 ### Placing Blocks
 
-The PLACE_BLOCK command puts a block on the next square in the direction the robot is facing.  The Robot cannot pass through any blocks.  Any attempts to move through a block, be placed on a block, or place a block on a block are ignored.
+The BLOCK command puts a block on the square in front of the robot.  The Robot cannot pass through any blocks.  Any attempts to move through a block, be placed on a block, or place a block on a block are ignored.
 
 ### Visual Map of Board
 

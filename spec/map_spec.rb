@@ -77,27 +77,27 @@ describe Map do
 
       before do
         4.times do
-          robot.place_block
+          robot.block
           robot.right
         end
         robot.place(0, 4, "NORTH")
         4.times do
-          robot.place_block
+          robot.block
           robot.left
         end
         robot.place(0, 0, "EAST")
         4.times do
-          robot.place_block
+          robot.block
           robot.right
         end
         robot.place(4, 4, "SOUTH")
         4.times do
-          robot.place_block
+          robot.block
           robot.right
         end
         robot.place(4, 0, "WEST")
         4.times do
-          robot.place_block
+          robot.block
           robot.left
         end
       end

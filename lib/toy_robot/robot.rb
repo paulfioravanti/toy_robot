@@ -35,15 +35,6 @@ module ToyRobot
       end
     end
 
-    def place_block
-      run_callbacks :command do
-        block_position = forward_position
-        if placeable?(block_position)
-          @blocks << Block.new(block_position)
-        end
-      end
-    end
-
     def move
       run_callbacks :command do
         new_position = forward_position
@@ -68,6 +59,15 @@ module ToyRobot
     def report
       run_callbacks :command do
         robot_position
+      end
+    end
+
+    def block
+      run_callbacks :command do
+        block_position = forward_position
+        if placeable?(block_position)
+          @blocks << Block.new(block_position)
+        end
       end
     end
 

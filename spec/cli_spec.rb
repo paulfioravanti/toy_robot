@@ -15,44 +15,66 @@ describe CLI do
     should respond_to(:execute)
   end
 
-  shared_examples_for "commands executed from a file" do
+  shared_examples_for "commands executed from a file" do |extended|
     subject { output }
 
     before do
-      cli.stub(:options) { { filename: default_file } }
+      cli.stub(:options) { { extended: extended, file: default_file } }
       File.stub(:readlines).with(default_file) do
         StringIO.new(input).map { |line| line.strip.chomp }
       end
     end
 
-    # it { should include(expected_output) }
-    it "should include expected output" do
-      expected_output.each do |o|
-        output.should include(o)
-      end
-    end
+    it { should == expected_output.join }
   end
 
-  describe "#execute with options[:filename]" do
-    let(:default_file) { "instructions.txt" }
+  describe "#execute with options[:file]" do
     let(:output) { capture(:stdout) { cli.execute } }
 
-    context "with valid test data" do
-      valid_test_data.each do |data|
-        let(:input) { data[:input] }
-        let(:expected_output) { data[:output] }
+    context "on a valid file" do
+      let(:default_file) { "instructions.txt" }
 
-        it_should_behave_like "commands executed from a file"
+      context "with valid test data" do
+        context "in standard mode" do
+          standard_valid_test_commands.each do |data|
+            let(:input) { data[:input] }
+            let(:expected_output) { data[:output] }
+
+            it_should_behave_like "commands executed from a file", false
+          end
+        end
+
+        context "in extended mode" do
+          extended_valid_test_commands.each do |data|
+            let(:input) { data[:input] }
+            let(:expected_output) { data[:output] }
+
+            it_should_behave_like "commands executed from a file", true
+          end
+        end
+      end
+
+      context "with invalid test data" do
+        invalid_test_commands.each do |data|
+          let(:input) { data[:input] }
+          let(:expected_output) { data[:output] }
+
+          it_should_behave_like "commands executed from a file"
+        end
       end
     end
 
-    context "with invalid test data" do
-      invalid_test_data.each do |data|
-        let(:input) { data[:input] }
-        let(:expected_output) { data[:output] }
-
-        it_should_behave_like "commands executed from a file"
+    context "on an invalid file" do
+      let(:default_file) { "invalid" }
+      let(:expected_output) do
+        "Filename not specified or does not exist.\n"
       end
+
+      subject { output }
+
+      before { cli.stub(:options) { { file: default_file } } }
+
+      it { should == expected_output }
     end
   end
 
@@ -69,29 +91,61 @@ describe CLI do
     end
   end
 
-  describe "#execute without options[:filename]" do
+  describe "#execute without options[:file]" do
     let(:output) { capture(:stdout) { cli.execute } }
 
     describe "initial output" do
       subject { output }
 
-      before { cli.stub(:gets) { "EXIT" } }
+      context "in standard mode" do
 
-      it { should include(prompt) }
-      it { should include(usage) }
+        before do
+          cli.stub(:options) { { extended: false } }
+          cli.stub(:gets) { "EXIT" }
+        end
+
+        it { should include(prompt) }
+        it { should include(usage_standard) }
+      end
+
+      context "in extended mode" do
+
+        before do
+          cli.stub(:options) { { extended: true } }
+          cli.stub(:gets) { "EXIT" }
+        end
+
+        it { should include(prompt) }
+        it { should include(usage_extended) }
+      end
     end
 
     context "with valid commands" do
-      valid_test_data.each do |data|
-        let(:commands) { StringIO.new(data[:input]).map { |a| a.strip } }
-        let(:expected_output) { data[:output] }
+      context "in standard mode" do
+        before { cli.stub(:options) { { extended: false } } }
 
-        it_should_behave_like "commands executed from the command line"
+        standard_valid_test_commands.each do |data|
+          let(:commands) { StringIO.new(data[:input]).map { |a| a.strip } }
+          let(:expected_output) { data[:output] }
+
+          it_should_behave_like "commands executed from the command line"
+        end
+      end
+
+      context "in extended mode" do
+        before { cli.stub(:options) { { extended: true } } }
+
+        extended_valid_test_commands.each do |data|
+          let(:commands) { StringIO.new(data[:input]).map { |a| a.strip } }
+          let(:expected_output) { data[:output] }
+
+          it_should_behave_like "commands executed from the command line"
+        end
       end
     end
 
     context "with invalid commands" do
-      invalid_test_data.each do |data|
+      invalid_test_commands.each do |data|
         let(:commands) { StringIO.new(data[:input]).map { |a| a.strip } }
         let(:expected_output) { data[:output] }
 

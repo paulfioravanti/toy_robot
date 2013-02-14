@@ -8,13 +8,16 @@ module ToyRobot
   # Command line interface for the toy Robot
   class CLI < Thor
 
-    attr_accessor :robot, :command, :args, :response
+    attr_accessor :robot, :command, :args, :response, :permitted_commands
 
-    method_option :filename, aliases: ['-f'],
+    method_option :file, type: :string, aliases: '-f',
                   desc: "name of the file containing robot instructions",
                   banner: 'FILE'
+    method_option :extended, type: :boolean, aliases: '-e',
+                  desc: "flag for extended mode"
     desc "execute robot commands", "moves robot on a board as per commands"
     def execute
+      initialize_permitted_commands
       @robot = Robot.new
       instructions do |instruction|
         parse_instruction(instruction)
@@ -28,18 +31,37 @@ module ToyRobot
     default_task :execute
 
     no_tasks do
-      def instructions
-        if file = options[:filename]
-          File.readlines(file).map do |line|
+      def initialize_permitted_commands
+        @permitted_commands =
+          [:place, :move, :left, :right, :report, :exit]
+        @permitted_commands += [:block, :map] if options[:extended]
+      end
+
+      def instructions(&instruction)
+        if filename = options[:file]
+          read_via_file(filename, &instruction)
+        else
+          read_via_command_line(&instruction)
+        end
+      end
+
+      def read_via_file(filename, &instruction)
+        begin
+          File.readlines(filename).map do |line|
             yield line.strip.chomp
           end
-        else
-          print usage
-          while line = gets
-            break if line =~ /EXIT/i
-            yield line
-            print "> "
-          end
+        rescue
+          puts "Filename not specified or does not exist."
+        end
+      end
+
+      def read_via_command_line(&instruction)
+        print usage
+        ARGV.delete('-e')
+        while line = gets
+          break if line =~ /EXIT/i
+          yield line
+          print "> "
         end
       end
 
@@ -68,7 +90,7 @@ module ToyRobot
       end
 
       def valid_singular_command?
-        [:move, :left, :right, :report, :place_block, :map].include?(@command) &&
+        @permitted_commands.include?(@command) &&
         @args.size == 0
       end
 
@@ -83,7 +105,7 @@ module ToyRobot
       def usage
         usage = usage_header
         usage << usage_standard
-        usage << usage_extended
+        usage << usage_extended if options[:extended]
         usage << usage_footer
       end
 
@@ -100,7 +122,7 @@ module ToyRobot
       end
 
       def usage_extended
-        "PLACE_BLOCK\n"\
+        "BLOCK\n"\
         "MAP\n"
       end
 
