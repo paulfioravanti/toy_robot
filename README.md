@@ -24,7 +24,7 @@ Input commands through a file
 
     $ bin/toy_robot -f [filename]
 
-**Extended mode**
+### Extended mode
 
 To enable functionality in the [Extensions](https://github.com/paulfioravanti/toy_robot#extensions), pass in the `-e` flag:
 
