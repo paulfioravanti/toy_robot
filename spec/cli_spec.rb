@@ -25,7 +25,7 @@ describe CLI do
       end
     end
 
-    it { should == expected_output.join }
+    it { should == expected_output }
   end
 
   describe "#execute with options[:file]" do
@@ -38,7 +38,7 @@ describe CLI do
         valid_test_commands.each do |data|
           context "in standard mode" do
             let(:input) { data[:input] }
-            let(:expected_output) { data[:output] }
+            let(:expected_output) { data[:output].join }
             it_should_behave_like "commands executed from a file", false
           end
         end
@@ -46,7 +46,7 @@ describe CLI do
         extended_valid_test_commands.each do |data|
           context "in extended mode" do
             let(:input) { data[:input] }
-            let(:expected_output) { data[:output] }
+            let(:expected_output) { data[:output].join }
             it_should_behave_like "commands executed from a file", true
           end
         end
@@ -56,7 +56,7 @@ describe CLI do
         invalid_test_commands.each do |data|
           context "in standard mode" do
             let(:input) { data[:input] }
-            let(:expected_output) { data[:output] }
+            let(:expected_output) { data[:output].join }
             it_should_behave_like "commands executed from a file", false
           end
         end
@@ -64,7 +64,7 @@ describe CLI do
         extended_invalid_test_commands.each do |data|
           context "in extended mode" do
             let(:input) { data[:input] }
-            let(:expected_output) { data[:output] }
+            let(:expected_output) { data[:output].join }
             it_should_behave_like "commands executed from a file", true
           end
         end
