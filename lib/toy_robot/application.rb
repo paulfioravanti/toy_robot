@@ -18,15 +18,19 @@ module ToyRobot
     end
 
     def route(instruction)
-      if parse_instruction(instruction) && valid_robot_command?
-        initialize_world if @command == :place
-        response = @robot.send(@command, *@args)
-      else
-        response = ""
-      end
+      execute_instruction(instruction)
     end
 
     private
+
+      def execute_instruction(instruction)
+        if parse_instruction(instruction) && valid_robot_command?
+          initialize_world if @command == :place
+          response = @robot.send(@command, *@args)
+        else
+          response = ""
+        end
+      end
 
       def initialize_world
         @board ||= Board.new
