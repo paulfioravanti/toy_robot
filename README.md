@@ -20,7 +20,7 @@ Input commands manually on command line:
 
     $ bin/toy_robot
 
-Input commands through a file
+Run commands from a file:
 
     $ bin/toy_robot -f [filename]
 
@@ -28,11 +28,11 @@ Input commands through a file
 
 To enable functionality in the [Extensions](https://github.com/paulfioravanti/toy_robot#extensions), pass in the `-e` flag:
 
-Command line:
+Input commands manually on command line:
 
     $ bin/toy_robot -e
 
-From a file:
+Run commands from a file:
 
     $ bin/toy_robot -e -f [filename]
 
