@@ -23,5 +23,37 @@ describe ExtendedBoard do
     its(:occupied_spaces) { should be_empty }
   end
 
+  describe "#occupy" do
+    let(:position) { Position.new(1, 1) }
+    before { board.occupy(position) }
+    its(:occupied_spaces) { should include(position) }
+  end
+
+  describe "#release" do
+    let(:position) { Position.new(1, 1) }
+    before do
+      board.occupy(position)
+      board.release(position)
+    end
+    its(:occupied_spaces) { should_not include(position) }
+  end
+
+  describe "#space_empty?" do
+    let(:position) { Position.new(1, 1) }
+
+    before { board.occupy(position) }
+
+    context "when space is not empty" do
+      subject { board.space_empty?(position) }
+      it { should be_false }
+    end
+
+    context "when space is empty" do
+      let(:empty_position) { Position.new(2, 1) }
+      subject { board.space_empty?(empty_position) }
+      it { should be_true }
+    end
+  end
+
   # #within_boundaries? tested in Robot#place in robot_spec.rb
 end

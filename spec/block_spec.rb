@@ -34,4 +34,21 @@ describe Block do
       end
     end
   end
+
+  describe "#<=>" do
+    subject { block <=> other_block }
+    context "for lesser positioned blocks" do
+      let(:other_block) { Block.new(Position.new(1, 3)) }
+      it { should == 1 }
+    end
+
+    context "for equally positioned blocks" do
+      let(:other_block) { Block.new(Position.new(2, 3)) }
+      it { should == 0 }
+    end
+    context "for greater positioned blocks" do
+      let(:other_block) { Block.new(Position.new(3, 3)) }
+      it { should == -1 }
+    end
+  end
 end
