@@ -1,4 +1,4 @@
-def usage_standard
+def usage_message
   "Valid Commands:\n"\
   "PLACE X,Y,F eg: PLACE 0,0,NORTH\n"\
   "MOVE\n"\
@@ -6,22 +6,21 @@ def usage_standard
   "RIGHT\n"\
   "REPORT\n"\
   "EXIT\n"\
-  "-------\n"\
-  "> "
+  "-------\n"
 end
 
-def usage_extended
+def extended_usage_message
+  "*** EXTENDED MODE ***\n"\
   "Valid Commands:\n"\
   "PLACE X,Y,F eg: PLACE 0,0,NORTH\n"\
   "MOVE\n"\
   "LEFT\n"\
   "RIGHT\n"\
   "REPORT\n"\
-  "PLACE_BLOCK\n"\
-  "MAP\n"
+  "BLOCK\n"\
+  "MAP\n"\
   "EXIT\n"\
-  "-------\n"\
-  "> "
+  "-------\n"
 end
 
 def prompt

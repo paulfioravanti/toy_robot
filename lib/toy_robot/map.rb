@@ -43,7 +43,7 @@ module ToyRobot
         line_start, line_end = @x_range.first, @x_range.last
         @y_range.product(@x_range) do |y_coord, x_coord|
           @output << "#{y_coord}" if x_coord == line_start
-          @output << spacer + element_at([x_coord, y_coord])
+          @output << spacer + object_at([x_coord, y_coord])
           @output << "\n" if x_coord == line_end
         end
       end
@@ -55,7 +55,7 @@ module ToyRobot
         @output << "\n"
       end
 
-      def element_at(coordinates)
+      def object_at(coordinates)
         if coordinates == @robot.position.coordinates
           output_robot_direction
         elsif @block_coordinates.include?(coordinates)

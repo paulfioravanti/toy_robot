@@ -3,7 +3,7 @@ require 'toy_robot'
 
 describe Map do
 
-  let(:robot) { Robot.new }
+  let(:robot) { ExtendedRobot.new }
   let(:map) { Map.new(robot) }
 
   before do

@@ -1,4 +1,4 @@
-def standard_valid_test_commands
+def valid_test_commands
   [
     { # Provided example 1
       input: "PLACE 0,0,NORTH\r
@@ -68,34 +68,40 @@ def standard_valid_test_commands
     { # Extended commands are ignored;
       input: "PLACE 0,0,NORTH\r
               MOVE\r
-              PLACE_BLOCK\r
+              BLOCK\r
               MOVE\r
               MAP\r
               REPORT",
       output: ["0,2,NORTH\n"]
     }
-
   ]
 end
 
 def extended_valid_test_commands
   [
-    { # Blocked by blocks, can't progress;
-      # Attempt place on top of block and fail
-      input: "PLACE 0,0,NORTH\r
-              MOVE\r
-              PLACE_BLOCK\r
-              MOVE\r
-              PLACE 0,2,NORTH\r
-              REPORT",
-      output: ["0,1,NORTH\n"]
-    },
-
     { # Output a map
       input: "PLACE 2,2,NORTH\r
               MAP",
-      output: ["#{robot_2_2_north_map}\n"]
-    }
+      output: ["Robot placed at: 2,2,NORTH\n", "#{robot_2_2_north_map}"]
+    },
+
+    { # Blocked by blocks, can't progress;
+      # attempt place on top of block and fail
+      input: "PLACE 0,0,NORTH\r
+              MOVE\r
+              BLOCK\r
+              MOVE\r
+              PLACE 0,2,NORTH\r
+              REPORT",
+      output: [
+                 "Robot placed at: 0,0,NORTH\n",
+                 "Robot moved forward to 0,1,NORTH\n",
+                 "Block placed at 0,2\n",
+                 "Robot cannot move to 0,2\n",
+                 "Robot cannot be placed at: 0,2\n",
+                 "Robot Position: 0,1,NORTH\n"
+              ]
+    },
   ]
 end
 
@@ -115,6 +121,38 @@ def invalid_test_commands
 
     { # No commands, just a return carriage
       input: "\r",
+      output: [""]
+    }
+  ]
+end
+
+def extended_invalid_test_commands
+  [
+    { # Invalid commands, bad placing arguments, placing off board
+      input: "INVALID\r
+              FRAGGLE\r
+              PLACE A,0,NORTH\r
+              PLACE 2,2,NORTH\r
+              PLACE 0,B,NORTH\r
+              PLACE 0,0,DEATHSTAR\r
+              PLACE 5,5,SOUTH\r
+              PLACE -2,-2,WEST\r
+              REPORT\r",
+      output: [
+                "Invalid Command.\nHint: PLACE robot first.\n",
+                "Invalid Command.\nHint: PLACE robot first.\n",
+                "Invalid Command.\nHint: PLACE robot first.\n",
+                "Robot placed at: 2,2,NORTH\n",
+                "Invalid Command.\n",
+                "Invalid Command.\n",
+                "Robot cannot be placed at: 5,5\n",
+                "Robot cannot be placed at: -2,-2\n",
+                "Robot Position: 2,2,NORTH\n"
+              ]
+    },
+
+    { # No commands, just a return carriage
+      input: "\n",
       output: [""]
     }
   ]

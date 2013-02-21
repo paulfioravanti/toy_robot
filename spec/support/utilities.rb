@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 def boundaries
   [
     :@left_boundary,
@@ -17,16 +15,77 @@ def valid_cardinals
   %w(NORTH EAST SOUTH WEST)
 end
 
-def robot_2_2_north_map
-  "   0   1   2   3   4\n"\
-  "4 [ ] [ ] [ ] [ ] [ ]\n"\
-  "3 [ ] [ ] [ ] [ ] [ ]\n"\
-  "2 [ ] [ ] [Λ] [ ] [ ]\n"\
-  "1 [ ] [ ] [ ] [ ] [ ]\n"\
-  "0 [ ] [ ] [ ] [ ] [ ]\n"\
-  "Robot Position: 2,2,NORTH"
+def non_place_instructions
+  ["MOVE", "LEFT", "RIGHT", "REPORT"]
 end
 
-def robot_2_2_north_report
-  "2,2,NORTH"
+def permitted_commands
+  [
+    {
+      name: :place,
+      args_size: 3,
+      conditions: ['coordinates_numerical?', 'valid_cardinal?']
+    },
+    {
+      name: :move,
+      args_size: 0,
+      conditions: ['placed?']
+    },
+    {
+      name: :left,
+      args_size: 0,
+      conditions: ['placed?']
+    },
+    {
+      name: :right,
+      args_size: 0,
+      conditions: ['placed?']
+    },
+    {
+      name: :report,
+      args_size: 0,
+      conditions: ['placed?']
+    }
+  ]
+end
+
+def extended_permitted_commands
+  [
+    {
+      name: :place,
+      args_size: 3,
+      conditions: ['coordinates_numerical?', 'valid_cardinal?']
+    },
+    {
+      name: :move,
+      args_size: 0,
+      conditions: ['placed?']
+    },
+    {
+      name: :left,
+      args_size: 0,
+      conditions: ['placed?']
+    },
+    {
+      name: :right,
+      args_size: 0,
+      conditions: ['placed?']
+    },
+    {
+      name: :report,
+      args_size: 0,
+      conditions: ['placed?']
+    },
+
+    {
+      name: :block,
+      args_size: 0,
+      conditions: ['placed?']
+    },
+    {
+      name: :map,
+      args_size: 0,
+      conditions: ['placed?']
+    }
+  ]
 end
