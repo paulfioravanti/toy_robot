@@ -142,7 +142,7 @@ describe ExtendedApplication do
 
       context "after a valid PLACE command" do
         before { application.route("PLACE 2,2,NORTH") }
-        it { should == "Block placed at 2,3\n" }
+        it { should == "Block placed at: 2,3\n" }
       end
 
       context "when there is already a block at position" do
@@ -150,7 +150,7 @@ describe ExtendedApplication do
           application.route("PLACE 2,2,NORTH")
           application.route("BLOCK")
         end
-        it { should == "Block cannot be placed at 2,3\n" }
+        it { should == "Block cannot be placed at: 2,3\n" }
       end
     end
 

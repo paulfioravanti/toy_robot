@@ -25,3 +25,16 @@ def robot_2_2_north_map
   "0 [ ] [ ] [ ] [ ] [ ]\n"\
   "Robot Position: 2,2,NORTH\n"
 end
+
+def robot_2_2_west_map_with_4_blocks
+  "   0   1   2   3   4\n"\
+  "4 [ ] [ ] [ ] [ ] [ ]\n"\
+  "3 [ ] [ ] [X] [ ] [ ]\n"\
+  "2 [ ] [X] [<] [X] [ ]\n"\
+  "1 [ ] [ ] [X] [ ] [ ]\n"\
+  "0 [ ] [ ] [ ] [ ] [ ]\n"\
+  "Robot Position: 2,2,WEST\n"\
+  "Blocks at positions:\n"\
+  "[1, 2], [2, 1], [2, 3],\n"\
+  "[3, 2]\n"
+end

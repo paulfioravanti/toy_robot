@@ -7,20 +7,19 @@ module ToyRobot
   class Application
     include ActiveModel::Validations
 
-    attr_reader   :robot, :permitted_commands, :usage
+    attr_reader   :board, :robot, :permitted_commands, :usage
     attr_accessor :command, :args
 
-    validates :robot, presence: true
     validates :permitted_commands, presence: true
     validates :usage, presence: true
 
     def initialize
-      @robot = Robot.new
       define_rules
     end
 
     def route(instruction)
       if parse_instruction(instruction) && valid_robot_command?
+        initialize_world if @command == :place
         response = @robot.send(@command, *@args)
       else
         response = ""
@@ -28,6 +27,11 @@ module ToyRobot
     end
 
     private
+
+      def initialize_world
+        @board ||= Board.new
+        @robot ||= Robot.new(@board)
+      end
 
       def define_rules
         @permitted_commands = [
@@ -89,7 +93,7 @@ module ToyRobot
       end
 
       def placed?
-        @robot.position ? true : false
+        @robot && @robot.position ? true : false
       end
 
       def define_usage
@@ -108,23 +112,32 @@ module ToyRobot
   class ExtendedApplication < Application
 
     def initialize
-      @robot = ExtendedRobot.new
-      define_rules
+      super
       define_extended_rules
     end
 
     def route(instruction)
       return "" if instruction == "\n" || instruction == ""
-      if parse_instruction(instruction) && valid_robot_command?
-        response = @robot.send(@command, *@args)
-      else
-        response = "Invalid Command.\n"
-      end
+      response = execute_instruction(instruction)
       response << "Hint: PLACE robot first.\n" unless placed?
       response
     end
 
     private
+
+      def execute_instruction(instruction)
+        if parse_instruction(instruction) && valid_robot_command?
+          initialize_extended_world if @command == :place
+          response = @robot.send(@command, *@args)
+        else
+          response = "Invalid Command.\n"
+        end
+      end
+
+      def initialize_extended_world
+        @board ||= ExtendedBoard.new
+        @robot ||= ExtendedRobot.new(@board)
+      end
 
       def define_extended_rules
         @permitted_commands += [

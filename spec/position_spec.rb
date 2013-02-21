@@ -38,4 +38,38 @@ describe Position do
       end
     end
   end
+
+  describe "#coordinates" do
+    let(:expected_result) { [2, 3] }
+    let(:coordinates) { position.coordinates }
+    subject { coordinates }
+    it { should == expected_result }
+  end
+
+  describe "#==" do
+    let(:equal_position) { Position.new(2, 3) }
+    it { should == equal_position }
+  end
+
+  describe "#<=>" do
+    lesser_positions.each do |other_position|
+      context "for lesser positions" do
+        subject { position <=> other_position }
+        it { should == 1 }
+      end
+    end
+
+    greater_positions.each do |other_position|
+      context "for greater positions" do
+        subject { position <=> other_position }
+        it { should == -1 }
+      end
+    end
+
+    context "for equal positions" do
+      let(:equal_position) { Position.new(2, 3) }
+      subject { position <=> equal_position }
+      it { should == 0 }
+    end
+  end
 end

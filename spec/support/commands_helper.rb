@@ -79,7 +79,36 @@ end
 
 def extended_valid_test_commands
   [
-    { # Output a map
+    { # Output a map without blocks
+      input: "PLACE 2,2,NORTH\r
+              MAP",
+      output: ["Robot placed at: 2,2,NORTH\n", "#{robot_2_2_north_map}"]
+    },
+
+    { # Output a map with three blocks
+      input: "PLACE 2,2,NORTH\r
+              BLOCK\r
+              RIGHT\r
+              BLOCK\r
+              RIGHT\r
+              BLOCK\r
+              RIGHT\r
+              BLOCK\r
+              MAP",
+      output: [
+                "Robot placed at: 2,2,NORTH\n",
+                "Block placed at: 2,3\n",
+                "Robot turned right. Current direction: EAST\n",
+                "Block placed at: 3,2\n",
+                "Robot turned right. Current direction: SOUTH\n",
+                "Block placed at: 2,1\n",
+                "Robot turned right. Current direction: WEST\n",
+                "Block placed at: 1,2\n",
+                "#{robot_2_2_west_map_with_4_blocks}"
+              ]
+    },
+
+    { # Output a map full of blocks
       input: "PLACE 2,2,NORTH\r
               MAP",
       output: ["Robot placed at: 2,2,NORTH\n", "#{robot_2_2_north_map}"]
@@ -96,7 +125,7 @@ def extended_valid_test_commands
       output: [
                  "Robot placed at: 0,0,NORTH\n",
                  "Robot moved forward to 0,1,NORTH\n",
-                 "Block placed at 0,2\n",
+                 "Block placed at: 0,2\n",
                  "Robot cannot move to 0,2\n",
                  "Robot cannot be placed at: 0,2\n",
                  "Robot Position: 0,1,NORTH\n"

@@ -16,8 +16,6 @@ describe CLI do
   end
 
   shared_examples_for "commands executed from a file" do |extended|
-    subject { output }
-
     before do
       cli.stub(:options) { { extended: extended, file: default_file } }
       File.stub(:readlines).with(default_file) do
@@ -30,6 +28,8 @@ describe CLI do
 
   describe "#execute with options[:file]" do
     let(:output) { capture(:stdout) { cli.execute } }
+
+    subject { output }
 
     context "on a valid file" do
       let(:default_file) { "instructions.txt" }

@@ -14,15 +14,9 @@ shared_examples_for "an application" do
 
   describe "initial state" do
     it { should be_valid }
-    its(:robot) { should_not be_nil }
   end
 
   describe "validations" do
-    context "for robot" do
-      before { application.instance_variable_set(:@robot, nil) }
-      it { should_not be_valid }
-    end
-
     context "for permitted_commands" do
       before { application.instance_variable_set(:@permitted_commands, nil) }
       it { should_not be_valid }

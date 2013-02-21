@@ -3,12 +3,11 @@ require 'toy_robot'
 
 describe Map do
 
-  let(:robot) { ExtendedRobot.new }
-  let(:map) { Map.new(robot) }
+  let(:board) { ExtendedBoard.new }
+  let(:robot) { ExtendedRobot.new(board) }
+  let(:map)   { Map.new(robot) }
 
-  before do
-    robot.place(2, 2, "NORTH")
-  end
+  before { robot.place(2, 2, "NORTH") }
 
   subject { map }
 
@@ -22,7 +21,6 @@ describe Map do
   end
 
   describe "validations" do
-
     context "for robot" do
       context "when it is nil" do
         before { map.instance_variable_set(:@robot, nil) }
@@ -46,7 +44,6 @@ describe Map do
   end
 
   describe "map output" do
-    # Map examples in utilities.rb
     context "with only a robot" do
       context "facing NORTH" do
         let(:expected_map) { robot_north_map }

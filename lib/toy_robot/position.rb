@@ -24,5 +24,29 @@ module ToyRobot
       @x_coordinate == other_position.x_coordinate &&
       @y_coordinate == other_position.y_coordinate
     end
+
+    def <=>(other_position)
+      other_x_coord = other_position.x_coordinate
+      other_y_coord = other_position.y_coordinate
+      if @x_coordinate == other_x_coord
+        compare_y_coordinate(other_y_coord)
+      elsif @x_coordinate > other_x_coord
+        1
+      else
+        -1
+      end
+    end
+
+    private
+
+      def compare_y_coordinate(other_y_coord)
+        if @y_coordinate == other_y_coord
+          0
+        elsif @y_coordinate > other_y_coord
+          1
+        else
+          -1
+        end
+      end
   end
 end

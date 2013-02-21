@@ -89,3 +89,23 @@ def extended_permitted_commands
     }
   ]
 end
+
+# In relation to Position.new(2, 3)
+def lesser_positions
+  [
+    Position.new(1, 2),
+    Position.new(1, 3),
+    Position.new(1, 4),
+    Position.new(2, 1)
+  ]
+end
+
+# In relation to Position.new(2, 3)
+def greater_positions
+  [
+    Position.new(2, 4),
+    Position.new(3, 1),
+    Position.new(3, 3),
+    Position.new(3, 4)
+  ]
+end

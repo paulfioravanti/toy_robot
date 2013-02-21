@@ -5,7 +5,8 @@ require 'toy_robot'
 
 describe ExtendedRobot do
 
-  let(:robot) { ExtendedRobot.new }
+  let(:board) { ExtendedBoard.new }
+  let(:robot) { ExtendedRobot.new(board) }
 
   subject { robot }
 
