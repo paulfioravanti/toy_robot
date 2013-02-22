@@ -2,6 +2,7 @@ require 'thor'
 
 $LOAD_PATH << File.join(File.dirname(__FILE__), "..", "toy_robot")
 require 'application'
+require 'extended_application'
 
 module ToyRobot
   # Command line interface for the toy Robot

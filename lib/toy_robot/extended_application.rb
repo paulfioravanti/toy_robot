@@ -1,6 +1,7 @@
 require 'active_model'
 
-require 'robot'
+require 'extended_board'
+require 'extended_robot'
 
 module ToyRobot
   # Main application class for extended Toy Robot app
