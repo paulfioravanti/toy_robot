@@ -1,5 +1,7 @@
 $LOAD_PATH << File.join(File.dirname(__FILE__), "toy_robot")
 require 'version'
+require 'application'
+require 'extended_application'
 require 'robot'
 require 'position'
 require 'block'
