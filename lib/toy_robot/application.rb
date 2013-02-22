@@ -21,9 +21,7 @@ module ToyRobot
 
     def route(instruction)
       if parse_instruction(instruction) && valid_robot_command?
-        if !@board && @command == :place
-          initialize_world
-        end
+        initialize_world if !@board && @command == :place
         response = @robot.send(@command, *@args)
       else
         response = ""
