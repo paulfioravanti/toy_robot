@@ -125,7 +125,7 @@ The BLOCK command puts a block on the square in front of the robot.  The Robot c
 
 ### Visual Map of Board
 
-The MAP command shows a visual map of the board, showing the position and direction of the robot (Λ > V <), as well as the locations of all blocks (X) and a standard report.  For example:
+The MAP command shows a visual map of the board, showing the position and direction of the robot (Λ > V <), as well as the locations of all blocks (X).  For example:
 
        0   1   2   3   4
     4 [ ] [ ] [ ] [ ] [ ]
@@ -134,6 +134,8 @@ The MAP command shows a visual map of the board, showing the position and direct
     1 [X] [ ] [ ] [ ] [ ]
     0 [ ] [ ] [ ] [ ] [X]
     Robot Position: 2,2,NORTH
+    Blocks at positions:
+    [0, 1], [1, 3], [4, 0]
 
 ## Copyright
 
