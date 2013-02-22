@@ -20,21 +20,17 @@ module ToyRobot
     end
 
     def route(instruction)
-      execute_instruction(instruction)
+      if parse_instruction(instruction) && valid_robot_command?
+        if !@board && @command == :place
+          initialize_world
+        end
+        response = @robot.send(@command, *@args)
+      else
+        response = ""
+      end
     end
 
     private
-
-      def execute_instruction(instruction)
-        if parse_instruction(instruction) && valid_robot_command?
-          if !@board && @command == :place
-            initialize_world
-          end
-          response = @robot.send(@command, *@args)
-        else
-          response = ""
-        end
-      end
 
       def initialize_world
         unless self.class.name.include?("Extended")
