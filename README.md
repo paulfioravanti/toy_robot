@@ -6,8 +6,6 @@ A simulation of a toy robot moving on a square tabletop, of dimensions 5 units x
 
 All code is written in pure Ruby, with some help from [ActiveModel::Validations](http://api.rubyonrails.org/classes/ActiveModel/Validations.html) for model validation checks, and [Thor](https://github.com/wycats/thor) for the command-line interface. 
 
-If you find this repo useful, please help me level-up on [Coderwall](http://coderwall.com/) with an [![endorse](http://api.coderwall.com/pfioravanti/endorse.png)](http://coderwall.com/pfioravanti)
-
 ## Installation
 
 Install
@@ -142,3 +140,5 @@ The MAP command shows a visual map of the board, showing the position and direct
 Copyright (c) 2012 Paul Fioravanti
 
 See [LICENSE.txt](https://github.com/paulfioravanti/toy_robot/blob/master/LICENSE.txt)  for details.
+
+If you find this repo useful, please help me level-up on [Coderwall](http://coderwall.com/) with an [![endorse](http://api.coderwall.com/pfioravanti/endorse.png)](http://coderwall.com/pfioravanti)
