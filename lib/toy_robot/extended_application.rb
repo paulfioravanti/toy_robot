@@ -14,26 +14,13 @@ module ToyRobot
 
     def route(instruction)
       return "" if instruction == "\n" || instruction == ""
-      response = execute_instruction(instruction)
+      response = super
+      response = "Invalid Command.\n" if response == ""
       response << "Hint: PLACE robot first.\n" unless placed?
       response
     end
 
     private
-
-      def execute_instruction(instruction)
-        if parse_instruction(instruction) && valid_robot_command?
-          initialize_extended_world if @command == :place
-          response = @robot.send(@command, *@args)
-        else
-          response = "Invalid Command.\n"
-        end
-      end
-
-      def initialize_extended_world
-        @board ||= ExtendedBoard.new
-        @robot ||= ExtendedRobot.new(@board)
-      end
 
       def define_extended_rules
         @permitted_commands += [

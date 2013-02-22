@@ -9,6 +9,7 @@ module ToyRobot
     include ActiveModel::Validations
 
     attr_reader   :board, :robot, :permitted_commands, :usage
+    attr_reader   :robot_class, :board_class
     attr_accessor :command, :args
 
     validates :permitted_commands, presence: true
@@ -26,7 +27,9 @@ module ToyRobot
 
       def execute_instruction(instruction)
         if parse_instruction(instruction) && valid_robot_command?
-          initialize_world if @command == :place
+          if !@board && @command == :place
+            initialize_world
+          end
           response = @robot.send(@command, *@args)
         else
           response = ""
@@ -34,8 +37,13 @@ module ToyRobot
       end
 
       def initialize_world
-        @board ||= Board.new
-        @robot ||= Robot.new(@board)
+        unless self.class.name.include?("Extended")
+          @board ||= Board.new
+          @robot ||= Robot.new(@board)
+        else
+          @board ||= ExtendedBoard.new
+          @robot ||= ExtendedRobot.new(@board)
+        end
       end
 
       def define_rules
