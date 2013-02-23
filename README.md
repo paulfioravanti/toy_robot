@@ -2,7 +2,7 @@
 
 ## Description
 
-A simulation of a toy robot moving on a square tabletop, of dimensions 5 units x 5 units.  See [Specification](https://github.com/paulfioravanti/toy_robot#specification) below for details.
+A simulation of a toy robot moving on a square tabletop, of dimensions 5 units x 5 units.  See [Specification](#specification) below for details.
 
 All code is written in pure Ruby, with some help from [ActiveModel::Validations](http://api.rubyonrails.org/classes/ActiveModel/Validations.html) for model validation checks, and [Thor](https://github.com/wycats/thor) for the command-line interface. 
 
@@ -24,7 +24,7 @@ Run commands from a file:
 
 ### Extended mode
 
-To enable functionality in the [Extensions](https://github.com/paulfioravanti/toy_robot#extensions), pass in the `-e` flag:
+To enable functionality in the [Extensions](#extensions), pass in the `-e` flag:
 
 Input commands manually on command line:
 
@@ -135,10 +135,16 @@ The MAP command shows a visual map of the board, showing the position and direct
     Blocks at positions:
     [0, 1], [1, 3], [4, 0]
 
+## Social
+
+<a href="http://stackoverflow.com/users/567863/paul-fioravanti">
+<img src="http://stackoverflow.com/users/flair/567863.png?theme=clean" width="208" height="58" alt="profile for Paul Fioravanti at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for Paul Fioravanti at Stack Overflow, Q&amp;A for professional and enthusiast programmers">
+</a>
+
+[![endorse](http://api.coderwall.com/pfioravanti/endorse.png)](http://coderwall.com/pfioravanti)
+
 ## Copyright
 
 Copyright (c) 2012 Paul Fioravanti
 
-See [LICENSE.txt](https://github.com/paulfioravanti/toy_robot/blob/master/LICENSE.txt)  for details.
-
-If you find this repo useful, please help me level-up on [Coderwall](http://coderwall.com/) with an [![endorse](http://api.coderwall.com/pfioravanti/endorse.png)](http://coderwall.com/pfioravanti)
+See [LICENSE.txt](./LICENSE.txt)  for details.
