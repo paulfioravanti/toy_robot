@@ -138,13 +138,13 @@ The MAP command shows a visual map of the board, showing the position and direct
 ## Social
 
 <a href="http://stackoverflow.com/users/567863/paul-fioravanti">
-<img src="http://stackoverflow.com/users/flair/567863.png?theme=clean" width="208" height="58" alt="profile for Paul Fioravanti at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for Paul Fioravanti at Stack Overflow, Q&amp;A for professional and enthusiast programmers">
+  <img src="http://stackoverflow.com/users/flair/567863.png" width="208" height="58" alt="profile for Paul Fioravanti at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for Paul Fioravanti at Stack Overflow, Q&amp;A for professional and enthusiast programmers">
 </a>
 
 [![endorse](http://api.coderwall.com/pfioravanti/endorse.png)](http://coderwall.com/pfioravanti)
 
-## Copyright
+#### Copyright
 
-Copyright (c) 2012 Paul Fioravanti
+Copyright (c) 2013 Paul Fioravanti
 
-See [LICENSE.txt](./LICENSE.txt)  for details.
+See [MIT LICENSE](./LICENSE.txt)  for details.
