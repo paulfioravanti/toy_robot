@@ -15,7 +15,7 @@ module ToyRobot
     end
 
     def route(instruction)
-      return "" if instruction == "\n" || instruction == ""
+      return "" if instruction.rstrip.empty? # blank string
       @response = super
       process_response
     end
@@ -42,7 +42,7 @@ module ToyRobot
       end
 
       def process_response
-        @response << "Invalid Command.\n" if response.empty?
+        @response << "Invalid Command.\n" if @response.empty?
         @response << "Hint: PLACE robot first.\n" unless placed?
         @response
       end
