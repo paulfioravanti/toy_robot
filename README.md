@@ -117,6 +117,14 @@ It is not required to provide any graphical output showing the movement of the t
 
 ## Extensions
 
+### Help
+
+The HELP command prints out the usage message to the console.
+
+### Spin 180°
+
+The SPIN command 'spins' the robot 180°, effectively performing two turns at once, to face in the opposite direction.
+
 ### Placing Blocks
 
 The BLOCK command puts a block on the square in front of the robot.  The Robot cannot pass through any blocks.  Any attempts to move through a block, be placed on a block, or place a block on a block are ignored.
@@ -134,10 +142,6 @@ The MAP command shows a visual map of the board, showing the position and direct
     Robot Position: 2,2,NORTH
     Blocks at positions:
     [0, 1], [1, 3], [4, 0]
-
-### Help
-
-The HELP command prints out the usage message to the console.
 
 - - -
 
