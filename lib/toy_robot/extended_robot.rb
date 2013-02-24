@@ -68,10 +68,13 @@ module ToyRobot
         super && @board.space_empty?(position)
       end
 
-      def update_position(position, cardinal)
-        @board.release(@position) if @position
-        @board.occupy(position)
-        @position, @cardinal_direction = position, cardinal
+      def update_position(new_position, new_cardinal)
+        if @position
+          @board.change_position(@position, new_position)
+        else
+          @board.occupy(new_position)
+        end
+        @position, @cardinal_direction = new_position, new_cardinal
       end
 
       def block_positions

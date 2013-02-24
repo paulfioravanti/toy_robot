@@ -15,7 +15,7 @@ describe ExtendedBoard do
 
   specify "instance methods" do
     should respond_to(:occupy).with(1).argument
-    should respond_to(:release).with(1).argument
+    should respond_to(:change_position).with(2).arguments
     should respond_to(:space_empty?).with(1).argument
   end
 
@@ -29,13 +29,19 @@ describe ExtendedBoard do
     its(:occupied_spaces) { should include(position) }
   end
 
-  describe "#release" do
+  describe "#change_position" do
     let(:position) { Position.new(1, 1) }
+    let(:new_position) { Position.new(2, 2) }
+
     before do
       board.occupy(position)
-      board.release(position)
+      board.change_position(position, new_position)
     end
-    its(:occupied_spaces) { should_not include(position) }
+
+    its(:occupied_spaces) do
+      should_not include(position)
+      should include(new_position)
+    end
   end
 
   describe "#space_empty?" do
