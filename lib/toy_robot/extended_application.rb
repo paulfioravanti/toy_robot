@@ -7,6 +7,8 @@ module ToyRobot
   # Main application class for extended Toy Robot app
   class ExtendedApplication < Application
 
+    attr_accessor :response
+
     def initialize
       super
       define_extended_rules
@@ -14,10 +16,8 @@ module ToyRobot
 
     def route(instruction)
       return "" if instruction == "\n" || instruction == ""
-      response = super
-      response = "Invalid Command.\n" if response == ""
-      response << "Hint: PLACE robot first.\n" unless placed?
-      response
+      @response = super
+      process_response
     end
 
     private
@@ -39,6 +39,12 @@ module ToyRobot
         @usage.insert(93, "BLOCK\n"\
                           "MAP\n"\
                           "HELP\n")
+      end
+
+      def process_response
+        @response << "Invalid Command.\n" if response.empty?
+        @response << "Hint: PLACE robot first.\n" unless placed?
+        @response
       end
   end
 end
