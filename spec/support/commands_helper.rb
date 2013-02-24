@@ -123,14 +123,25 @@ def extended_valid_test_commands
               PLACE 0,2,NORTH\r
               REPORT",
       output: [
-                 "Robot placed at: 0,0,NORTH\n",
-                 "Robot moved forward to 0,1,NORTH\n",
-                 "Block placed at: 0,2\n",
-                 "Robot cannot move to 0,2\n",
-                 "Robot cannot be placed at: 0,2\n",
-                 "Robot Position: 0,1,NORTH\n"
+                "Robot placed at: 0,0,NORTH\n",
+                "Robot moved forward to 0,1,NORTH\n",
+                "Block placed at: 0,2\n",
+                "Robot cannot move to 0,2\n",
+                "Robot cannot be placed at: 0,2\n",
+                "Robot Position: 0,1,NORTH\n"
               ]
     },
+
+    { # Turn 180 degrees
+      input: "PLACE 2,2,NORTH\r
+              SPIN\r
+              REPORT",
+      output: [
+                "Robot placed at: 2,2,NORTH\n",
+                "Robot spun around. Current direction: SOUTH\n",
+                "Robot Position: 2,2,SOUTH\n"
+              ]
+    }
   ]
 end
 

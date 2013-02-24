@@ -46,6 +46,12 @@ module ToyRobot
       "Robot turned right. Current direction: #{@cardinal_direction}\n"
     end
 
+    def spin
+      index = VALID_CARDINALS.index(@cardinal_direction)
+      @cardinal_direction = VALID_CARDINALS.rotate(2)[index]
+      "Robot spun around. Current direction: #{@cardinal_direction}\n"
+    end
+
     def report
       "Robot Position: #{robot_position}\n"
     end

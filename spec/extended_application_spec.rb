@@ -120,6 +120,19 @@ describe ExtendedApplication do
       end
     end
 
+    context "when SPIN command issued" do
+      let(:instruction) { "SPIN" }
+
+      context "before a valid PLACE command" do
+        it { should == pre_place_invalid_response }
+      end
+
+      context "after a valid PLACE command" do
+        before { application.route("PLACE 2,2,NORTH") }
+        it { should == "Robot spun around. Current direction: SOUTH\n" }
+      end
+    end
+
     context "when REPORT command issued" do
       let(:instruction) { "REPORT" }
 

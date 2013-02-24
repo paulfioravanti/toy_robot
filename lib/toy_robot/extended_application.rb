@@ -26,6 +26,11 @@ module ToyRobot
       def define_extended_rules
         @permitted_commands += [
           {
+            name: :spin,
+            args_size: 0,
+            conditions: ['placed?']
+          },
+          {
             name: :block,
             args_size: 0,
             conditions: ['placed?']
@@ -37,7 +42,8 @@ module ToyRobot
           }
         ]
         @usage.insert(0,  "*** EXTENDED MODE ***\n")
-        @usage.insert(93, "BLOCK\n"\
+        @usage.insert(93, "SPIN\n"\
+                          "BLOCK\n"\
                           "MAP\n"\
                           "HELP\n")
       end

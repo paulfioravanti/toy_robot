@@ -24,6 +24,41 @@ describe ExtendedRobot do
     end
   end
 
+  describe "#spin" do
+    context "before a #place" do
+      let(:expected_position) { nil }
+      let(:expected_cardinal) { nil }
+
+      before do
+        robot.stub(:spin) { false }
+        robot.spin
+      end
+
+      it_should_behave_like "a robot at time of placement"
+    end
+
+    context "after a #place" do
+      let(:direction) { robot.cardinal_direction }
+
+      before { robot.place(2, 2, "NORTH") }
+
+      subject { direction }
+
+      valid_cardinals.each_with_index do |direction, index|
+        context "then #spin from #{direction}" do
+          let(:spins) { valid_cardinals.rotate(2) }
+
+          before do
+            robot.cardinal_direction = direction
+            robot.spin
+          end
+
+          it { should == spins[index] }
+        end
+      end
+    end
+  end
+
   describe "#move" do
     context "when there is a block in the way" do
       # Expect no coordinate change from original placement of 2, 2

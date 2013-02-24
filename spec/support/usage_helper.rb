@@ -17,6 +17,7 @@ def extended_usage_message
   "LEFT\n"\
   "RIGHT\n"\
   "REPORT\n"\
+  "SPIN\n"\
   "BLOCK\n"\
   "MAP\n"\
   "HELP\n"\

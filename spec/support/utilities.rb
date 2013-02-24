@@ -78,6 +78,11 @@ def extended_permitted_commands
     },
 
     {
+      name: :spin,
+      args_size: 0,
+      conditions: ['placed?']
+    },
+    {
       name: :block,
       args_size: 0,
       conditions: ['placed?']
