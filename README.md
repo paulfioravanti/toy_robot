@@ -8,7 +8,7 @@ All code is written in pure Ruby, with some help from [ActiveModel::Validations]
 
 ## Installation
 
-Install
+Install gem dependencies with Bundle:
 
     $ bundle install
 
@@ -134,6 +134,10 @@ The MAP command shows a visual map of the board, showing the position and direct
     Robot Position: 2,2,NORTH
     Blocks at positions:
     [0, 1], [1, 3], [4, 0]
+
+### Help
+
+The HELP command prints out the usage message to the console.
 
 ## Social
 
