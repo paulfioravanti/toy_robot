@@ -24,7 +24,7 @@ module ToyRobot
         initialize_world if !@board && @command == :place
         @robot.send(@command, *@args)
       else
-        ""
+        instruction.clear
       end
     end
 
