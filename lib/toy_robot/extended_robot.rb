@@ -18,7 +18,7 @@ module ToyRobot
     def place(x_pos, y_pos, cardinal)
       new_position = Position.new(x_pos.to_i, y_pos.to_i)
       cardinal = cardinal.upcase
-      if placeable?(new_position) || (@position && @position == new_position)
+      if placeable?(new_position) || @position == new_position
         update_placement(new_position, cardinal)
         "Robot placed at: #{robot_position}\n"
       else
