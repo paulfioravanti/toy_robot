@@ -156,7 +156,6 @@ describe CLI do
         context "in standard mode" do
           let(:commands) { StringIO.new(data[:input]).map { |a| a.strip } }
           let(:expected_output) { data[:output] }
-
           it_should_behave_like "commands executed from the command line", false
         end
       end
@@ -165,7 +164,6 @@ describe CLI do
         context "in extended mode" do
           let(:commands) { StringIO.new(data[:input]).map { |a| a.strip } }
           let(:expected_output) { data[:output] }
-
           it_should_behave_like "commands executed from the command line", true
         end
       end

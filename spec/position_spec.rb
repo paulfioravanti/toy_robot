@@ -23,15 +23,15 @@ describe Position do
 
   describe "validations" do
     context "for x_coordinate, y_coordinate" do
-      context "when they are not integers" do
-        position_values.each do |coordinate|
+      position_values.each do |coordinate|
+        context "when #{coordinate} is not an integer" do
           before { position.instance_variable_set(coordinate, "invalid") }
           it { should_not be_valid }
         end
       end
 
-      context "when they are nil" do
-        position_values.each do |coordinate|
+      position_values.each do |coordinate|
+        context "when #{coordinate} is nil" do
           before { position.instance_variable_set(coordinate, nil) }
           it { should_not be_valid }
         end
@@ -42,7 +42,9 @@ describe Position do
   describe "#coordinates" do
     let(:expected_result) { [2, 3] }
     let(:coordinates) { position.coordinates }
+
     subject { coordinates }
+
     it { should == expected_result }
   end
 
@@ -53,14 +55,14 @@ describe Position do
 
   describe "#<=>" do
     lesser_positions.each do |other_position|
-      context "for lesser positions" do
+      context "for lesser position of #{other_position}" do
         subject { position <=> other_position }
         it { should == 1 }
       end
     end
 
     greater_positions.each do |other_position|
-      context "for greater positions" do
+      context "for greater positions of #{other_position}" do
         subject { position <=> other_position }
         it { should == -1 }
       end

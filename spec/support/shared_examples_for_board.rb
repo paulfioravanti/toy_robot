@@ -21,15 +21,15 @@ shared_examples_for "a board" do
 
   describe "validations" do
     context "for boundaries" do
-      context "when they are not integers" do
-        boundaries.each do |boundary|
+      boundaries.each do |boundary|
+        context "when #{boundary} is not an integer" do
           before { board.instance_variable_set(boundary, "invalid") }
           it { should_not be_valid }
         end
       end
 
-      context "when they are not present" do
-        boundaries.each do |boundary|
+      boundaries.each do |boundary|
+        context "when #{boundary} is not present" do
           before { board.instance_variable_set(boundary, nil) }
           it { should_not be_valid }
         end

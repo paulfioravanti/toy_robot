@@ -43,9 +43,7 @@ shared_examples_for "a robot" do
     end
     let(:expected_cardinal) { "NORTH" }
 
-    before do
-      robot.place(2, 2, "NORTH")
-    end
+    before { robot.place(2, 2, "NORTH") }
 
     context "with a valid position and direction" do
       it_should_behave_like "a robot at time of placement"
@@ -56,9 +54,7 @@ shared_examples_for "a robot" do
         end
         let(:expected_cardinal) { "SOUTH" }
 
-        before do
-          robot.place(3, 3, "SOUTH")
-        end
+        before { robot.place(3, 3, "SOUTH") }
 
         it_should_behave_like "a robot at time of placement"
       end
@@ -68,36 +64,24 @@ shared_examples_for "a robot" do
       # Expect no change from original placement of 2, 2, "NORTH"
       context "too far on the x axis" do
         context "to the east" do
-          before do
-            robot.place(5, 2, "NORTH")
-          end
-
+          before { robot.place(5, 2, "NORTH") }
           it_should_behave_like "a robot at time of placement"
         end
 
         context "to the west" do
-          before do
-            robot.place(-1, 2, "NORTH")
-          end
-
+          before { robot.place(-1, 2, "NORTH") }
           it_should_behave_like "a robot at time of placement"
         end
       end
 
       context "too far on the y axis" do
         context "to the north" do
-          before do
-            robot.place(2, 5, "NORTH")
-          end
-
+          before { robot.place(2, 5, "NORTH") }
           it_should_behave_like "a robot at time of placement"
         end
 
         context "to the south" do
-          before do
-            robot.place(2, -1, "NORTH")
-          end
-
+          before { robot.place(2, -1, "NORTH") }
           it_should_behave_like "a robot at time of placement"
         end
       end
@@ -255,7 +239,7 @@ shared_examples_for "a robot" do
       subject { direction }
 
       valid_cardinals.each_with_index do |direction, index|
-        context "then #left" do
+        context "then #left turning #{direction}" do
           let(:left_turns) { valid_cardinals.rotate(-1) }
 
           before do
@@ -266,7 +250,7 @@ shared_examples_for "a robot" do
           it { should == left_turns[index] }
         end
 
-        context "then #right" do
+        context "then #right turning #{direction}" do
           let(:right_turns) { valid_cardinals.rotate }
 
           before do

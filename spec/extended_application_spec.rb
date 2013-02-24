@@ -61,8 +61,8 @@ describe ExtendedApplication do
           let(:instruction) { "PLACE -2,-2,NORTH" }
 
           specify do
-           response.should == "Robot cannot be placed at: -2,-2\n"\
-                              "Hint: PLACE robot first.\n"
+            response.should == "Robot cannot be placed at: -2,-2\n"\
+                               "Hint: PLACE robot first.\n"
           end
         end
 
@@ -150,6 +150,7 @@ describe ExtendedApplication do
           application.route("PLACE 2,2,NORTH")
           application.route("BLOCK")
         end
+
         it { should == "Block cannot be placed at: 2,3\n" }
       end
     end

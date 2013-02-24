@@ -114,7 +114,6 @@ describe ExtendedRobot do
 
   describe "#block" do
     context "before a #place" do
-
       before do
         robot.stub(:block) { false }
         robot.block
@@ -124,7 +123,6 @@ describe ExtendedRobot do
     end
 
     context "in a valid position" do
-
       before do
         robot.place(2, 2, "NORTH")
         robot.block
@@ -188,7 +186,6 @@ describe ExtendedRobot do
 
     context "in an invalid position" do
       context "over board boundaries" do
-
         before do
           robot.place(2, 4, "NORTH")
           robot.block
@@ -198,7 +195,6 @@ describe ExtendedRobot do
       end
 
       context "where a block already exists" do
-
         before do
           robot.place(2, 2, "NORTH")
           2.times { robot.block }
