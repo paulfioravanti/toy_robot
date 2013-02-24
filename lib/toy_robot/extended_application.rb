@@ -37,7 +37,8 @@ module ToyRobot
         ]
         @usage.insert(0,  "*** EXTENDED MODE ***\n")
         @usage.insert(93, "BLOCK\n"\
-                          "MAP\n")
+                          "MAP\n"\
+                          "HELP\n")
       end
   end
 end

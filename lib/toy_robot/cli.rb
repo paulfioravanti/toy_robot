@@ -35,6 +35,8 @@ module ToyRobot
         if filename = options[:file]
           read_from_file(filename, &instruction)
         else
+          print "#{@application.usage}> "
+          ARGV.delete('-e')
           read_from_command_line(&instruction)
         end
       end
@@ -50,11 +52,15 @@ module ToyRobot
       end
 
       def read_from_command_line(&instruction)
-        print "#{@application.usage}> "
-        ARGV.delete('-e')
         while line = gets
-          break if line =~ /EXIT/i
-          yield line
+          case line
+          when /EXIT/i
+            break
+          when /HELP/i
+            print "#{@application.usage}" and next if options[:extended]
+          else
+            yield line
+          end
           print "> "
         end
       end

@@ -19,6 +19,7 @@ def extended_usage_message
   "REPORT\n"\
   "BLOCK\n"\
   "MAP\n"\
+  "HELP\n"\
   "EXIT\n"\
   "-------\n"
 end

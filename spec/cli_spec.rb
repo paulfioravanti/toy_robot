@@ -102,30 +102,38 @@ describe CLI do
     let(:output) { capture(:stdout) { cli.execute } }
 
     describe "initial output" do
+      before { cli.stub(:gets) { "EXIT" } }
+
       context "in standard mode" do
-        before do
-          cli.stub(:options) { { extended: false } }
-          cli.stub(:gets) { "EXIT" }
-        end
-
+        before { cli.stub(:options) { { extended: false } } }
         subject { output }
-
         it { should == usage_message << prompt }
       end
 
       context "in extended mode" do
-        before do
-          cli.stub(:options) { { extended: true } }
-          cli.stub(:gets) { "EXIT" }
-        end
-
+        before { cli.stub(:options) { { extended: true } } }
         subject { output }
-
         it { should == extended_usage_message << prompt }
       end
     end
 
-    context "with valid commands" do
+    describe "HELP command" do
+      before { cli.stub(:gets).and_return("HELP", "EXIT") }
+
+      context "in standard mode" do
+        before { cli.stub(:options) { { extended: false } } }
+        subject { output }
+        it { should == usage_message << prompt << prompt }
+      end
+
+      context "in extended mode" do
+        before { cli.stub(:options) { { extended: true } } }
+        subject { output }
+        it { should == (extended_usage_message << prompt) * 2 }
+      end
+    end
+
+    context "with robot valid commands" do
       valid_test_commands.each do |data|
         context "in standard mode" do
           let(:commands) { StringIO.new(data[:input]).map { |a| a.strip } }
