@@ -19,7 +19,7 @@ module ToyRobot
       new_position = Position.new(x_pos.to_i, y_pos.to_i)
       cardinal = cardinal.upcase
       if placeable?(new_position) || (@position && @position == new_position)
-        update_position(new_position, cardinal)
+        update_placement(new_position, cardinal)
         "Robot placed at: #{robot_position}\n"
       else
         "Robot cannot be placed at: #{new_position.coordinates.join(',')}\n"
@@ -29,7 +29,7 @@ module ToyRobot
     def move
       new_position = forward_position
       if placeable?(new_position)
-        update_position(new_position, @cardinal_direction)
+        update_position(new_position)
         "Robot moved forward to #{robot_position}\n"
       else
         "Robot cannot move to #{new_position.coordinates.join(',')}\n"
@@ -68,13 +68,18 @@ module ToyRobot
         super && @board.space_empty?(position)
       end
 
-      def update_position(new_position, new_cardinal)
+      def update_position(new_position)
         if @position
           @board.change_position(@position, new_position)
         else
           @board.occupy(new_position)
         end
-        @position, @cardinal_direction = new_position, new_cardinal
+        @position = new_position
+      end
+
+      def update_placement(new_position, cardinal)
+        update_position(new_position)
+        @cardinal_direction = cardinal
       end
 
       def block_positions
