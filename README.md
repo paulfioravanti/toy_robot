@@ -139,6 +139,8 @@ The MAP command shows a visual map of the board, showing the position and direct
 
 The HELP command prints out the usage message to the console.
 
+- - -
+
 ## Social
 
 <a href="http://stackoverflow.com/users/567863/paul-fioravanti">
