@@ -15,7 +15,7 @@ module ToyRobot
     end
 
     def route(instruction)
-      # return a blank string if instruction is blank or "\n"
+      # return a blank string if instruction is carriage return
       return instruction.clear if instruction.rstrip.empty?
       @response = super
       process_response
