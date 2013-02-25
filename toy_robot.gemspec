@@ -17,11 +17,11 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ['lib']
 
-  gem.add_development_dependency 'bundler', '~> 1.2'
+  gem.add_development_dependency 'bundler', '~> 1.3.0.pre.8'
   gem.add_development_dependency 'rake', '~> 10.0'
   gem.add_development_dependency 'rspec', '~> 2.13'
   gem.add_development_dependency 'rubygems-tasks', '~> 0.2'
-  gem.add_development_dependency 'yard', '~> 0.8.3'
+  gem.add_development_dependency 'yard', '~> 0.8.5'
   gem.add_development_dependency 'thor', '~> 0.17'
   gem.add_development_dependency 'activemodel', '~> 3.2'
 end
