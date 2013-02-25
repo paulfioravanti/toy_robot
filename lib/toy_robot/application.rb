@@ -9,8 +9,7 @@ module ToyRobot
     include ActiveModel::Validations
 
     attr_reader   :board, :robot, :permitted_commands, :usage
-    attr_reader   :robot_class, :board_class
-    attr_accessor :command, :args
+    attr_accessor :command, :args, :args_size, :properties
 
     validates :permitted_commands, presence: true
     validates :usage, presence: true
@@ -31,64 +30,68 @@ module ToyRobot
     private
 
       def initialize_world
-        unless self.class.name.include?("Extended")
-          @board ||= Board.new
-          @robot ||= Robot.new(@board)
-        else
-          @board ||= ExtendedBoard.new
-          @robot ||= ExtendedRobot.new(@board)
-        end
+        @board ||= Board.new
+        @robot ||= Robot.new(@board)
       end
 
       def define_rules
-        @permitted_commands = [
-          {
-            name: :place,
+        @permitted_commands = {
+          place: {
             args_size: 3,
             conditions: ['coordinates_numerical?', 'valid_cardinal?']
           },
-          {
-            name: :move,
+          move: {
             args_size: 0,
             conditions: ['placed?']
           },
-          {
-            name: :left,
+          left: {
             args_size: 0,
             conditions: ['placed?']
           },
-          {
-            name: :right,
+          right: {
             args_size: 0,
             conditions: ['placed?']
           },
-          {
-            name: :report,
+          report: {
             args_size: 0,
             conditions: ['placed?']
           }
-        ]
+        }
         @usage = define_usage
       end
 
       def parse_instruction(instruction)
         @args = instruction.scan(/-?\w+/)
         command = @args.shift
+        @args_size = @args.size
         @command = command.downcase.to_sym if command
       end
 
       def valid_robot_command?
-        robot_command = @permitted_commands.find do |command|
-          command[:name] == @command &&
-          command[:args_size] == @args.size
-        end
-        if robot_command
-          robot_command[:conditions].each do |condition|
-            return false unless send(condition)
-          end
+        permitted_command? &&
+        valid_arg_size? &&
+        passes_conditions?
+      end
+
+      def permitted_command?
+        @properties = @permitted_commands[@command]
+      end
+
+      def valid_arg_size?
+        args_size = @properties[:args_size]
+        if args_size.is_a?(Range)
+          args_size.member?(@args_size)
         else
-          false
+          args_size == @args_size
         end
+      end
+
+      def passes_conditions?
+        conditions = @properties[:conditions]
+        conditions.each do |condition|
+          return false unless send(condition)
+        end
+        true
       end
 
       def coordinates_numerical?

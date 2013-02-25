@@ -2,7 +2,7 @@ require 'active_model'
 
 require 'position'
 require 'block'
-require 'map'
+require 'robot_map'
 
 module ToyRobot
 # A Toy Robot that moves around a Board, with extra functionality
@@ -62,7 +62,7 @@ module ToyRobot
     end
 
     def map
-      map = "#{Map.new(self).output}"\
+      map = "#{RobotMap.new(self).output}"\
             "Robot Position: #{robot_position}\n"
       map << "Blocks at positions:\n#{block_positions}\n" unless @blocks.empty?
       map

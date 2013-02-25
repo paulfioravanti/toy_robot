@@ -20,79 +20,65 @@ def non_place_instructions
 end
 
 def permitted_commands
-  [
-    {
-      name: :place,
+  {
+    place: {
       args_size: 3,
       conditions: ['coordinates_numerical?', 'valid_cardinal?']
     },
-    {
-      name: :move,
+    move: {
       args_size: 0,
       conditions: ['placed?']
     },
-    {
-      name: :left,
+    left: {
       args_size: 0,
       conditions: ['placed?']
     },
-    {
-      name: :right,
+    right: {
       args_size: 0,
       conditions: ['placed?']
     },
-    {
-      name: :report,
+    report: {
       args_size: 0,
       conditions: ['placed?']
     }
-  ]
+  }
 end
 
 def extended_permitted_commands
-  [
-    {
-      name: :place,
+  {
+    place: {
       args_size: 3,
       conditions: ['coordinates_numerical?', 'valid_cardinal?']
     },
-    {
-      name: :move,
+    move: {
       args_size: 0,
       conditions: ['placed?']
     },
-    {
-      name: :left,
+    left: {
       args_size: 0,
       conditions: ['placed?']
     },
-    {
-      name: :right,
+    right: {
       args_size: 0,
       conditions: ['placed?']
     },
-    {
-      name: :report,
+    report: {
       args_size: 0,
       conditions: ['placed?']
     },
-
-    {
-      name: :spin,
+    spin: {
       args_size: 0,
       conditions: ['placed?']
     },
-    {
-      name: :block,
+    block: {
       args_size: 0,
       conditions: ['placed?']
     },
-    {
-      name: :map,
-      args_size: 0,
-      conditions: ['placed?']
+    map: {
+      args_size: (0..1),
+      conditions: ['placed?', 'valid_map_type?']
     }
-  ]
+  }
 end
 
 # In relation to Position.new(2, 3)

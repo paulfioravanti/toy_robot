@@ -19,7 +19,7 @@ def extended_usage_message
   "REPORT\n"\
   "SPIN\n"\
   "BLOCK\n"\
-  "MAP\n"\
+  "MAP [BOARD]\n"\
   "HELP\n"\
   "EXIT\n"\
   "-------\n"

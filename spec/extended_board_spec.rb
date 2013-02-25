@@ -10,7 +10,7 @@ describe ExtendedBoard do
   it_should_behave_like "a board"
 
   specify "model attributes" do
-    should respond_to(:occupied_spaces)
+    should respond_to(:occupied_positions)
   end
 
   specify "instance methods" do
@@ -20,13 +20,13 @@ describe ExtendedBoard do
   end
 
   describe "initial state" do
-    its(:occupied_spaces) { should be_empty }
+    its(:occupied_positions) { should be_empty }
   end
 
   describe "#occupy" do
     let(:position) { Position.new(1, 1) }
     before { board.occupy(position) }
-    its(:occupied_spaces) { should include(position) }
+    its(:occupied_positions) { should include(position) }
   end
 
   describe "#change_position" do
@@ -38,7 +38,7 @@ describe ExtendedBoard do
       board.change_position(position, new_position)
     end
 
-    its(:occupied_spaces) do
+    its(:occupied_positions) do
       should_not include(position)
       should include(new_position)
     end
@@ -58,6 +58,30 @@ describe ExtendedBoard do
       let(:empty_position) { Position.new(2, 1) }
       subject { board.space_empty?(empty_position) }
       it { should be_true }
+    end
+  end
+
+  describe "#map" do
+    let(:map) { board.map }
+
+    subject { map }
+
+    context "before a #place" do
+      let(:expected_map) { false }
+      before { board.stub(:map) { false } }
+      it { should == expected_map }
+    end
+
+    context "after a #place" do
+      let(:robot) { ExtendedRobot.new(board) }
+      let(:expected_map) { robot_2_2_north_with_block_board_map }
+
+      before do
+        robot.place(2, 2, "NORTH")
+        robot.block
+      end
+
+      it { should == expected_map }
     end
   end
 

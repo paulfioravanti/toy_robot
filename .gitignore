@@ -7,3 +7,5 @@ coverage/
 # Ignore bundler config
 /.bundle
 bundler_stubs/
+
+.DS_Store

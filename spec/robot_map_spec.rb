@@ -1,43 +1,26 @@
 require 'spec_helper'
 require 'toy_robot'
 
-describe Map do
+describe RobotMap do
 
   let(:board) { ExtendedBoard.new }
   let(:robot) { ExtendedRobot.new(board) }
-  let(:map)   { Map.new(robot) }
+  let(:map)   { RobotMap.new(robot) }
 
   before { robot.place(2, 2, "NORTH") }
 
   subject { map }
 
-  specify "model attributes" do
-    should respond_to(:robot, :x_range, :y_range)
-    should respond_to(:block_coordinates, :output)
-  end
+  it_should_behave_like "a map"
 
-  describe "initial state" do
-    it { should be_valid }
+  specify "model attributes" do
+    should respond_to(:robot, :block_coordinates)
   end
 
   describe "validations" do
     context "for robot" do
       context "when it is nil" do
         before { map.instance_variable_set(:@robot, nil) }
-        it { should_not be_valid }
-      end
-    end
-
-    context "for x_range" do
-      context "when it is nil" do
-        before { map.instance_variable_set(:@x_range, nil) }
-        it { should_not be_valid }
-      end
-    end
-
-    context "for y_range" do
-      context "when it is nil" do
-        before { map.instance_variable_set(:@y_range, nil) }
         it { should_not be_valid }
       end
     end
