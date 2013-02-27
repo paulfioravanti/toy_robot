@@ -7,7 +7,7 @@ module ToyRobot
   # Main application class for extended Toy Robot app
   class ExtendedApplication < Application
 
-    attr_accessor :response
+    attr_accessor :response, :args_size
 
     def initialize
       super
@@ -60,6 +60,16 @@ module ToyRobot
                           "BLOCK\n"\
                           "MAP [BOARD]\n"\
                           "HELP\n")
+      end
+
+      def valid_arg_size?
+        @args_size = @args.size
+        args_size = @properties[:args_size]
+        if args_size.is_a?(Range)
+          args_size.member?(@args_size)
+        else
+          args_size == @args_size
+        end
       end
 
       def process_response

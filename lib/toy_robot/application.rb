@@ -9,7 +9,7 @@ module ToyRobot
     include ActiveModel::Validations
 
     attr_reader   :board, :robot, :permitted_commands, :usage
-    attr_accessor :command, :args, :args_size, :properties
+    attr_accessor :command, :args, :properties
 
     validates :permitted_commands, presence: true
     validates :usage, presence: true
@@ -63,7 +63,6 @@ module ToyRobot
       def parse_instruction(instruction)
         @args = instruction.scan(/-?\w+/)
         command = @args.shift
-        @args_size = @args.size
         @command = command.downcase.to_sym if command
       end
 
@@ -78,12 +77,7 @@ module ToyRobot
       end
 
       def valid_arg_size?
-        args_size = @properties[:args_size]
-        if args_size.is_a?(Range)
-          args_size.member?(@args_size)
-        else
-          args_size == @args_size
-        end
+        @properties[:args_size] == @args.size
       end
 
       def passes_conditions?
