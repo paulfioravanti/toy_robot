@@ -4,7 +4,7 @@ require 'toy_robot'
 describe RobotMap do
 
   let(:board) { ExtendedBoard.new }
-  let(:robot) { ExtendedRobot.new(board) }
+  let(:robot) { ExtendedRobot.new(board, "R1") }
   let(:map)   { RobotMap.new(robot) }
 
   before { robot.place(2, 2, "NORTH") }

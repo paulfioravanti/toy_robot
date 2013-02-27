@@ -8,10 +8,11 @@ module ToyRobot
 # A Toy Robot that moves around a Board, with extra functionality
   class ExtendedRobot < Robot
 
-    attr_accessor :blocks
+    attr_accessor :blocks, :name
 
-    def initialize(board)
+    def initialize(board, name)
       super(board)
+      @name = name
       @blocks = []
     end
 
@@ -20,9 +21,10 @@ module ToyRobot
       cardinal = cardinal.upcase
       if placeable?(new_position) || @position == new_position
         update_placement(new_position, cardinal)
-        "Robot placed at: #{robot_position}\n"
+        "Robot #{@name} placed at: #{robot_position}\n"
       else
-        "Robot cannot be placed at: #{new_position.coordinates.join(',')}\n"
+        "Robot #{@name} cannot be placed at: "\
+        "#{new_position.coordinates.join(',')}\n"
       end
     end
 
@@ -30,30 +32,30 @@ module ToyRobot
       new_position = forward_position
       if placeable?(new_position)
         update_position(new_position)
-        "Robot moved forward to #{robot_position}\n"
+        "#{@name} moved forward to #{robot_position}\n"
       else
-        "Robot cannot move to #{new_position.coordinates.join(',')}\n"
+        "#{@name} cannot move to #{new_position.coordinates.join(',')}\n"
       end
     end
 
     def left
       super
-      "Robot turned left. Current direction: #{@cardinal_direction}\n"
+      "#{@name} turned left. Current direction: #{@cardinal_direction}\n"
     end
 
     def right
       super
-      "Robot turned right. Current direction: #{@cardinal_direction}\n"
+      "#{@name} turned right. Current direction: #{@cardinal_direction}\n"
     end
 
     def spin
       index = VALID_CARDINALS.index(@cardinal_direction)
       @cardinal_direction = VALID_CARDINALS.rotate(2)[index]
-      "Robot spun around. Current direction: #{@cardinal_direction}\n"
+      "#{@name} spun around. Current direction: #{@cardinal_direction}\n"
     end
 
     def report
-      "Robot Position: #{robot_position}\n"
+      "#{@name}'s Position: #{robot_position}\n"
     end
 
     def block
@@ -63,8 +65,10 @@ module ToyRobot
 
     def map
       map = "#{RobotMap.new(self).output}"\
-            "Robot Position: #{robot_position}\n"
-      map << "Blocks at positions:\n#{block_positions}\n" unless @blocks.empty?
+            "#{@name}'s Position: #{robot_position}\n"
+      unless @blocks.empty?
+        map << "#{@name}'s Blocks at Positions:\n#{block_positions}\n"
+      end
       map
     end
 
@@ -100,9 +104,9 @@ module ToyRobot
         if placeable?(position)
           @board.occupy(position)
           @blocks << Block.new(position)
-          "Block placed at: #{block_coordinates}\n"
+          "#{@name} placed Block at: #{block_coordinates}\n"
         else
-          "Block cannot be placed at: #{block_coordinates}\n"
+          "#{@name} cannot place Block at: #{block_coordinates}\n"
         end
       end
   end

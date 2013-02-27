@@ -7,7 +7,7 @@ module ToyRobot
   # Main application class for extended Toy Robot app
   class ExtendedApplication < Application
 
-    attr_accessor :response, :args_size
+    attr_accessor :response, :args_size, :robot_name
 
     def initialize
       super
@@ -17,6 +17,7 @@ module ToyRobot
     def route(instruction)
       return "" if instruction.rstrip.empty?
       if parse_instruction(instruction) && valid_robot_command?
+        extract_robot_name
         initialize_world if !@board && @command == :place
         send_command
       else
@@ -28,8 +29,16 @@ module ToyRobot
     private
 
       def initialize_world
-        @board ||= ExtendedBoard.new
-        @robot ||= ExtendedRobot.new(@board)
+        @board = ExtendedBoard.new
+        @robot = ExtendedRobot.new(@board, @robot_name)
+      end
+
+      def extract_robot_name
+        @robot_name = if @args_size == 4
+           @args.delete_at(3)
+        else
+          "R1"
+        end
       end
 
       def send_command
@@ -41,6 +50,7 @@ module ToyRobot
       end
 
       def define_extended_rules
+        @permitted_commands[:place][:args_size] = (3..4)
         @permitted_commands.merge!({
           spin: {
             args_size: 0,

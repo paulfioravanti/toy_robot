@@ -52,24 +52,64 @@ describe ExtendedApplication do
 
     context "when valid PLACE command issued" do
       context "to a placeable location" do
-        let(:instruction) { "PLACE 2,2,NORTH" }
-        it { should == "Robot placed at: 2,2,NORTH\n" }
+        context "without specifying robot's name" do
+          let(:instruction) { "PLACE 2,2,NORTH" }
+          it { should == "Robot R1 placed at: 2,2,NORTH\n" }
+        end
+
+        context "specifying robot's name" do
+          let(:instruction) { "PLACE 2,2,NORTH Kryten" }
+          it { should == "Robot Kryten placed at: 2,2,NORTH\n" }
+        end
       end
 
       context "to an unplaceable location" do
         context "before a valid PLACE command" do
-          let(:instruction) { "PLACE -2,-2,NORTH" }
+          context "without specifying robot's name" do
+            let(:instruction) { "PLACE -2,-2,NORTH" }
 
-          specify do
-            response.should == "Robot cannot be placed at: -2,-2\n"\
-                               "Hint: PLACE robot first.\n"
+            specify do
+              response.should == "Robot R1 cannot be placed at: -2,-2\n"\
+                                 "Hint: PLACE robot first.\n"
+            end
+          end
+
+          context "specifying robot's name" do
+            let(:instruction) { "PLACE -2,-2,NORTH Kryten" }
+
+            specify do
+              response.should == "Robot Kryten cannot be placed at: -2,-2\n"\
+                                 "Hint: PLACE robot first.\n"
+            end
           end
         end
 
+        # These tests need to be refactored if mutiple robots can move
+        # board
         context "after a valid PLACE command" do
-          let(:instruction) { "PLACE -2,-2,NORTH" }
-          before { application.route("PLACE 2,2,NORTH") }
-          it { should == "Robot cannot be placed at: -2,-2\n" }
+          context "without specifying robot's name" do
+            let(:instruction) { "PLACE -2,-2,NORTH" }
+            before { application.route("PLACE 2,2,NORTH") }
+            it { should == "Robot R1 cannot be placed at: -2,-2\n" }
+          end
+
+          context "specifying then not specifying robot's name" do
+            let(:instruction) { "PLACE -2,-2,NORTH" }
+            before { application.route("PLACE 2,2,NORTH Kryten") }
+            it { should == "Robot Kryten cannot be placed at: -2,-2\n" }
+          end
+
+          context "specifying robot's name" do
+            let(:instruction) { "PLACE -2,-2,NORTH Kryten" }
+            before { application.route("PLACE 2,2,NORTH Kryten") }
+            it { should == "Robot Kryten cannot be placed at: -2,-2\n" }
+          end
+
+          context "not specifying then specifying robot's name" do
+            let(:instruction) { "PLACE -2,-2,NORTH Kryten" }
+            before { application.route("PLACE 2,2,NORTH") }
+            it { should == "Robot R1 cannot be placed at: -2,-2\n" }
+          end
         end
       end
     end
@@ -84,12 +124,12 @@ describe ExtendedApplication do
       context "after a valid PLACE command" do
         context "to a movable location" do
           before { application.route("PLACE 2,2,NORTH") }
-          it { should == "Robot moved forward to 2,3,NORTH\n" }
+          it { should == "R1 moved forward to 2,3,NORTH\n" }
         end
 
         context "to an unmovable location" do
           before { application.route("PLACE 0,0,SOUTH") }
-          it { should == "Robot cannot move to 0,-1\n" }
+          it { should == "R1 cannot move to 0,-1\n" }
         end
       end
     end
@@ -103,7 +143,7 @@ describe ExtendedApplication do
 
       context "after a valid PLACE command" do
         before { application.route("PLACE 2,2,NORTH") }
-        it { should == "Robot turned left. Current direction: WEST\n" }
+        it { should == "R1 turned left. Current direction: WEST\n" }
       end
     end
 
@@ -116,7 +156,7 @@ describe ExtendedApplication do
 
       context "after a valid PLACE command" do
         before { application.route("PLACE 2,2,NORTH") }
-        it { should == "Robot turned right. Current direction: EAST\n" }
+        it { should == "R1 turned right. Current direction: EAST\n" }
       end
     end
 
@@ -129,7 +169,7 @@ describe ExtendedApplication do
 
       context "after a valid PLACE command" do
         before { application.route("PLACE 2,2,NORTH") }
-        it { should == "Robot spun around. Current direction: SOUTH\n" }
+        it { should == "R1 spun around. Current direction: SOUTH\n" }
       end
     end
 
@@ -142,7 +182,7 @@ describe ExtendedApplication do
 
       context "after a valid PLACE command" do
         before { application.route("PLACE 2,2,NORTH") }
-        it { should == extended_robot_2_2_north_report }
+        it { should == extended_robot_2_2_north_report_no_name }
       end
     end
 
@@ -155,7 +195,7 @@ describe ExtendedApplication do
 
       context "after a valid PLACE command" do
         before { application.route("PLACE 2,2,NORTH") }
-        it { should == "Block placed at: 2,3\n" }
+        it { should == "R1 placed Block at: 2,3\n" }
       end
 
       context "when there is already a block at position" do
@@ -164,7 +204,7 @@ describe ExtendedApplication do
           application.route("BLOCK")
         end
 
-        it { should == "Block cannot be placed at: 2,3\n" }
+        it { should == "R1 cannot place Block at: 2,3\n" }
       end
     end
 

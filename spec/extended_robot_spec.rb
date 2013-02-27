@@ -6,11 +6,15 @@ require 'toy_robot'
 describe ExtendedRobot do
 
   let(:board) { ExtendedBoard.new }
-  let(:robot) { ExtendedRobot.new(board) }
+  let(:robot) { ExtendedRobot.new(board, "R1") }
 
   subject { robot }
 
   it_should_behave_like "a robot"
+
+  specify "model attributes" do
+    should respond_to(:name)
+  end
 
   specify "instance methods" do
     should respond_to(:block).with(0).arguments
@@ -18,6 +22,7 @@ describe ExtendedRobot do
   end
 
   describe "initial state" do
+    its(:name) { should == "R1" }
     its(:blocks) do
       should_not be_nil
       should be_empty
@@ -123,7 +128,7 @@ describe ExtendedRobot do
     subject { report }
 
     context "after a #place" do
-      let(:expected_report) { extended_robot_2_2_north_report }
+      let(:expected_report) { extended_robot_2_2_north_report_no_name }
       before { robot.place(2, 2, "NORTH") }
       it { should == expected_report }
     end

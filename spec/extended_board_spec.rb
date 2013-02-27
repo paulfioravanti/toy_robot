@@ -73,7 +73,7 @@ describe ExtendedBoard do
     end
 
     context "after a #place" do
-      let(:robot) { ExtendedRobot.new(board) }
+      let(:robot) { ExtendedRobot.new(board, "R1") }
       let(:expected_map) { robot_2_2_north_with_block_board_map }
 
       before do

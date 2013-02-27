@@ -47,7 +47,7 @@ end
 def extended_permitted_commands
   {
     place: {
-      args_size: 3,
+      args_size: (3..4),
       conditions: ['coordinates_numerical?', 'valid_cardinal?']
     },
     move: {

@@ -82,7 +82,7 @@ def extended_valid_test_commands
     { # Output a map without blocks
       input: "PLACE 2,2,NORTH\r
               MAP",
-      output: ["Robot placed at: 2,2,NORTH\n", "#{robot_2_2_north_map}"]
+      output: ["Robot R1 placed at: 2,2,NORTH\n", "#{robot_2_2_north_map}"]
     },
 
     { # Output a map with three blocks
@@ -97,14 +97,14 @@ def extended_valid_test_commands
               MAP\r
               MAP BOARD",
       output: [
-                "Robot placed at: 2,2,NORTH\n",
-                "Block placed at: 2,3\n",
-                "Robot turned right. Current direction: EAST\n",
-                "Block placed at: 3,2\n",
-                "Robot turned right. Current direction: SOUTH\n",
-                "Block placed at: 2,1\n",
-                "Robot turned right. Current direction: WEST\n",
-                "Block placed at: 1,2\n",
+                "Robot R1 placed at: 2,2,NORTH\n",
+                "R1 placed Block at: 2,3\n",
+                "R1 turned right. Current direction: EAST\n",
+                "R1 placed Block at: 3,2\n",
+                "R1 turned right. Current direction: SOUTH\n",
+                "R1 placed Block at: 2,1\n",
+                "R1 turned right. Current direction: WEST\n",
+                "R1 placed Block at: 1,2\n",
                 "#{robot_2_2_west_map_with_4_blocks}",
                 "#{robot_2_2_west_board_map_with_4_blocks}"
               ]
@@ -113,7 +113,7 @@ def extended_valid_test_commands
     { # Output a map full of blocks
       input: "PLACE 2,2,NORTH\r
               MAP",
-      output: ["Robot placed at: 2,2,NORTH\n", "#{robot_2_2_north_map}"]
+      output: ["Robot R1 placed at: 2,2,NORTH\n", "#{robot_2_2_north_map}"]
     },
 
     { # Blocked by blocks, can't progress;
@@ -125,12 +125,12 @@ def extended_valid_test_commands
               PLACE 0,2,NORTH\r
               REPORT",
       output: [
-                "Robot placed at: 0,0,NORTH\n",
-                "Robot moved forward to 0,1,NORTH\n",
-                "Block placed at: 0,2\n",
-                "Robot cannot move to 0,2\n",
-                "Robot cannot be placed at: 0,2\n",
-                "Robot Position: 0,1,NORTH\n"
+                "Robot R1 placed at: 0,0,NORTH\n",
+                "R1 moved forward to 0,1,NORTH\n",
+                "R1 placed Block at: 0,2\n",
+                "R1 cannot move to 0,2\n",
+                "Robot R1 cannot be placed at: 0,2\n",
+                "R1's Position: 0,1,NORTH\n"
               ]
     },
 
@@ -139,9 +139,9 @@ def extended_valid_test_commands
               SPIN\r
               REPORT",
       output: [
-                "Robot placed at: 2,2,NORTH\n",
-                "Robot spun around. Current direction: SOUTH\n",
-                "Robot Position: 2,2,SOUTH\n"
+                "Robot R1 placed at: 2,2,NORTH\n",
+                "R1 spun around. Current direction: SOUTH\n",
+                "R1's Position: 2,2,SOUTH\n"
               ]
     }
   ]
@@ -184,12 +184,12 @@ def extended_invalid_test_commands
                 "Invalid Command.\nHint: PLACE robot first.\n",
                 "Invalid Command.\nHint: PLACE robot first.\n",
                 "Invalid Command.\nHint: PLACE robot first.\n",
-                "Robot placed at: 2,2,NORTH\n",
+                "Robot R1 placed at: 2,2,NORTH\n",
                 "Invalid Command.\n",
                 "Invalid Command.\n",
-                "Robot cannot be placed at: 5,5\n",
-                "Robot cannot be placed at: -2,-2\n",
-                "Robot Position: 2,2,NORTH\n"
+                "Robot R1 cannot be placed at: 5,5\n",
+                "Robot R1 cannot be placed at: -2,-2\n",
+                "R1's Position: 2,2,NORTH\n"
               ]
     },
 

@@ -12,8 +12,8 @@ def robot_2_2_north_report
   "2,2,NORTH\n"
 end
 
-def extended_robot_2_2_north_report
-  "Robot Position: 2,2,NORTH\n"
+def extended_robot_2_2_north_report_no_name
+  "R1's Position: 2,2,NORTH\n"
 end
 
 def robot_2_2_north_map
@@ -23,7 +23,7 @@ def robot_2_2_north_map
   "2 [ ] [ ] [Λ] [ ] [ ]\n"\
   "1 [ ] [ ] [ ] [ ] [ ]\n"\
   "0 [ ] [ ] [ ] [ ] [ ]\n"\
-  "Robot Position: 2,2,NORTH\n"
+  "R1's Position: 2,2,NORTH\n"
 end
 
 def robot_2_2_north_board_map
@@ -44,8 +44,8 @@ def robot_2_2_west_map_with_4_blocks
   "2 [ ] [█] [<] [█] [ ]\n"\
   "1 [ ] [ ] [█] [ ] [ ]\n"\
   "0 [ ] [ ] [ ] [ ] [ ]\n"\
-  "Robot Position: 2,2,WEST\n"\
-  "Blocks at positions:\n"\
+  "R1's Position: 2,2,WEST\n"\
+  "R1's Blocks at Positions:\n"\
   "[1, 2], [2, 1], [2, 3],\n"\
   "[3, 2]\n"
 end
