@@ -12,7 +12,7 @@ end
 def extended_usage_message
   "*** EXTENDED MODE ***\n"\
   "Valid Commands:\n"\
-  "PLACE X,Y,F eg: PLACE 0,0,NORTH\n"\
+  "PLACE X,Y,F [ROBOT_NAME] eg: PLACE 0,0,NORTH KRYTEN\n"\
   "MOVE\n"\
   "LEFT\n"\
   "RIGHT\n"\

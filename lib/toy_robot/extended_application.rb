@@ -69,11 +69,7 @@ module ToyRobot
             conditions: ['placed?', 'valid_map_type?']
           }
         })
-        @usage.insert(0,  "*** EXTENDED MODE ***\n")
-        @usage.insert(93, "SPIN\n"\
-                          "BLOCK\n"\
-                          "MAP [BOARD]\n"\
-                          "HELP\n")
+        @usage = define_usage
       end
 
       def valid_arg_size?
@@ -97,6 +93,22 @@ module ToyRobot
           return false unless @args[0].to_s.match(/BOARD/i)
         end
         true
+      end
+
+      def define_usage
+        "*** EXTENDED MODE ***\n"\
+        "Valid Commands:\n"\
+        "PLACE X,Y,F [ROBOT_NAME] eg: PLACE 0,0,NORTH KRYTEN\n"\
+        "MOVE\n"\
+        "LEFT\n"\
+        "RIGHT\n"\
+        "REPORT\n"\
+        "SPIN\n"\
+        "BLOCK\n"\
+        "MAP [BOARD]\n"\
+        "HELP\n"\
+        "EXIT\n"\
+        "-------\n"
       end
   end
 end
