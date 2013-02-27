@@ -26,6 +26,17 @@ def robot_2_2_north_map
   "Robot Position: 2,2,NORTH\n"
 end
 
+def robot_2_2_north_board_map
+  "   0   1   2   3   4\n"\
+  "4 [ ] [ ] [ ] [ ] [ ]\n"\
+  "3 [ ] [ ] [ ] [ ] [ ]\n"\
+  "2 [ ] [ ] [X] [ ] [ ]\n"\
+  "1 [ ] [ ] [ ] [ ] [ ]\n"\
+  "0 [ ] [ ] [ ] [ ] [ ]\n"\
+  "Occupied Positions:\n"\
+  "[2, 2]\n"
+end
+
 def robot_2_2_west_map_with_4_blocks
   "   0   1   2   3   4\n"\
   "4 [ ] [ ] [ ] [ ] [ ]\n"\

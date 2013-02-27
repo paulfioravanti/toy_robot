@@ -169,15 +169,30 @@ describe ExtendedApplication do
     end
 
     context "when MAP command issued" do
-      let(:instruction) { "MAP" }
+      context "by itself do" do
+        let(:instruction) { "MAP" }
 
-      context "before a valid PLACE command" do
-        it { should == pre_place_invalid_response }
+        context "before a valid PLACE command" do
+          it { should == pre_place_invalid_response }
+        end
+
+        context "after a valid PLACE command" do
+          before { application.route("PLACE 2,2,NORTH") }
+          it { should == robot_2_2_north_map }
+        end
       end
 
-      context "after a valid PLACE command" do
-        before { application.route("PLACE 2,2,NORTH") }
-        it { should == robot_2_2_north_map }
+      context "with BOARD argument" do
+        let(:instruction) { "MAP BOARD" }
+
+        context "before a valid PLACE command" do
+          it { should == pre_place_invalid_response }
+        end
+
+        context "after a valid PLACE command" do
+          before { application.route("PLACE 2,2,NORTH") }
+          it { should == robot_2_2_north_board_map }
+        end
       end
     end
   end
