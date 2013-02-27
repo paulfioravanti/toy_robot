@@ -16,17 +16,21 @@ module ToyRobot
 
     def route(instruction)
       return "" if instruction.rstrip.empty?
-      if parse_instruction(instruction) && valid_robot_command?
-        extract_robot_name
-        initialize_world if !@board && @command == :place
-        send_command
-      else
-        @response = ""
-      end
+      execute_instruction(instruction)
       process_response
     end
 
     private
+
+      def execute_instruction(instruction)
+        if parse_instruction(instruction) && valid_robot_command?
+          extract_robot_name
+          initialize_world if !@board && @command == :place
+          send_command
+        else
+          @response = ""
+        end
+      end
 
       def initialize_world
         @board = ExtendedBoard.new
