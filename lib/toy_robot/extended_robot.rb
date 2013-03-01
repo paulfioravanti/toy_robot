@@ -65,11 +65,20 @@ module ToyRobot
 
     def map
       map = "#{RobotMap.new(self).output}"\
-            "#{@name}'s Position: #{robot_position}\n"
+            "#{report}"
       unless @blocks.empty?
-        map << "#{@name}'s Blocks at Positions:\n#{block_positions}\n"
+        # map << "#{@name}'s Blocks at Positions:\n#{report_block_positions}\n"
+        map << "#{report_block_positions}"
       end
       map
+    end
+
+    def report_block_positions
+      coordinates = @blocks.sort.map { |block| block.position.coordinates }
+      coord_sets = coordinates.to_s[1...-1].chars.each_slice(24).map do |line|
+        line.join.strip
+      end.join("\n")
+      "#{@name}'s Blocks at Positions:\n" << "#{coord_sets}\n"
     end
 
     private
@@ -90,13 +99,6 @@ module ToyRobot
       def update_placement(new_position, cardinal)
         update_position(new_position)
         @cardinal_direction = cardinal
-      end
-
-      def block_positions
-        positions = @blocks.sort.map { |block| block.position.coordinates }
-        positions.to_s[1...-1].chars.each_slice(24).map do |line|
-          line.join.strip
-        end.join("\n")
       end
 
       def place_block(position)
