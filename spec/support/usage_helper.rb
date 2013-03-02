@@ -12,14 +12,15 @@ end
 def extended_usage_message
   "*** EXTENDED MODE ***\n"\
   "Valid Commands:\n"\
-  "PLACE X,Y,F [ROBOT_NAME] eg: PLACE 0,0,NORTH KRYTEN\n"\
-  "MOVE\n"\
-  "LEFT\n"\
-  "RIGHT\n"\
-  "REPORT\n"\
-  "SPIN\n"\
-  "BLOCK\n"\
-  "MAP [BOARD]\n"\
+  "New Robot: PLACE X,Y,F [<ROBOT_NAME>]\n"\
+  "Re-place Robot: PLACE X,Y,F <ROBOT_NAME>\n"\
+  "MOVE [<ROBOT_NAME>]\n"\
+  "LEFT [<ROBOT_NAME>]\n"\
+  "RIGHT [<ROBOT_NAME>]\n"\
+  "REPORT [<ROBOT_NAME>]\n"\
+  "SPIN [<ROBOT_NAME>]\n"\
+  "BLOCK [<ROBOT_NAME>]\n"\
+  "MAP [<ROBOT_NAME>] [BOARD]\n"\
   "HELP\n"\
   "EXIT\n"\
   "-------\n"

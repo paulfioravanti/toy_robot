@@ -40,14 +40,6 @@ module ToyRobot
         end
       end
 
-      # def initialize_blocks
-      #   if blocks = @robot.blocks
-      #     blocks.each do |block|
-      #       @block_coordinates << block.position.coordinates
-      #     end
-      #   end
-      # end
-
       def object_at(coordinates)
         if @robot_coordinates.include?(coordinates)
           output_robot_direction(coordinates)

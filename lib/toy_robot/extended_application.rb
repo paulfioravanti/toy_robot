@@ -10,6 +10,8 @@ module ToyRobot
 
     attr_accessor :response, :target_name, :robots
 
+    validates :board, presence: true
+
     def initialize
       super
       @robots = []
@@ -27,7 +29,7 @@ module ToyRobot
 
       def execute_instruction(instruction)
         if parse_instruction(instruction) && valid_robot_command?
-          add_robot_to_game if @command == :place
+          add_robot_to_board if @command == :place
           send_command
         else
           @response = ""
@@ -38,11 +40,11 @@ module ToyRobot
         return false unless super(instruction)
         if @args.size == 1 || @args.size == 4
           @target_name = @args.pop
-        # elsif @args.empty? && @robots.size == 1 && @command != :place
-        #   @target_name = @robots.first.name
-        # elsif @args.empty? && @robots.size > 1 && @command == :map
         elsif @args.empty? && @command == :map
           @target_name = "APP"
+        elsif @args.empty? && @robots.size == 1 && @command != :place
+          @target_name = @robots.first.name
+        # elsif @args.empty? && @robots.size > 1 && @command == :map
         elsif @args.size == 3
           @target_name = "R#{@robots.size + 1}"
         else
@@ -67,7 +69,7 @@ module ToyRobot
         end
       end
 
-      def add_robot_to_game
+      def add_robot_to_board
         # puts "initialize_world"
         robot = @robots.find { |robot| robot.name =~ /^#{@target_name}$/i }
         @robots << ExtendedRobot.new(@board, @target_name) unless robot
@@ -91,13 +93,17 @@ module ToyRobot
       def map
         app_map = "#{ApplicationMap.new(self).output}"\
                   "Robots on the Board:\n"
-        @robots.each do |robot|
-          app_map << "Name: #{robot.name}\n"
-          app_map << "#{robot.report}"
-          unless robot.blocks.empty?
-            app_map << "#{robot.report_block_positions}"
+        if @robots.empty?
+          app_map << "None\n"
+        else
+          @robots.each do |robot|
+            app_map << "Name: #{robot.name}\n"
+            app_map << "#{robot.report}"
+            unless robot.blocks.empty?
+              app_map << "#{robot.report_block_positions}"
+            end
+            app_map << "-------\n"
           end
-          app_map << "-------\n"
         end
         app_map
       end
@@ -133,13 +139,14 @@ module ToyRobot
       def define_usage
         "*** EXTENDED MODE ***\n"\
         "Valid Commands:\n"\
-        "PLACE X,Y,F [<ROBOT_NAME>] eg: PLACE 0,0,NORTH KRYTEN\n"\
-        "MOVE\n"\
-        "LEFT\n"\
-        "RIGHT\n"\
-        "REPORT\n"\
-        "SPIN\n"\
-        "BLOCK\n"\
+        "New Robot: PLACE X,Y,F [<ROBOT_NAME>]\n"\
+        "Re-place Robot: PLACE X,Y,F <ROBOT_NAME>\n"\
+        "MOVE [<ROBOT_NAME>]\n"\
+        "LEFT [<ROBOT_NAME>]\n"\
+        "RIGHT [<ROBOT_NAME>]\n"\
+        "REPORT [<ROBOT_NAME>]\n"\
+        "SPIN [<ROBOT_NAME>]\n"\
+        "BLOCK [<ROBOT_NAME>]\n"\
         "MAP [<ROBOT_NAME>] [BOARD]\n"\
         "HELP\n"\
         "EXIT\n"\

@@ -47,7 +47,7 @@ end
 def extended_permitted_commands
   {
     place: {
-      args_size: (3..4),
+      args_size: 3,
       conditions: ['coordinates_numerical?', 'valid_cardinal?']
     },
     move: {
@@ -75,8 +75,8 @@ def extended_permitted_commands
       conditions: ['placed?']
     },
     map: {
-      args_size: (0..1),
-      conditions: ['placed?', 'valid_map_type?']
+      args_size: 0,
+      conditions: ['placed?', 'valid_map_target?']
     }
   }
 end

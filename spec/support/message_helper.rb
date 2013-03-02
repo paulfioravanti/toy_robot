@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 def pre_place_invalid_response
-  "Invalid Command.\nHint: PLACE robot first.\n"
+  "Invalid Command.\nHint: PLACE a robot first.\n"
 end
 
 def post_place_invalid_response
@@ -14,6 +14,19 @@ end
 
 def extended_robot_2_2_north_report_no_name
   "R1's Position: 2,2,NORTH\n"
+end
+
+def robot_2_2_north_application_map
+  "   0   1   2   3   4\n"\
+  "4 [ ] [ ] [ ] [ ] [ ]\n"\
+  "3 [ ] [ ] [ ] [ ] [ ]\n"\
+  "2 [ ] [ ] [Λ] [ ] [ ]\n"\
+  "1 [ ] [ ] [ ] [ ] [ ]\n"\
+  "0 [ ] [ ] [ ] [ ] [ ]\n"\
+  "Robots on the Board:\n"\
+  "Name: R1\n"\
+  "R1's Position: 2,2,NORTH\n"\
+  "-------\n"
 end
 
 def robot_2_2_north_map
@@ -71,4 +84,28 @@ def robot_2_2_west_board_map_with_4_blocks
   "Occupied Positions:\n"\
   "[1, 2], [2, 1], [2, 2],\n"\
   "[2, 3], [3, 2]\n"
+end
+
+def empty_board_map
+  "   0   1   2   3   4\n"\
+  "4 [ ] [ ] [ ] [ ] [ ]\n"\
+  "3 [ ] [ ] [ ] [ ] [ ]\n"\
+  "2 [ ] [ ] [ ] [ ] [ ]\n"\
+  "1 [ ] [ ] [ ] [ ] [ ]\n"\
+  "0 [ ] [ ] [ ] [ ] [ ]\n"\
+  "Occupied Positions:\n"\
+  "None\n"\
+  "Hint: PLACE a robot first.\n"
+end
+
+def empty_application_map
+  "   0   1   2   3   4\n"\
+  "4 [ ] [ ] [ ] [ ] [ ]\n"\
+  "3 [ ] [ ] [ ] [ ] [ ]\n"\
+  "2 [ ] [ ] [ ] [ ] [ ]\n"\
+  "1 [ ] [ ] [ ] [ ] [ ]\n"\
+  "0 [ ] [ ] [ ] [ ] [ ]\n"\
+  "Robots on the Board:\n"\
+  "None\n"\
+  "Hint: PLACE a robot first.\n"
 end

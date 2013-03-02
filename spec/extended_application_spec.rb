@@ -9,9 +9,22 @@ describe ExtendedApplication do
 
   it_should_behave_like "an application"
 
+  specify "model attributes" do
+    should respond_to(:robots, :target_name, :response)
+  end
+
   describe "initial state" do
+    its(:board)              { should_not be_nil }
+    its(:robots)             { should be_empty }
     its(:permitted_commands) { should == extended_permitted_commands }
     its(:usage)              { should == extended_usage_message }
+  end
+
+  describe "validations" do
+    context "for board" do
+      before { application.instance_variable_set(:@board, nil) }
+      it { should_not be_valid }
+    end
   end
 
   describe "#route" do
@@ -70,7 +83,7 @@ describe ExtendedApplication do
 
             specify do
               response.should == "Robot R1 cannot be placed at: -2,-2\n"\
-                                 "Hint: PLACE robot first.\n"
+                                 "Hint: PLACE a robot first.\n"
             end
           end
 
@@ -79,24 +92,22 @@ describe ExtendedApplication do
 
             specify do
               response.should == "Robot Kryten cannot be placed at: -2,-2\n"\
-                                 "Hint: PLACE robot first.\n"
+                                 "Hint: PLACE a robot first.\n"
             end
           end
         end
 
-        # These tests need to be refactored if mutiple robots can move
-        # board
         context "after a valid PLACE command" do
           context "without specifying robot's name" do
             let(:instruction) { "PLACE -2,-2,NORTH" }
             before { application.route("PLACE 2,2,NORTH") }
-            it { should == "Robot R1 cannot be placed at: -2,-2\n" }
+            it { should == "Robot R2 cannot be placed at: -2,-2\n" }
           end
 
           context "specifying then not specifying robot's name" do
             let(:instruction) { "PLACE -2,-2,NORTH" }
             before { application.route("PLACE 2,2,NORTH Kryten") }
-            it { should == "Robot Kryten cannot be placed at: -2,-2\n" }
+            it { should == "Robot R2 cannot be placed at: -2,-2\n" }
           end
 
           context "specifying robot's name" do
@@ -108,7 +119,7 @@ describe ExtendedApplication do
           context "not specifying then specifying robot's name" do
             let(:instruction) { "PLACE -2,-2,NORTH Kryten" }
             before { application.route("PLACE 2,2,NORTH") }
-            it { should == "Robot R1 cannot be placed at: -2,-2\n" }
+            it { should == "Robot Kryten cannot be placed at: -2,-2\n" }
           end
         end
       end
@@ -213,12 +224,12 @@ describe ExtendedApplication do
         let(:instruction) { "MAP" }
 
         context "before a valid PLACE command" do
-          it { should == pre_place_invalid_response }
+          it { should == empty_application_map }
         end
 
         context "after a valid PLACE command" do
           before { application.route("PLACE 2,2,NORTH") }
-          it { should == robot_2_2_north_map }
+          it { should == robot_2_2_north_application_map }
         end
       end
 
@@ -226,7 +237,7 @@ describe ExtendedApplication do
         let(:instruction) { "MAP BOARD" }
 
         context "before a valid PLACE command" do
-          it { should == pre_place_invalid_response }
+          it { should == empty_board_map }
         end
 
         context "after a valid PLACE command" do

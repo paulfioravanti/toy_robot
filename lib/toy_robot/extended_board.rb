@@ -28,7 +28,12 @@ module ToyRobot
 
     def map
       map = "#{BoardMap.new(self).output}"\
-            "Occupied Positions:\n#{output_occupied_positions}\n"
+            "Occupied Positions:\n"
+      if @occupied_positions.empty?
+        map << "None\n"
+      else
+        map << "#{output_occupied_positions}\n"
+      end
       map
     end
 

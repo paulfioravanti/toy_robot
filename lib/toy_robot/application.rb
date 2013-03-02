@@ -61,7 +61,6 @@ module ToyRobot
       end
 
       def parse_instruction(instruction)
-        # puts "parse_instruction"
         @args = instruction.scan(/-?\w+/)
         command = @args.shift
         @command = command.downcase.to_sym if command
@@ -74,17 +73,14 @@ module ToyRobot
       end
 
       def permitted_command?
-        # puts "permitted_command"
         @properties = @permitted_commands[@command]
       end
 
       def valid_arg_size?
-        # puts "valid_arg_size?"
         @properties[:args_size] == @args.size
       end
 
       def passes_conditions?
-        # puts "passes_conditions?"
         conditions = @properties[:conditions]
         conditions.each do |condition|
           return false unless send(condition)

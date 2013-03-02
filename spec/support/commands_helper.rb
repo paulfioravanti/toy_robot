@@ -82,7 +82,10 @@ def extended_valid_test_commands
     { # Output a map without blocks
       input: "PLACE 2,2,NORTH\r
               MAP",
-      output: ["Robot R1 placed at: 2,2,NORTH\n", "#{robot_2_2_north_map}"]
+      output: [
+                "Robot R1 placed at: 2,2,NORTH\n",
+                "#{robot_2_2_north_application_map}"
+              ]
     },
 
     { # Output a map with three blocks
@@ -94,7 +97,7 @@ def extended_valid_test_commands
               BLOCK\r
               RIGHT\r
               BLOCK\r
-              MAP\r
+              MAP R1\r
               MAP BOARD",
       output: [
                 "Robot R1 placed at: 2,2,NORTH\n",
@@ -110,12 +113,6 @@ def extended_valid_test_commands
               ]
     },
 
-    { # Output a map full of blocks
-      input: "PLACE 2,2,NORTH\r
-              MAP",
-      output: ["Robot R1 placed at: 2,2,NORTH\n", "#{robot_2_2_north_map}"]
-    },
-
     { # Blocked by blocks, can't progress;
       # attempt place on top of block and fail
       input: "PLACE 0,0,NORTH\r
@@ -129,7 +126,7 @@ def extended_valid_test_commands
                 "R1 moved forward to 0,1,NORTH\n",
                 "R1 placed Block at: 0,2\n",
                 "R1 cannot move to 0,2\n",
-                "Robot R1 cannot be placed at: 0,2\n",
+                "Robot R2 cannot be placed at: 0,2\n",
                 "R1's Position: 0,1,NORTH\n"
               ]
     },
@@ -181,14 +178,14 @@ def extended_invalid_test_commands
               PLACE -2,-2,WEST\r
               REPORT\r",
       output: [
-                "Invalid Command.\nHint: PLACE robot first.\n",
-                "Invalid Command.\nHint: PLACE robot first.\n",
-                "Invalid Command.\nHint: PLACE robot first.\n",
+                "Invalid Command.\nHint: PLACE a robot first.\n",
+                "Invalid Command.\nHint: PLACE a robot first.\n",
+                "Invalid Command.\nHint: PLACE a robot first.\n",
                 "Robot R1 placed at: 2,2,NORTH\n",
                 "Invalid Command.\n",
                 "Invalid Command.\n",
-                "Robot R1 cannot be placed at: 5,5\n",
-                "Robot R1 cannot be placed at: -2,-2\n",
+                "Robot R2 cannot be placed at: 5,5\n",
+                "Robot R2 cannot be placed at: -2,-2\n",
                 "R1's Position: 2,2,NORTH\n"
               ]
     },
