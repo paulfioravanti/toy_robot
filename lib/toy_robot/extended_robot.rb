@@ -66,10 +66,7 @@ module ToyRobot
     def map
       map = "#{RobotMap.new(self).output}"\
             "#{report}"
-      unless @blocks.empty?
-        # map << "#{@name}'s Blocks at Positions:\n#{report_block_positions}\n"
-        map << "#{report_block_positions}"
-      end
+      map << "#{report_block_positions}" unless @blocks.empty?
       map
     end
 

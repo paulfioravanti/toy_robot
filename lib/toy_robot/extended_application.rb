@@ -44,7 +44,6 @@ module ToyRobot
           @target_name = "APP"
         elsif @args.empty? && @robots.size == 1 && @command != :place
           @target_name = @robots.first.name
-        # elsif @args.empty? && @robots.size > 1 && @command == :map
         elsif @args.size == 3
           @target_name = "R#{@robots.size + 1}"
         else
@@ -60,7 +59,6 @@ module ToyRobot
       end
 
       def valid_map_target?
-        # return true if !@target_name
         robot = @robots.find { |robot| robot.name =~ /^#{@target_name}$/i }
         if robot || @target_name =~ /BOARD/i || @target_name == "APP"
           true
@@ -70,20 +68,16 @@ module ToyRobot
       end
 
       def add_robot_to_board
-        # puts "initialize_world"
         robot = @robots.find { |robot| robot.name =~ /^#{@target_name}$/i }
         @robots << ExtendedRobot.new(@board, @target_name) unless robot
       end
 
       def send_command
-        # p @target_name
         if @command == :map && @target_name =~ /BOARD/i
-          # puts "MAP BOARD"
           @response = @board.map
         elsif @command == :map && @target_name == "APP"
           @response = map
         else
-          # puts "Robot command"
           robot = @robots.find { |robot| robot.name =~ /^#{@target_name}$/i }
           @response = robot.send(@command, *@args) if robot
           @robots.delete(robot) if !placed?
