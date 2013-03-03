@@ -30,7 +30,7 @@ module ToyRobot
       def execute_instruction(instruction)
         parse_instruction(instruction)
         if valid_command?
-          add_robot_to_board if @command == :place
+          find_or_create_robot if @command == :place
           send_command
         else
           @response = ""
@@ -79,7 +79,7 @@ module ToyRobot
         end
       end
 
-      def add_robot_to_board
+      def find_or_create_robot
         robot = find_robot
         @robots << ExtendedRobot.new(@board, @target_name) unless robot
       end
