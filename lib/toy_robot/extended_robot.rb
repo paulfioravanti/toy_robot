@@ -5,7 +5,7 @@ require 'block'
 require 'robot_map'
 
 module ToyRobot
-# A Toy Robot that moves around a Board, with extra functionality
+  # A Toy Robot that moves around a Board, with extra functionality
   class ExtendedRobot < Robot
 
     attr_accessor :blocks, :name
