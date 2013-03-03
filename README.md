@@ -123,7 +123,9 @@ The `HELP` command prints out the usage message to the console.
 
 ### Multiple Robots
 
-Multiple robots can be placed on the same board, and will move around without bumping into each other. A `PLACE` command can be given as per the standard app, and the robot will automatically be given the name of "`R1`", "`R2`" etc depending on the number of robots on the board.  Otherwise, you can name a robot by appending it to the command eg: `PLACE 2,2,NORTH Kryten`.  
+Multiple robots can be placed on the same board, and will move around without bumping into each other.
+
+A `PLACE` command can be made as per the standard app (`PLACE 2,2,NORTH`), and the robot will automatically be given the sequential name of "`R1`", "`R2`" etc depending on the number of robots on the board.  Otherwise, you can name a robot by appending it to the command eg: `PLACE 2,2,NORTH Kryten`.  
 
 If there is only one robot on the board, it can be controlled by commands with or without its name.  However, on a board with multiple robots, a robot's name must be specified in order to determine the target of the command eg: `MOVE Kryten`.
 
@@ -161,7 +163,7 @@ The `MAP [ROBOT_NAME] [BOARD]` command shows a visual map of the board from thre
         [4, 3]
         -------
 
-- `MAP ROBOT_NAME` shows the map from the robot's perspective.  The robot knows only about the position and direction of itself, as well as the locations of all blocks it has placed.  For the example above:
+- `MAP ROBOT_NAME` shows the map from the robot's perspective.  The robot knows only about the position and direction of itself, as well as the locations of all blocks it has placed, but still cannot move to spaces occupied by another robot or its blocks.  For the example above:
 
         > MAP Kryten
 
@@ -189,7 +191,7 @@ The `MAP [ROBOT_NAME] [BOARD]` command shows a visual map of the board from thre
         [2, 3], [3, 2], [3, 4],
         [4, 3]
 
-- `MAP BOARD` shows the map from the board's perspective.  The board knows about the spaces on the board that are occupied by an object (X), without specifics of the object.  For the example above:
+- `MAP BOARD` shows the map from the board's perspective.  The board knows about the spaces on the board that are occupied by an object (X), without any specifics of the object.  For the example above:
 
            0   1   2   3   4
         4 [ ] [ ] [ ] [X] [ ]
