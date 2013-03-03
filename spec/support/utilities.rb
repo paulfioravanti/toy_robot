@@ -76,7 +76,7 @@ def extended_permitted_commands
     },
     map: {
       args_size: 0,
-      conditions: ['placed?', 'valid_map_target?']
+      conditions: ['valid_map_target?']
     }
   }
 end

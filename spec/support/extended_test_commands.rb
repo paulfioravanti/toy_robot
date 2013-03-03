@@ -5,7 +5,7 @@ def extended_valid_test_commands
               MAP",
       output: [
                 "Robot R1 placed at: 2,2,NORTH\n",
-                "#{robot_2_2_north_application_map}"
+                "#{one_robot_application_map}"
               ]
     },
 
@@ -18,6 +18,7 @@ def extended_valid_test_commands
               BLOCK\r
               RIGHT\r
               BLOCK\r
+              RIGHT\r
               MAP R1\r
               MAP BOARD",
       output: [
@@ -29,8 +30,9 @@ def extended_valid_test_commands
                 "R1 placed Block at: 2,1\n",
                 "R1 turned right. Current direction: WEST\n",
                 "R1 placed Block at: 1,2\n",
-                "#{robot_2_2_west_map_with_4_blocks}",
-                "#{robot_2_2_west_board_map_with_4_blocks}"
+                "R1 turned right. Current direction: NORTH\n",
+                "#{one_robot_r1_with_blocks_map}",
+                "#{one_robot_r1_with_blocks_board_map}"
               ]
     },
 

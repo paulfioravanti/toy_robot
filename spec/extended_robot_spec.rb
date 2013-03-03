@@ -146,7 +146,7 @@ describe ExtendedRobot do
     end
 
     context "after a #place" do
-      let(:expected_map) { robot_2_2_north_map }
+      let(:expected_map) { one_robot_r1_map }
       before { robot.place(2, 2, "NORTH") }
       it { should == expected_map }
     end

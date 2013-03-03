@@ -28,7 +28,7 @@ describe BoardMap do
 
   describe "map output" do
     context "with only a robot" do
-      let(:expected_map) { robot_any_direction_board_map }
+      let(:expected_map) { one_robot_board_map }
 
       context "facing NORTH" do
         its(:output) { should == expected_map }

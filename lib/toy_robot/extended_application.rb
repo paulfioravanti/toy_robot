@@ -124,7 +124,7 @@ module ToyRobot
           },
           map: {
             args_size: 0,
-            conditions: ['placed?', 'valid_map_target?']
+            conditions: ['valid_map_target?']
           }
         })
         @usage = define_usage
