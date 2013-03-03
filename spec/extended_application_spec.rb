@@ -647,4 +647,36 @@ describe ExtendedApplication do
       end
     end
   end
+
+  describe "edge cases" do
+    let(:response) { application.route("MAP") }
+
+    subject { response }
+
+    describe "a board with 25 robots" do
+      before do
+        cardinals = valid_cardinals
+        (0..4).to_a.product((0..4).to_a) do |x_coord, y_coord|
+          application.route("PLACE #{x_coord},#{y_coord},#{cardinals.first}")
+          cardinals.rotate!
+        end
+      end
+
+      it { should == twenty_five_robot_board }
+    end
+
+    describe "a board with one robot and 24 blocks" do
+      before do
+        (0..3).to_a.product((0..4).to_a) do |x_coord, y_coord|
+          application.route("PLACE #{x_coord + 1},#{y_coord},WEST R1")
+          application.route("BLOCK")
+        end
+        [4].product((1..4).to_a) do |x_coord, y_coord|
+          application.route("PLACE #{x_coord},#{y_coord},SOUTH R1")
+          application.route("BLOCK")
+        end
+      end
+      it { should == one_robot_twenty_four_blocks }
+    end
+  end
 end
