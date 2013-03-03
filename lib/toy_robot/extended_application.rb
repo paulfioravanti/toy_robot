@@ -80,8 +80,8 @@ module ToyRobot
       end
 
       def find_or_create_robot
-        robot = find_robot
-        @robots << ExtendedRobot.new(@board, @target_name) unless robot
+        robot = find_robot || ExtendedRobot.new(@board, @target_name)
+        @robots << robot unless placed?
       end
 
       def send_command
