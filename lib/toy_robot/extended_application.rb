@@ -29,7 +29,7 @@ module ToyRobot
 
       def execute_instruction(instruction)
         parse_instruction(instruction)
-        if valid_robot_command?
+        if valid_command?
           add_robot_to_board if @command == :place
           send_command
         else

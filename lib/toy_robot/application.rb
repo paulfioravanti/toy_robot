@@ -22,7 +22,7 @@ module ToyRobot
 
     def route(instruction)
       parse_instruction(instruction)
-      if valid_robot_command?
+      if valid_command?
         @robot.send(@command, *@args)
       else
         instruction.clear
@@ -37,7 +37,7 @@ module ToyRobot
         @command = command.downcase.to_sym if command
       end
 
-      def valid_robot_command?
+      def valid_command?
         permitted_command? &&
         valid_arg_size? &&
         passes_conditions?
