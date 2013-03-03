@@ -81,7 +81,7 @@ module ToyRobot
 
       def find_or_create_robot
         robot = find_robot || ExtendedRobot.new(@board, @target_name)
-        @robots << robot unless placed?
+        @robots << robot unless robot.position
       end
 
       def send_command
@@ -89,12 +89,10 @@ module ToyRobot
           @response = robot.send(@command, *@args)
           @robots.delete(robot) if !placed?
         else
-          if @command == :map
-            if @target_name =~ /BOARD/i
-              @response = @board.map
-            elsif @target_name == "APP"
-              @response = map
-            end
+          if @target_name =~ /BOARD/i
+            @response = @board.map
+          elsif @target_name == "APP"
+            @response = map
           end
         end
       end
