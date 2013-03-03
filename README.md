@@ -4,7 +4,7 @@
 
 A simulation of a toy robot moving on a square tabletop, of dimensions 5 units x 5 units.  See [Specification](#specification) below for details.
 
-All code is written in pure Ruby, with some help from [ActiveModel::Validations](http://api.rubyonrails.org/classes/ActiveModel/Validations.html) for model validation checks, and [Thor](https://github.com/wycats/thor) for the command-line interface. 
+All code is written in Ruby, with some help from [ActiveModel::Validations](http://api.rubyonrails.org/classes/ActiveModel/Validations.html) for model validation checks, and [Thor](https://github.com/wycats/thor) for the command-line interface. 
 
 ## Installation
 
