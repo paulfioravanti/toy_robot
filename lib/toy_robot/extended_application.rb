@@ -8,7 +8,7 @@ module ToyRobot
   # Main application class for extended Toy Robot app
   class ExtendedApplication < Application
 
-    attr_accessor :response, :target_name, :robots
+    attr_accessor :response, :target_name, :robots, :app_map
 
     validates :board, presence: true
 
@@ -66,12 +66,12 @@ module ToyRobot
       end
 
       def placed?
-        robot = @robots.find { |robot| robot.name =~ /^#{@target_name}$/i }
+        robot = find_robot
         robot && robot.position ? true : false
       end
 
       def valid_map_target?
-        robot = @robots.find { |robot| robot.name =~ /^#{@target_name}$/i }
+        robot = find_robot
         if robot || @target_name =~ /BOARD/i || @target_name == "APP"
           true
         else
@@ -80,38 +80,48 @@ module ToyRobot
       end
 
       def add_robot_to_board
-        robot = @robots.find { |robot| robot.name =~ /^#{@target_name}$/i }
+        robot = find_robot
         @robots << ExtendedRobot.new(@board, @target_name) unless robot
       end
 
       def send_command
-        if @command == :map && @target_name =~ /BOARD/i
-          @response = @board.map
-        elsif @command == :map && @target_name == "APP"
-          @response = map
-        else
-          robot = @robots.find { |robot| robot.name =~ /^#{@target_name}$/i }
-          @response = robot.send(@command, *@args) if robot
+        if robot = find_robot
+          @response = robot.send(@command, *@args)
           @robots.delete(robot) if !placed?
+        else
+          if @command == :map
+            if @target_name =~ /BOARD/i
+              @response = @board.map
+            elsif @target_name == "APP"
+              @response = map
+            end
+          end
         end
       end
 
+      def find_robot
+        @robots.find { |robot| robot.name =~ /^#{@target_name}$/i }
+      end
+
       def map
-        app_map = "#{ApplicationMap.new(self).output}"\
+        @app_map = "#{ApplicationMap.new(self).output}"\
                   "Robots on the Board:\n"
         if @robots.empty?
-          app_map << "None\n"
+          @app_map << "None\n"
         else
-          @robots.each do |robot|
-            app_map << "Name: #{robot.name}\n"
-            app_map << "#{robot.report}"
-            unless robot.blocks.empty?
-              app_map << "#{robot.report_block_positions}"
-            end
-            app_map << "-------\n"
-          end
+          add_robot_info_to_map
         end
-        app_map
+        @app_map
+      end
+
+      def add_robot_info_to_map
+        @robots.each do |robot|
+          @app_map << "Name: #{robot.name}\n#{robot.report}"
+          unless robot.blocks.empty?
+            @app_map << "#{robot.report_block_positions}"
+          end
+          @app_map << "-------\n"
+        end
       end
 
       def process_response

@@ -7,9 +7,7 @@ module ToyRobot
   class ApplicationMap
     include Mappable
 
-    attr_reader :application, :robot_coordinates, :block_coordinates
-
-    # validates :robot, presence: true
+    attr_reader :application, :robot_coordinates, :block_coordinates, :blocks
 
     def initialize(application)
       @application = application
@@ -19,7 +17,6 @@ module ToyRobot
       @robot_coordinates = []
       @block_coordinates = []
       initialize_robots
-      # initialize_blocks
       @output = ""
       map_header
       map_content
@@ -31,12 +28,16 @@ module ToyRobot
         if robots = @application.robots
           robots.each do |robot|
             @robot_coordinates << robot.position.coordinates
-            if blocks = robot.blocks
-              blocks.each do |block|
-                @block_coordinates << block.position.coordinates
-              end
+            if @blocks = robot.blocks
+              initialize_blocks
             end
           end
+        end
+      end
+
+      def initialize_blocks
+        @blocks.each do |block|
+          @block_coordinates << block.position.coordinates
         end
       end
 
@@ -51,14 +52,13 @@ module ToyRobot
       end
 
       def output_robot_direction(coordinates)
-        robot = @application.robots.find do |robot|
-          robot.position.coordinates == coordinates
-        end
-        case robot.cardinal_direction
-          when "NORTH" then "[Λ]"
-          when "EAST"  then "[>]"
-          when "SOUTH" then "[V]"
-          when "WEST"  then "[<]"
+        case @application.robots.find do |robot|
+               robot.position.coordinates == coordinates
+             end.cardinal_direction
+        when "NORTH" then "[Λ]"
+        when "EAST"  then "[>]"
+        when "SOUTH" then "[V]"
+        when "WEST"  then "[<]"
         end
       end
   end
