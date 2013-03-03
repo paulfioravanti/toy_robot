@@ -65,22 +65,22 @@ be allowed.
 
 
 *Create an application that can read in commands of the following form*  
-PLACE X,Y,F  
+`PLACE X,Y,F  
 MOVE  
 LEFT  
 RIGHT  
-REPORT  
+REPORT`  
 
 <ul>
-<li>PLACE will put the toy robot on the table in position X,Y and facing NORTH, SOUTH, EAST or WEST.</li>
-<li>The origin (0,0) can be considered to be the SOUTH WEST most corner.</li>
-<li>The first valid command to the robot is a PLACE command, after that, any sequence of commands may be issued, in any order, including another PLACE command. The application should discard all commands in the sequence until a valid PLACE command has been executed</li>
-<li>MOVE will move the toy robot one unit forward in the direction it is currently facing.</li>
-<li>LEFT and RIGHT will rotate the robot 90 degrees in the specified direction without changing the position of the robot.</li>
-<li>REPORT will announce the X,Y and F of the robot. This can be in any form, but standard output is sufficient.</li>
+<li>`PLACE` will put the toy robot on the table in position `X,Y` and facing `NORTH`, `SOUTH`, `EAST` or `WEST`.</li>
+<li>The origin (`0,0`) can be considered to be the `SOUTH WEST` most corner.</li>
+<li>The first valid command to the robot is a `PLACE` command, after that, any sequence of commands may be issued, in any order, including another `PLACE` command. The application should discard all commands in the sequence until a valid PLACE command has been executed</li>
+<li>`MOVE` will move the toy robot one unit forward in the direction it is currently facing.</li>
+<li>`LEFT` and `RIGHT` will rotate the robot 90 degrees in the specified direction without changing the position of the robot.</li>
+<li>`REPORT` will announce the `X`,`Y` and `F` of the robot. This can be in any form, but standard output is sufficient.</li>
 </ul>
 <ul>
-<li>A robot that is not on the table can choose to ignore the MOVE, LEFT, RIGHT and REPORT commands.</li>
+<li>A robot that is not on the table can choose to ignore the `MOVE`, `LEFT`, `RIGHT` and `REPORT` commands.</li>
 <li>Input can be from a file, or from standard input, as the developer chooses.</li>
 <li>Provide test data to exercise the application.</li>
 </ul>
@@ -91,25 +91,25 @@ Any move that would cause the robot to fall must be ignored.
 
 Example Input and Output:  
 a)  
-PLACE 0,0,NORTH  
+`PLACE 0,0,NORTH  
 MOVE  
-REPORT  
-Output: 0,1,NORTH  
+REPORT`  
+Output: `0,1,NORTH`  
 
 b)  
-PLACE 0,0,NORTH  
+`PLACE 0,0,NORTH  
 LEFT  
-REPORT  
-Output: 0,0,WEST  
+REPORT`  
+Output: `0,0,WEST`  
 
 c)  
-PLACE 1,2,EAST  
+`PLACE 1,2,EAST  
 MOVE  
 MOVE  
 LEFT  
 MOVE  
-REPORT  
-Output: 3,3,NORTH
+REPORT`  
+Output: `3,3,NORTH`
 
 ### Deliverables
 The Ruby source files, the test data and any test code.
