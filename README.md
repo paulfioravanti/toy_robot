@@ -65,11 +65,11 @@ be allowed.
 
 
 *Create an application that can read in commands of the following form*  
-`PLACE X,Y,F  
-MOVE  
-LEFT  
-RIGHT  
-REPORT`  
+`PLACE X,Y,F`  
+`MOVE`  
+`LEFT`  
+`RIGHT`  
+`REPORT`  
 
 <ul>
 <li>`PLACE` will put the toy robot on the table in position `X,Y` and facing `NORTH`, `SOUTH`, `EAST` or `WEST`.</li>
@@ -91,24 +91,24 @@ Any move that would cause the robot to fall must be ignored.
 
 Example Input and Output:  
 a)  
-`PLACE 0,0,NORTH  
-MOVE  
-REPORT`  
+`PLACE 0,0,NORTH`  
+`MOVE`  
+`REPORT`  
 Output: `0,1,NORTH`  
 
 b)  
-`PLACE 0,0,NORTH  
-LEFT  
-REPORT`  
+`PLACE 0,0,NORTH`  
+`LEFT`  
+`REPORT`  
 Output: `0,0,WEST`  
 
 c)  
-`PLACE 1,2,EAST  
-MOVE  
-MOVE  
-LEFT  
-MOVE  
-REPORT`  
+`PLACE 1,2,EAST`  
+`MOVE`  
+`MOVE`  
+`LEFT`  
+`MOVE`  
+`REPORT`  
 Output: `3,3,NORTH`
 
 ### Deliverables
