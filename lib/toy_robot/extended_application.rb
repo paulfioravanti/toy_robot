@@ -28,7 +28,8 @@ module ToyRobot
     private
 
       def execute_instruction(instruction)
-        if parse_instruction(instruction) && valid_robot_command?
+        parse_instruction(instruction)
+        if valid_robot_command?
           add_robot_to_board if @command == :place
           send_command
         else
@@ -38,22 +39,33 @@ module ToyRobot
 
       def parse_instruction(instruction)
         return false unless super(instruction)
-        if @args.size == 1 || @args.size == 4
-          @target_name = @args.pop
-        elsif @args.empty? && @command == :map
+        if @args.empty?
+          determine_target
+        else
+          assign_target
+        end
+      end
+
+      def determine_target
+        if @command == :map
           @target_name = "APP"
-        elsif @args.empty? && @robots.size == 1 && @command != :place
+        elsif @robots.size == 1 && @command != :place
           @target_name = @robots.first.name
-        elsif @args.size == 3
-          @target_name = "R#{@robots.size + 1}"
         else
           @target_name = nil
-          false
+        end
+      end
+
+      def assign_target
+        case @args.size
+        when 1, 4
+          @target_name = @args.pop
+        when 3
+          @target_name = "R#{@robots.size + 1}"
         end
       end
 
       def placed?
-        return true if @target_name =~ /BOARD/i || @target_name == "APP"
         robot = @robots.find { |robot| robot.name =~ /^#{@target_name}$/i }
         robot && robot.position ? true : false
       end
