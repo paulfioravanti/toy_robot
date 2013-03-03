@@ -76,6 +76,7 @@ be allowed.
 - `MOVE` will move the toy robot one unit forward in the direction it is currently facing.
 - `LEFT` and `RIGHT` will rotate the robot 90 degrees in the specified direction without changing the position of the robot.
 - `REPORT` will announce the `X`,`Y` and `F` of the robot. This can be in any form, but standard output is sufficient.
+
 <ul>
 <li>A robot that is not on the table can choose to ignore the <code>MOVE</code>, <code>LEFT</code>, <code>RIGHT</code> and <code>REPORT</code> commands.</li>
 <li>Input can be from a file, or from standard input, as the developer chooses.</li>
