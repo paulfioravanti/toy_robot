@@ -119,44 +119,89 @@ It is not required to provide any graphical output showing the movement of the t
 
 ### Help
 
-The HELP command prints out the usage message to the console.
+The `HELP` command prints out the usage message to the console.
+
+### Multiple Robots
+
+Multiple robots can be placed on the same board, and will move around without bumping into each other. A `PLACE` command can be given as per the standard app, and the robot will automatically be given the name of "`R1`", "`R2`" etc depending on the number of robots on the board.  Otherwise, you can name a robot by appending it to the command eg: `PLACE 2,2,NORTH Kryten`.  
+
+If there is only one robot on the board, it can be controlled by commands with or without its name.  However, on a board with multiple robots, a robot's name must be specified in order to determine the target of the command eg: `MOVE Kryten`.
 
 ### Spin 180°
 
-The SPIN command 'spins' the robot 180°, effectively performing two turns at once, to face in the opposite direction.
+The `SPIN [ROBOT_NAME]` command 'spins' a robot 180°, effectively performing two turns at once, to face in the opposite direction.
 
 ### Placing Blocks
 
-The BLOCK command puts a block on the square in front of the robot.  The Robot cannot pass through any blocks.  Any attempts to move through a block, be placed on a block, or place a block on a block are ignored.
+The `BLOCK [ROBOT_NAME]` command puts a block on the square in front of the robot.  Robots cannot pass through any blocks, either their own, or those placed by other robots.  Any attempts to move through a block, be placed on a block, or place a block on a block are ignored.
 
 ### Visual Map of Board
 
-The MAP [BOARD] command shows a visual map of the board from two perspectives:
+The `MAP [ROBOT_NAME] [BOARD]` command shows a visual map of the board from three perspectives:
 
-- MAP by itself shows the map from the robot's perspective.  The robot knows about the position and direction of itself (Λ > V <), as well as the locations of all blocks it has placed (█).  For example:
+- `MAP` by itself shows the full map of the board, including the position and direction of all robots on the board (`Λ > V <`) and all the blocks they have placed (`█`).  For example:
 
            0   1   2   3   4
         4 [ ] [ ] [ ] [█] [ ]
-        3 [ ] [█] [ ] [ ] [ ]
-        2 [ ] [ ] [Λ] [ ] [ ]
-        1 [█] [ ] [█] [ ] [ ]
-        0 [ ] [ ] [ ] [ ] [█]
-        Robot Position: 2,2,NORTH
-        Blocks at positions:
-        [0, 1], [1, 3], [2, 1],
-        [3, 4], [4, 0]
+        3 [ ] [ ] [█] [V] [█]
+        2 [ ] [█] [ ] [█] [ ]
+        1 [█] [Λ] [█] [ ] [ ]
+        0 [ ] [█] [ ] [ ] [ ]
+        Robots on the Board:
+        Name: Kryten
+        Kryten's Position: 1,1,NORTH
+        Kryten's Blocks at Positions:
+        [0, 1], [1, 0], [1, 2],
+        [2, 1]
+        -------
+        Name: Marvin
+        Marvin's Position: 3,3,SOUTH
+        Marvin's Blocks at Positions:
+        [2, 3], [3, 2], [3, 4],
+        [4, 3]
+        -------
 
-- MAP BOARD shows the map from the board's perspective.  The board knows about the spaces on the board that are occupied by an object (X), without specifics of the object.  For example:
+- `MAP ROBOT_NAME` shows the map from the robot's perspective.  The robot knows only about the position and direction of itself, as well as the locations of all blocks it has placed.  For the example above:
+
+        > MAP Kryten
+
+           0   1   2   3   4
+        4 [ ] [ ] [ ] [ ] [ ]
+        3 [ ] [ ] [ ] [ ] [ ]
+        2 [ ] [█] [ ] [ ] [ ]
+        1 [█] [Λ] [█] [ ] [ ]
+        0 [ ] [█] [ ] [ ] [ ]
+        Kryten's Position: 1,1,NORTH
+        Kryten's Blocks at Positions:
+        [0, 1], [1, 0], [1, 2],
+        [2, 1]
+
+        > MAP Marvin
+
+           0   1   2   3   4
+        4 [ ] [ ] [ ] [█] [ ]
+        3 [ ] [ ] [█] [V] [█]
+        2 [ ] [ ] [ ] [█] [ ]
+        1 [ ] [ ] [ ] [ ] [ ]
+        0 [ ] [ ] [ ] [ ] [ ]
+        Marvin's Position: 3,3,SOUTH
+        Marvin's Blocks at Positions:
+        [2, 3], [3, 2], [3, 4],
+        [4, 3]
+
+- `MAP BOARD` shows the map from the board's perspective.  The board knows about the spaces on the board that are occupied by an object (X), without specifics of the object.  For the example above:
 
            0   1   2   3   4
         4 [ ] [ ] [ ] [X] [ ]
-        3 [ ] [X] [ ] [ ] [ ]
-        2 [ ] [ ] [X] [ ] [ ]
-        1 [X] [ ] [X] [ ] [ ]
-        0 [ ] [ ] [ ] [ ] [X]
+        3 [ ] [ ] [X] [X] [X]
+        2 [ ] [X] [ ] [X] [ ]
+        1 [X] [X] [X] [ ] [ ]
+        0 [ ] [X] [ ] [ ] [ ]
         Occupied Positions:
-        [0, 1], [1, 3], [2, 1],
-        [2, 2], [3, 4], [4, 0]
+        [0, 1], [1, 0], [1, 1],
+        [1, 2], [2, 1], [2, 3],
+        [3, 2], [3, 3], [3, 4],
+        [4, 3]
 
 - - -
 
