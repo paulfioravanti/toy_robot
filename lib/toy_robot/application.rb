@@ -21,7 +21,8 @@ module ToyRobot
     end
 
     def route(instruction)
-      if parse_instruction(instruction) && valid_robot_command?
+      parse_instruction(instruction)
+      if valid_robot_command?
         @robot.send(@command, *@args)
       else
         instruction.clear
