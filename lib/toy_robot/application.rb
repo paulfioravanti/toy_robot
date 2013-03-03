@@ -15,12 +15,13 @@ module ToyRobot
     validates :usage, presence: true
 
     def initialize
+      @board = Board.new
+      @robot = Robot.new(@board)
       define_rules
     end
 
     def route(instruction)
       if parse_instruction(instruction) && valid_robot_command?
-        initialize_world if !@board && @command == :place
         @robot.send(@command, *@args)
       else
         instruction.clear
@@ -28,37 +29,6 @@ module ToyRobot
     end
 
     private
-
-      def initialize_world
-        @board ||= Board.new
-        @robot ||= Robot.new(@board)
-      end
-
-      def define_rules
-        @permitted_commands = {
-          place: {
-            args_size: 3,
-            conditions: ['coordinates_numerical?', 'valid_cardinal?']
-          },
-          move: {
-            args_size: 0,
-            conditions: ['placed?']
-          },
-          left: {
-            args_size: 0,
-            conditions: ['placed?']
-          },
-          right: {
-            args_size: 0,
-            conditions: ['placed?']
-          },
-          report: {
-            args_size: 0,
-            conditions: ['placed?']
-          }
-        }
-        @usage = define_usage
-      end
 
       def parse_instruction(instruction)
         @args = instruction.scan(/-?\w+/)
@@ -97,7 +67,33 @@ module ToyRobot
       end
 
       def placed?
-        @robot && @robot.position ? true : false
+        @robot.position ? true : false
+      end
+
+      def define_rules
+        @permitted_commands = {
+          place: {
+            args_size: 3,
+            conditions: ['coordinates_numerical?', 'valid_cardinal?']
+          },
+          move: {
+            args_size: 0,
+            conditions: ['placed?']
+          },
+          left: {
+            args_size: 0,
+            conditions: ['placed?']
+          },
+          right: {
+            args_size: 0,
+            conditions: ['placed?']
+          },
+          report: {
+            args_size: 0,
+            conditions: ['placed?']
+          }
+        }
+        @usage = define_usage
       end
 
       def define_usage
