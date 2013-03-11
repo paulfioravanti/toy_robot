@@ -52,7 +52,7 @@ Check code smells:
 
 Check quality metrics:
 
-[![Code Climate](https://codeclimate.com/github/paulfioravanti/toy_robot.png)](https://codeclimate.com/github/paulfioravanti/toy_robot)
+[![Code Climate](https://codeclimate.com/github/paulfioravanti/toy_robot.png)](https://codeclimate.com/github/paulfioravanti/toy_robot) [![Coverage Status](https://coveralls.io/repos/paulfioravanti/toy_robot/badge.png?branch=master)](https://coveralls.io/r/paulfioravanti/toy_robot)
 
 ## Specification
 
