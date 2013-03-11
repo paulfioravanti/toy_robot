@@ -9,3 +9,4 @@ coverage/
 bundler_stubs/
 
 .DS_Store
+.coveralls.yml
