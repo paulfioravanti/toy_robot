@@ -1,4 +1,3 @@
-# encoding: UTF-8
 require 'active_model'
 require 'mappable'
 
