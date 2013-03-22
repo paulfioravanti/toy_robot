@@ -115,6 +115,10 @@ It is not required to provide any graphical output showing the movement of the t
 
 ## Extensions
 
+### Color output
+
+Terminals that are ANSI-color compatible will get the benefit of fun colors in the output.
+
 ### Help
 
 The `HELP` command prints out the usage message to the console.
@@ -189,14 +193,14 @@ The `MAP [ROBOT_NAME] [BOARD]` command shows a visual map of the board from thre
         [2, 3], [3, 2], [3, 4],
         [4, 3]
 
-- `MAP BOARD` shows the map from the board's perspective.  The board knows about the spaces on the board that are occupied by an object (X), without any specifics of the object.  For the example above:
+- `MAP BOARD` shows the map from the board's perspective.  The board knows about the spaces on the board that are occupied by an object (×), without any specifics of the object.  For the example above:
 
            0   1   2   3   4
-        4 [ ] [ ] [ ] [X] [ ]
-        3 [ ] [ ] [X] [X] [X]
-        2 [ ] [X] [ ] [X] [ ]
-        1 [X] [X] [X] [ ] [ ]
-        0 [ ] [X] [ ] [ ] [ ]
+        4 [ ] [ ] [ ] [×] [ ]
+        3 [ ] [ ] [×] [×] [×]
+        2 [ ] [×] [ ] [×] [ ]
+        1 [×] [×] [×] [ ] [ ]
+        0 [ ] [×] [ ] [ ] [ ]
         Occupied Positions:
         [0, 1], [1, 0], [1, 1],
         [1, 2], [2, 1], [2, 3],
