@@ -1,10 +1,12 @@
 require 'active_model'
 
 require 'board_map'
+require 'colorable'
 
 module ToyRobot
   # A slightly smarter Board
   class ExtendedBoard < Board
+    include Colorable
 
     attr_accessor :occupied_positions
 
@@ -28,11 +30,11 @@ module ToyRobot
 
     def map
       map = "#{BoardMap.new(self).output}"\
-            "Occupied Positions:\n"
+            "#{yellow "Occupied Positions:"}\n"
       if @occupied_positions.empty?
-        map << "None\n"
+        map << cyan("None\n")
       else
-        map << "#{output_occupied_positions}\n"
+        map << yellow("#{output_occupied_positions}\n")
       end
       map
     end

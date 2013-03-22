@@ -3,10 +3,12 @@ require 'active_model'
 require 'extended_board'
 require 'extended_robot'
 require 'application_map'
+require 'colorable'
 
 module ToyRobot
   # Main application class for extended Toy Robot app
   class ExtendedApplication < Application
+    include Colorable
 
     attr_accessor :response, :target_name, :robots, :app_map
 
@@ -103,9 +105,9 @@ module ToyRobot
 
       def map
         @app_map = "#{ApplicationMap.new(self).output}"\
-                  "Robots on the Board:\n"
+                  "#{magenta "Robots on the Board:"}\n"
         if @robots.empty?
-          @app_map << "None\n"
+          @app_map << cyan("None\n")
         else
           add_robot_info_to_map
         end
@@ -114,20 +116,20 @@ module ToyRobot
 
       def add_robot_info_to_map
         @robots.each do |robot|
-          @app_map << "Name: #{robot.name}\n#{robot.report}"
+          @app_map << yellow("Name: #{robot.name}\n#{robot.report}")
           unless robot.blocks.empty?
-            @app_map << "#{robot.report_block_positions}"
+            @app_map << yellow("#{robot.report_block_positions}")
           end
           @app_map << "-------\n"
         end
       end
 
       def process_response
-        @response << "Invalid Command.\n" if @response.empty?
+        @response << red("Invalid Command.\n") if @response.empty?
         if @robots.empty?
-          @response << "Hint: PLACE a robot first.\n"
+          @response << yellow("Hint: PLACE a robot first.\n")
         elsif !@target_name
-          @response << "Specify which robot to perform action.\n"
+          @response << yellow("Specify which robot to perform action.\n")
         end
         @response
       end
@@ -151,10 +153,12 @@ module ToyRobot
       end
 
       def define_usage
-        "*** EXTENDED MODE ***\n"\
-        "Valid Commands:\n"\
-        "New Robot: PLACE X,Y,F [<ROBOT_NAME>]\n"\
-        "Re-place Robot: PLACE X,Y,F <ROBOT_NAME>\n"\
+        "#{bold_green "*** EXTENDED MODE ***"}\n"\
+        "#{yellow "Valid Commands:"}\n"\
+        "#{cyan "New Robot"}:\n"\
+        "  PLACE X,Y,F [<ROBOT_NAME>]\n"\
+        "#{cyan "Re-place Robot"}:\n"\
+        "  PLACE X,Y,F <ROBOT_NAME>\n"\
         "MOVE [<ROBOT_NAME>]\n"\
         "LEFT [<ROBOT_NAME>]\n"\
         "RIGHT [<ROBOT_NAME>]\n"\

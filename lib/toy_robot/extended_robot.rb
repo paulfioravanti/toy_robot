@@ -3,10 +3,12 @@ require 'active_model'
 require 'position'
 require 'block'
 require 'robot_map'
+require 'colorable'
 
 module ToyRobot
   # A Toy Robot that moves around a Board, with extra functionality
   class ExtendedRobot < Robot
+    include Colorable
 
     attr_accessor :blocks, :name
 
@@ -21,10 +23,10 @@ module ToyRobot
       cardinal = cardinal.upcase
       if placeable?(new_position) || @position == new_position
         update_placement(new_position, cardinal)
-        "Robot #{@name} placed at: #{robot_position}\n"
+        green "Robot #{@name} placed at: #{robot_position}\n"
       else
-        "Robot #{@name} cannot be placed at: "\
-        "#{new_position.coordinates.join(',')}\n"
+        red "Robot #{@name} cannot be placed at: "\
+            "#{new_position.coordinates.join(',')}\n"
       end
     end
 
@@ -32,30 +34,30 @@ module ToyRobot
       new_position = forward_position
       if placeable?(new_position)
         update_position(new_position)
-        "#{@name} moved forward to #{robot_position}\n"
+        green "#{@name} moved forward to #{robot_position}\n"
       else
-        "#{@name} cannot move to #{new_position.coordinates.join(',')}\n"
+        red "#{@name} cannot move to #{new_position.coordinates.join(',')}\n"
       end
     end
 
     def left
       super
-      "#{@name} turned left. Current direction: #{@cardinal_direction}\n"
+      green "#{@name} turned left. Current direction: #{@cardinal_direction}\n"
     end
 
     def right
       super
-      "#{@name} turned right. Current direction: #{@cardinal_direction}\n"
+      green "#{@name} turned right. Current direction: #{@cardinal_direction}\n"
     end
 
     def spin
       index = VALID_CARDINALS.index(@cardinal_direction)
       @cardinal_direction = VALID_CARDINALS.rotate(2)[index]
-      "#{@name} spun around. Current direction: #{@cardinal_direction}\n"
+      green "#{@name} spun around. Current direction: #{@cardinal_direction}\n"
     end
 
     def report
-      "#{@name}'s Position: #{robot_position}\n"
+      yellow "#{@name}'s Position: #{robot_position}\n"
     end
 
     def block
@@ -75,7 +77,7 @@ module ToyRobot
       coord_sets = coordinates.to_s[1...-1].chars.each_slice(24).map do |line|
         line.join.strip
       end.join("\n")
-      "#{@name}'s Blocks at Positions:\n" << "#{coord_sets}\n"
+      yellow "#{@name}'s Blocks at Positions:\n" << "#{coord_sets}\n"
     end
 
     private
@@ -103,9 +105,9 @@ module ToyRobot
         if placeable?(position)
           @board.occupy(position)
           @blocks << Block.new(position)
-          "#{@name} placed Block at: #{block_coordinates}\n"
+          green "#{@name} placed Block at: #{block_coordinates}\n"
         else
-          "#{@name} cannot place Block at: #{block_coordinates}\n"
+          red "#{@name} cannot place Block at: #{block_coordinates}\n"
         end
       end
   end

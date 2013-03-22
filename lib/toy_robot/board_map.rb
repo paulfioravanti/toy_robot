@@ -31,9 +31,9 @@ module ToyRobot
 
       def object_at(coordinates)
         if @object_coordinates.include?(coordinates)
-          "[X]"
+          bold_white("[") + bold_red("×") + bold_white("]")
         else
-          "[ ]"
+          bold_white("[ ]")
         end
       end
   end

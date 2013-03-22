@@ -1,3 +1,5 @@
+require 'colorable'
+
 module ToyRobot
   module Mappable
 
@@ -5,6 +7,7 @@ module ToyRobot
 
     def self.included(base)
       base.send :include, ActiveModel::Validations
+      base.send :include, Colorable
       base.send :validates ,:x_range, presence: true
       base.send :validates ,:y_range, presence: true
     end
@@ -30,6 +33,5 @@ module ToyRobot
           @output << "\n" if x_coord == line_end
         end
       end
-
   end
 end

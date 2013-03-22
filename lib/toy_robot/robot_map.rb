@@ -36,18 +36,19 @@ module ToyRobot
         if coordinates == @robot.position.coordinates
           output_robot_direction
         elsif @block_coordinates.include?(coordinates)
-          "[█]"
+          bold_white("[") + red("█") + bold_white("]")
         else
-          "[ ]"
+          bold_white("[ ]")
         end
       end
 
       def output_robot_direction
+        left_bracket, right_bracket = bold_white("["), bold_white("]")
         case @robot.cardinal_direction
-          when "NORTH" then "[Λ]"
-          when "EAST"  then "[>]"
-          when "SOUTH" then "[V]"
-          when "WEST"  then "[<]"
+        when "NORTH" then left_bracket + bold_cyan("Λ") + right_bracket
+        when "EAST"  then left_bracket + bold_cyan(">") + right_bracket
+        when "SOUTH" then left_bracket + bold_cyan("V") + right_bracket
+        when "WEST"  then left_bracket + bold_cyan("<") + right_bracket
         end
       end
   end
