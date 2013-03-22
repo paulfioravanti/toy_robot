@@ -17,7 +17,11 @@ describe ExtendedApplication do
     its(:board)              { should_not be_nil }
     its(:robots)             { should be_empty }
     its(:permitted_commands) { should == extended_permitted_commands }
-    its(:usage)              { should == extended_usage_message }
+
+    describe "usage message" do
+      subject { application.usage.gsub(ansi_colors, '') }
+      it { should == extended_usage_message }
+    end
   end
 
   describe "validations" do
@@ -69,7 +73,7 @@ describe ExtendedApplication do
   describe "#route" do
     let(:response) { application.route(instruction) }
 
-    subject { response }
+    subject { response.gsub(ansi_colors, '') }
 
     context "when no instruction given" do
       let(:instruction) { "" }
@@ -157,8 +161,9 @@ describe ExtendedApplication do
             let(:instruction) { "PLACE -2,-2,NORTH" }
 
             specify do
-              response.should == "Robot R1 cannot be placed at: -2,-2\n"\
-                                 "Hint: PLACE a robot first.\n"
+              response.gsub(ansi_colors, '').should ==
+                "Robot R1 cannot be placed at: -2,-2\n"\
+                "Hint: PLACE a robot first.\n"
             end
           end
 
@@ -166,8 +171,9 @@ describe ExtendedApplication do
             let(:instruction) { "PLACE -2,-2,NORTH Kryten" }
 
             specify do
-              response.should == "Robot Kryten cannot be placed at: -2,-2\n"\
-                                 "Hint: PLACE a robot first.\n"
+              response.gsub(ansi_colors, '').should ==
+                "Robot Kryten cannot be placed at: -2,-2\n"\
+                "Hint: PLACE a robot first.\n"
             end
           end
         end
@@ -228,8 +234,9 @@ describe ExtendedApplication do
 
           context "without specifying robot name" do
             specify do
-             response.should == "Invalid Command.\n"\
-                                "Specify which robot to perform action.\n"
+             response.gsub(ansi_colors, '').should ==
+               "Invalid Command.\n"\
+               "Specify which robot to perform action.\n"
             end
           end
 
@@ -247,8 +254,9 @@ describe ExtendedApplication do
 
           context "without specifying robot name" do
             specify do
-             response.should == "Invalid Command.\n"\
-                                "Specify which robot to perform action.\n"
+             response.gsub(ansi_colors, '').should ==
+               "Invalid Command.\n"\
+               "Specify which robot to perform action.\n"
             end
           end
 
@@ -288,8 +296,9 @@ describe ExtendedApplication do
 
         context "without specifying robot name" do
           specify do
-           response.should == "Invalid Command.\n"\
-                              "Specify which robot to perform action.\n"
+           response.gsub(ansi_colors, '').should ==
+             "Invalid Command.\n"\
+             "Specify which robot to perform action.\n"
           end
         end
 
@@ -328,8 +337,9 @@ describe ExtendedApplication do
 
         context "without specifying robot name" do
           specify do
-           response.should == "Invalid Command.\n"\
-                              "Specify which robot to perform action.\n"
+           response.gsub(ansi_colors, '').should ==
+             "Invalid Command.\n"\
+             "Specify which robot to perform action.\n"
           end
         end
 
@@ -368,8 +378,9 @@ describe ExtendedApplication do
 
         context "without specifying robot name" do
           specify do
-           response.should == "Invalid Command.\n"\
-                              "Specify which robot to perform action.\n"
+           response.gsub(ansi_colors, '').should ==
+             "Invalid Command.\n"\
+             "Specify which robot to perform action.\n"
           end
         end
 
@@ -408,8 +419,9 @@ describe ExtendedApplication do
 
         context "without specifying robot name" do
           specify do
-           response.should == "Invalid Command.\n"\
-                              "Specify which robot to perform action.\n"
+           response.gsub(ansi_colors, '').should ==
+             "Invalid Command.\n"\
+             "Specify which robot to perform action.\n"
           end
         end
 
@@ -448,8 +460,9 @@ describe ExtendedApplication do
 
         context "without specifying robot name" do
           specify do
-           response.should == "Invalid Command.\n"\
-                              "Specify which robot to perform action.\n"
+           response.gsub(ansi_colors, '').should ==
+             "Invalid Command.\n"\
+             "Specify which robot to perform action.\n"
           end
         end
 
@@ -651,7 +664,7 @@ describe ExtendedApplication do
   describe "edge cases" do
     let(:response) { application.route("MAP") }
 
-    subject { response }
+    subject { response.gsub(ansi_colors, '') }
 
     describe "a board with 25 robots" do
       before do

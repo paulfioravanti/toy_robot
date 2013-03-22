@@ -27,28 +27,31 @@ describe RobotMap do
   end
 
   describe "map output" do
+    subject { map.output.gsub(ansi_colors, '') }
+
     context "with only a robot" do
+
       context "facing NORTH" do
         let(:expected_map) { robot_north_map }
-        its(:output) { should == expected_map }
+        it { should == expected_map }
       end
 
       context "facing EAST" do
         let(:expected_map) { robot_east_map }
         before { robot.place(2, 2, "EAST") }
-        its(:output) { should == expected_map }
+        it { should == expected_map }
       end
 
       context "facing SOUTH" do
         let(:expected_map) { robot_south_map }
         before { robot.place(2, 2, "SOUTH") }
-        its(:output) { should == expected_map }
+        it { should == expected_map }
       end
 
       context "facing WEST" do
         let(:expected_map) { robot_west_map }
         before { robot.place(2, 2, "WEST") }
-        its(:output) { should == expected_map }
+        it { should == expected_map }
       end
     end
 
@@ -82,7 +85,7 @@ describe RobotMap do
         end
       end
 
-      its(:output) { should == expected_map }
+      it { should == expected_map }
     end
   end
 end

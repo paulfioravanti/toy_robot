@@ -1,3 +1,7 @@
+def ansi_colors
+  /\e\[(?:\d*)(?:;\d+)?(?:m)?/
+end
+
 def boundaries
   [
     :@left_boundary,

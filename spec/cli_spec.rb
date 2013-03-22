@@ -29,7 +29,7 @@ describe CLI do
   describe "#execute with options[:file]" do
     let(:output) { capture(:stdout) { cli.execute } }
 
-    subject { output }
+    subject { output.gsub(ansi_colors, '') }
 
     context "on a valid file" do
       let(:default_file) { "instructions.txt" }
@@ -78,7 +78,7 @@ describe CLI do
       end
 
       before { cli.stub(:options) { { file: default_file } } }
-      subject { output }
+      subject { output.gsub(ansi_colors, '') }
       it { should == expected_output }
     end
   end
@@ -89,11 +89,11 @@ describe CLI do
       cli.stub(:gets).and_return(*commands, "EXIT")
     end
 
-    subject { output }
+    subject { output.gsub(ansi_colors, '') }
 
     it "outputs the result for each command" do
       expected_output.each do |value|
-        output.should include(value)
+        output.gsub(ansi_colors, '').should include(value)
       end
     end
   end
@@ -106,13 +106,13 @@ describe CLI do
 
       context "in standard mode" do
         before { cli.stub(:options) { { extended: false } } }
-        subject { output }
+        subject { output.gsub(ansi_colors, '') }
         it { should == usage_message << prompt }
       end
 
       context "in extended mode" do
         before { cli.stub(:options) { { extended: true } } }
-        subject { output }
+        subject { output.gsub(ansi_colors, '') }
         it { should == extended_usage_message << prompt }
       end
     end
@@ -122,13 +122,13 @@ describe CLI do
 
       context "in standard mode" do
         before { cli.stub(:options) { { extended: false } } }
-        subject { output }
+        subject { output.gsub(ansi_colors, '') }
         it { should == usage_message << prompt << prompt }
       end
 
       context "in extended mode" do
         before { cli.stub(:options) { { extended: true } } }
-        subject { output }
+        subject { output.gsub(ansi_colors, '') }
         it { should == (extended_usage_message << prompt) * 2 }
       end
     end

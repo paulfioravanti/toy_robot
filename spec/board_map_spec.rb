@@ -30,23 +30,25 @@ describe BoardMap do
     context "with only a robot" do
       let(:expected_map) { one_robot_board_map }
 
+      subject { map.output.gsub(ansi_colors, '') }
+
       context "facing NORTH" do
-        its(:output) { should == expected_map }
+        it { should == expected_map }
       end
 
       context "facing EAST" do
         before { robot.place(2, 2, "EAST") }
-        its(:output) { should == expected_map }
+        it { should == expected_map }
       end
 
       context "facing SOUTH" do
         before { robot.place(2, 2, "SOUTH") }
-        its(:output) { should == expected_map }
+        it { should == expected_map }
       end
 
       context "facing WEST" do
         before { robot.place(2, 2, "WEST") }
-        its(:output) { should == expected_map }
+        it { should == expected_map }
       end
     end
 
@@ -80,7 +82,9 @@ describe BoardMap do
         end
       end
 
-      its(:output) { should == expected_map }
+      subject { map.output.gsub(ansi_colors, '') }
+
+      it { should == expected_map }
     end
   end
 end

@@ -64,11 +64,11 @@ describe ExtendedBoard do
   describe "#map" do
     let(:map) { board.map }
 
-    subject { map }
+    subject { map.gsub(ansi_colors, '') }
 
     context "before a #place" do
       let(:expected_map) { false }
-      before { board.stub(:map) { false } }
+      before { board.stub_chain(:map, :gsub) { false } }
       it { should == expected_map }
     end
 

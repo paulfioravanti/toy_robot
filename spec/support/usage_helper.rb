@@ -12,8 +12,10 @@ end
 def extended_usage_message
   "*** EXTENDED MODE ***\n"\
   "Valid Commands:\n"\
-  "New Robot: PLACE X,Y,F [<ROBOT_NAME>]\n"\
-  "Re-place Robot: PLACE X,Y,F <ROBOT_NAME>\n"\
+  "New Robot:\n"\
+  "  PLACE X,Y,F [<ROBOT_NAME>]\n"\
+  "Re-place Robot:\n"\
+  "  PLACE X,Y,F <ROBOT_NAME>\n"\
   "MOVE [<ROBOT_NAME>]\n"\
   "LEFT [<ROBOT_NAME>]\n"\
   "RIGHT [<ROBOT_NAME>]\n"\

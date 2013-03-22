@@ -123,7 +123,7 @@ describe ExtendedRobot do
   describe "#report" do
     let(:report) { robot.report }
 
-    subject { report }
+    subject { report.gsub(ansi_colors, '') }
 
     context "after a #place" do
       let(:expected_report) { extended_robot_2_2_north_report_no_name }
@@ -135,11 +135,11 @@ describe ExtendedRobot do
   describe "#map" do
     let(:map) { robot.map }
 
-    subject { map }
+    subject { map.gsub(ansi_colors, '') }
 
     context "before a #place" do
       let(:expected_map) { false }
-      before { robot.stub(:map) { false } }
+      before { robot.stub_chain(:map, :gsub) { false } }
       it { should == expected_map }
     end
 
