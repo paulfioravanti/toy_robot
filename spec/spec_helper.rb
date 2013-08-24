@@ -1,7 +1,4 @@
-require 'coveralls'
-Coveralls.wear!
 require 'simplecov'
-SimpleCov.start
 
 require 'rspec'
 Dir[File.dirname(__FILE__) + '/support/*.rb'].each {|file| require file }
