@@ -17,11 +17,11 @@ Install gem dependencies with Bundle:
 
 Input commands manually on command line:
 
-    $ bin/toy_robot
+    $ toy_robot
 
 Run commands from a file:
 
-    $ bin/toy_robot -f [filename]
+    $ toy_robot -f [filename]
 
 ### Extended mode
 
@@ -29,11 +29,11 @@ To enable functionality in the [Extensions](#extensions), pass in the `-e` flag:
 
 Input commands manually on command line in extended mode:
 
-    $ bin/toy_robot -e
+    $ toy_robot -e
 
 Run commands from a file in extended mode:
 
-    $ bin/toy_robot -e -f [filename]
+    $ toy_robot -e -f [filename]
 
 ## Testing
 
