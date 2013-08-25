@@ -26,11 +26,11 @@ Run commands from a file:
 
 To enable functionality in the [Extensions](#extensions), pass in the `-e` flag:
 
-Input commands manually on command line:
+Input commands manually on command line in extended mode:
 
     $ bin/toy_robot -e
 
-Run commands from a file:
+Run commands from a file in extended mode:
 
     $ bin/toy_robot -e -f [filename]
 
