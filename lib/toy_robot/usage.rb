@@ -11,8 +11,6 @@ module ToyRobot
       "#{footer}\n"
     end
 
-    private
-
     def header
       "Valid Commands:"
     end

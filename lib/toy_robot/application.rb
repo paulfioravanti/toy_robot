@@ -1,5 +1,3 @@
-require 'active_model'
-
 require 'robot'
 require 'board'
 require 'command_set'
@@ -12,9 +10,6 @@ module ToyRobot
 
     attr_reader   :board, :robot, :permitted_commands, :usage
     attr_accessor :command, :args, :properties
-
-    validates :permitted_commands, presence: true
-    validates :usage, presence: true
 
     def initialize
       @board = Board.new
@@ -87,15 +82,18 @@ module ToyRobot
 
     def permitted_command?
       # @properties = permitted_commands[command]
-      @properties = permitted_commands.send(command)
+      # @properties = permitted_commands.send(command)
+      permitted_commands.respond_to?(command)
     end
 
     def valid_arg_size?
-      properties[:args_size] == args.size
+      # properties[:args_size] == args.size
+      permitted_commands.send(command)[:args_size] == args.size
     end
 
     def passes_conditions?
-      conditions = properties[:conditions]
+      # conditions = properties[:conditions]
+      conditions = permitted_commands.send(command)[:conditions]
       conditions.each { |condition| return false unless send(condition) }
     end
 
