@@ -1,21 +1,47 @@
 module ToyRobot
   class CommandSet
-    def place
-      {
-        args_size: 3,
-        conditions: ['coordinates_numerical?', 'valid_cardinal?']
+    attr_reader :commands
+
+    def initialize
+      @commands = {
+        place: {
+          args_size: 3,
+          conditions: ['coordinates_numerical?', 'valid_cardinal?']
+        },
+        move: {
+          args_size: 0,
+          conditions: ['placed?']
+        },
+        left: {
+          alias_to: :move
+        },
+        right: {
+          alias_to: :move
+        },
+        report: {
+          alias_to: :move
+        }
       }
     end
 
-    def move
-      {
-        args_size: 0,
-        conditions: ['placed?']
-      }
+    def contains?(command)
+      commands.has_key?(command)
     end
 
-    alias_method :left, :move
-    alias_method :right, :move
-    alias_method :report, :move
+    def args_size_for(command)
+      command = parse(command)
+      commands[command][:args_size]
+    end
+
+    def conditions_for(command)
+      command = parse(command)
+      commands[command][:conditions]
+    end
+
+    private
+
+    def parse(command)
+      commands[command][:alias_to] || command
+    end
   end
 end
