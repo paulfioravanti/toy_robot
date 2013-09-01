@@ -5,14 +5,12 @@ describe Application do
 
   let(:application) { Application.new }
 
-  subject { application }
+  it_behaves_like "an application"
 
-  it_should_behave_like "an application"
-
-  describe "initial state" do
-    its(:permitted_commands) { should == permitted_commands }
-    its(:usage)              { should == usage_message }
-  end
+  # describe "initial state" do
+  #   its(:permitted_commands) { should == permitted_commands }
+  #   its(:usage)              { should == usage_message }
+  # end
 
   describe "#route" do
     let(:response) { application.route(instruction) }
@@ -21,34 +19,52 @@ describe Application do
 
     context "when no instruction given" do
       let(:instruction) { "" }
-      it { should == "" }
+      it "is blank" do
+        expect(response).to be_blank
+      end
     end
 
     context "when instruction is not valid" do
       let(:instruction) { "$%&#" }
-      it { should == "" }
+      it "is blank" do
+        expect(response).to be_blank
+      end
     end
 
-    context "when instruction is valid but not a valid robot command" do
+    context "when instruction is valid but command is not" do
       let(:instruction) { "PLACE 2,A,NORTH" }
-      it { should == "" }
+      it "is blank" do
+        expect(response).to be_blank
+      end
+    end
+
+    context "when command is valid, but issued before a PLACE command" do
+      non_place_instructions.each do |instruction|
+        context "for non-PLACE command: #{instruction}" do
+          let(:instruction) { instruction }
+          it "is blank" do
+            expect(response).to be_blank
+          end
+        end
+      end
     end
 
     context "when valid PLACE command issued" do
       let(:instruction) { "PLACE 2,2,NORTH" }
-      it { should be_a_kind_of(Array) }
+      it "is an array" do
+        expect(response).to be_a_kind_of(Array) # Robot successfully placed
+      end
     end
 
     context "when REPORT command issued post-PLACE" do
       let(:instruction) { "REPORT" }
-      before { application.route("PLACE 2,2,NORTH") }
-      it { should == robot_2_2_north_report }
-    end
+      let(:place_command) { "PLACE 2,2,NORTH" }
+      let(:report) { "2,2,NORTH\n" }
 
-    non_place_instructions.each do |instruction|
-      context "with argless command" do
-        let(:instruction) { instruction }
-        it { should == "" }
+      before { application.route(place_command) }
+
+      it "reports the robot's position" do
+        expect(response).to eq(report)
       end
     end
   end
