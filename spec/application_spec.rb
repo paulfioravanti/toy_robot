@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'toy_robot'
+# require 'toy_robot'
 
 describe Application do
 

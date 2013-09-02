@@ -3,6 +3,7 @@ require 'active_model'
 require 'extended_board'
 require 'extended_robot'
 require 'extended_command_set'
+require 'extended_usage'
 require 'application_map'
 require 'colorable'
 
@@ -13,14 +14,14 @@ module ToyRobot
 
     attr_accessor :response, :target_name, :robots, :app_map
 
-    validates :board, presence: true
+    # validates :board, presence: true
 
     def initialize
       # super
       @robots = []
       @board = ExtendedBoard.new
       @permitted_commands = ExtendedCommandSet.new # TODO: Test this
-      define_extended_rules
+      @usage = ExtendedUsage.message
     end
 
     def route(instruction)
@@ -136,41 +137,27 @@ module ToyRobot
         @response
       end
 
-      def define_extended_rules
-        # @permitted_commands.merge!({
-        #   spin: {
-        #     args_size: 0,
-        #     conditions: ['placed?']
-        #   },
-        #   block: {
-        #     args_size: 0,
-        #     conditions: ['placed?']
-        #   },
-        #   map: {
-        #     args_size: 0,
-        #     conditions: ['valid_map_target?']
-        #   }
-        # })
-        @usage = define_usage
-      end
+      # def define_extended_rules
+      #   @usage = define_usage
+      # end
 
-      def define_usage
-        "#{bold_green "*** EXTENDED MODE ***"}\n"\
-        "#{yellow "Valid Commands:"}\n"\
-        "#{cyan "New Robot"}:\n"\
-        "  PLACE X,Y,F [<ROBOT_NAME>]\n"\
-        "#{cyan "Re-place Robot"}:\n"\
-        "  PLACE X,Y,F <ROBOT_NAME>\n"\
-        "MOVE [<ROBOT_NAME>]\n"\
-        "LEFT [<ROBOT_NAME>]\n"\
-        "RIGHT [<ROBOT_NAME>]\n"\
-        "REPORT [<ROBOT_NAME>]\n"\
-        "SPIN [<ROBOT_NAME>]\n"\
-        "BLOCK [<ROBOT_NAME>]\n"\
-        "MAP [<ROBOT_NAME>] [BOARD]\n"\
-        "HELP\n"\
-        "EXIT\n"\
-        "-------\n"
-      end
+      # def define_usage
+      #   "#{bold_green "*** EXTENDED MODE ***"}\n"\
+      #   "#{yellow "Valid Commands:"}\n"\
+      #   "#{cyan "New Robot"}:\n"\
+      #   "  PLACE X,Y,F [<ROBOT_NAME>]\n"\
+      #   "#{cyan "Re-place Robot"}:\n"\
+      #   "  PLACE X,Y,F <ROBOT_NAME>\n"\
+      #   "MOVE [<ROBOT_NAME>]\n"\
+      #   "LEFT [<ROBOT_NAME>]\n"\
+      #   "RIGHT [<ROBOT_NAME>]\n"\
+      #   "REPORT [<ROBOT_NAME>]\n"\
+      #   "SPIN [<ROBOT_NAME>]\n"\
+      #   "BLOCK [<ROBOT_NAME>]\n"\
+      #   "MAP [<ROBOT_NAME>] [BOARD]\n"\
+      #   "HELP\n"\
+      #   "EXIT\n"\
+      #   "-------\n"
+      # end
   end
 end

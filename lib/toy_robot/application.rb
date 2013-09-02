@@ -6,8 +6,7 @@ require 'usage'
 module ToyRobot
   # Main application class for standard Toy Robot app
   class Application
-    include ActiveModel::Validations
-    include Usage
+    # include ActiveModel::Validations
 
     attr_reader   :board, :robot, :permitted_commands, :usage
     attr_accessor :command, :args
@@ -16,7 +15,7 @@ module ToyRobot
       @board = Board.new
       @robot = Robot.new(board)
       @permitted_commands = CommandSet.new # TODO: Test this
-      @usage = Usage.output # TODO: Test this
+      @usage = Usage.message
     end
 
     def route(instruction)

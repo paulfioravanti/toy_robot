@@ -1,8 +1,8 @@
 module ToyRobot
+  # A Module representing the Application usage message
   module Usage
-    module_function
 
-    def output
+    def self.message
       "#{header}\n"\
       "#{place}\n"\
       "#{move}\n"\
@@ -12,6 +12,9 @@ module ToyRobot
       "#{exit}\n"\
       "#{footer}\n"
     end
+
+    private
+    module_function
 
     def header; "Valid Commands:"; end
     def place; "PLACE X,Y,F eg: PLACE 0,0,NORTH"; end

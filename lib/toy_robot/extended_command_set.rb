@@ -1,7 +1,5 @@
 module ToyRobot
   class ExtendedCommandSet < CommandSet
-    # attr_reader :commands
-
     def initialize
       super
       @commands = commands.merge({
@@ -17,25 +15,5 @@ module ToyRobot
         }
       })
     end
-
-    # def contains?(command)
-    #   commands.has_key?(command)
-    # end
-
-    # def args_size_for(command)
-    #   command = parse(command)
-    #   commands[command][:args_size]
-    # end
-
-    # def conditions_for(command)
-    #   command = parse(command)
-    #   commands[command][:conditions]
-    # end
-
-    # private
-
-    # def parse(command)
-    #   commands[command][:alias_to] || command
-    # end
   end
 end

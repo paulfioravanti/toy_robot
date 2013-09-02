@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'toy_robot'
 
 describe BoardMap do
 
