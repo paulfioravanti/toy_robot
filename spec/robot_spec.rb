@@ -16,7 +16,7 @@ describe Robot do
     subject { report }
 
     context "after a #place" do
-      let(:expected_report) { robot_2_2_north_report }
+      let(:expected_report) { "2,2,NORTH\n" }
       before { robot.place(2, 2, "NORTH") }
       it { should == expected_report }
     end

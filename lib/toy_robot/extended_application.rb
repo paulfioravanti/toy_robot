@@ -2,6 +2,7 @@ require 'active_model'
 
 require 'extended_board'
 require 'extended_robot'
+require 'extended_command_set'
 require 'application_map'
 require 'colorable'
 
@@ -15,9 +16,10 @@ module ToyRobot
     validates :board, presence: true
 
     def initialize
-      super
+      # super
       @robots = []
       @board = ExtendedBoard.new
+      @permitted_commands = ExtendedCommandSet.new # TODO: Test this
       define_extended_rules
     end
 
@@ -135,20 +137,20 @@ module ToyRobot
       end
 
       def define_extended_rules
-        @permitted_commands.merge!({
-          spin: {
-            args_size: 0,
-            conditions: ['placed?']
-          },
-          block: {
-            args_size: 0,
-            conditions: ['placed?']
-          },
-          map: {
-            args_size: 0,
-            conditions: ['valid_map_target?']
-          }
-        })
+        # @permitted_commands.merge!({
+        #   spin: {
+        #     args_size: 0,
+        #     conditions: ['placed?']
+        #   },
+        #   block: {
+        #     args_size: 0,
+        #     conditions: ['placed?']
+        #   },
+        #   map: {
+        #     args_size: 0,
+        #     conditions: ['valid_map_target?']
+        #   }
+        # })
         @usage = define_usage
       end
 

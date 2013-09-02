@@ -15,8 +15,8 @@ module ToyRobot
     def initialize
       @board = Board.new
       @robot = Robot.new(board)
-      @permitted_commands = CommandSet.new
-      @usage = Usage.output
+      @permitted_commands = CommandSet.new # TODO: Test this
+      @usage = Usage.output # TODO: Test this
     end
 
     def route(instruction)

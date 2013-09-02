@@ -46,42 +46,42 @@ module Utilities
   #   }
   # end
 
-  def extended_permitted_commands
-    {
-      place: {
-        args_size: 3,
-        conditions: ['coordinates_numerical?', 'valid_cardinal?']
-      },
-      move: {
-        args_size: 0,
-        conditions: ['placed?']
-      },
-      left: {
-        args_size: 0,
-        conditions: ['placed?']
-      },
-      right: {
-        args_size: 0,
-        conditions: ['placed?']
-      },
-      report: {
-        args_size: 0,
-        conditions: ['placed?']
-      },
-      spin: {
-        args_size: 0,
-        conditions: ['placed?']
-      },
-      block: {
-        args_size: 0,
-        conditions: ['placed?']
-      },
-      map: {
-        args_size: 0,
-        conditions: ['valid_map_target?']
-      }
-    }
-  end
+  # def extended_permitted_commands
+  #   {
+  #     place: {
+  #       args_size: 3,
+  #       conditions: ['coordinates_numerical?', 'valid_cardinal?']
+  #     },
+  #     move: {
+  #       args_size: 0,
+  #       conditions: ['placed?']
+  #     },
+  #     left: {
+  #       args_size: 0,
+  #       conditions: ['placed?']
+  #     },
+  #     right: {
+  #       args_size: 0,
+  #       conditions: ['placed?']
+  #     },
+  #     report: {
+  #       args_size: 0,
+  #       conditions: ['placed?']
+  #     },
+  #     spin: {
+  #       args_size: 0,
+  #       conditions: ['placed?']
+  #     },
+  #     block: {
+  #       args_size: 0,
+  #       conditions: ['placed?']
+  #     },
+  #     map: {
+  #       args_size: 0,
+  #       conditions: ['valid_map_target?']
+  #     }
+  #   }
+  # end
 
   # In relation to Position.new(2, 3)
   def lesser_positions

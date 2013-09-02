@@ -126,7 +126,7 @@ describe ExtendedRobot do
     subject { report.gsub(ansi_colors, '') }
 
     context "after a #place" do
-      let(:expected_report) { extended_robot_2_2_north_report_no_name }
+      let(:expected_report) { "R1's Position: 2,2,NORTH\n" }
       before { robot.place(2, 2, "NORTH") }
       it { should == expected_report }
     end
