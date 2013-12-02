@@ -14,13 +14,10 @@ module ToyRobot
 
     attr_accessor :response, :target_name, :robots, :app_map
 
-    # validates :board, presence: true
-
     def initialize
-      # super
       @robots = []
       @board = ExtendedBoard.new
-      @permitted_commands = ExtendedCommandSet.new # TODO: Test this
+      @permitted_commands = ExtendedCommandSet.new
       @usage = ExtendedUsage.message
     end
 

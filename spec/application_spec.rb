@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Application do
-
   let(:application) { Application.new }
 
   it_behaves_like 'an application'

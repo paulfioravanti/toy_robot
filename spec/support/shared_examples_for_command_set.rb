@@ -1,4 +1,16 @@
 shared_examples_for "a command set" do
+  specify "attributes" do
+    expect(command_set).to respond_to(:commands)
+  end
+
+  describe "commands" do
+    let(:commands) { command_set.commands }
+
+    it "reflects the robot interface" do
+      expect(commands.keys.sort).to eq(robot_interface)
+    end
+  end
+
   describe "#contains?" do
     let(:result) { command_set.contains?(command) }
 

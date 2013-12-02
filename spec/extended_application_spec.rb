@@ -1,11 +1,7 @@
 require 'spec_helper'
-# require 'toy_robot'
 
 describe ExtendedApplication do
-
   let(:application) { ExtendedApplication.new }
-
-  # subject { application }
 
   it_behaves_like "an application"
 
@@ -14,22 +10,15 @@ describe ExtendedApplication do
   end
 
   describe "initial state" do
-    its(:board)              { should_not be_nil }
-    its(:robots)             { should be_empty }
-    # its(:permitted_commands) { should == extended_permitted_commands }
+    it 'has a set of robots' do
+      expect(application.robots).to be_empty
+    end
 
     describe "usage message" do
       subject { application.usage.gsub(ansi_colors, '') }
       it { should == extended_usage_message }
     end
   end
-
-  # describe "validations" do
-  #   context "for board" do
-  #     before { application.instance_variable_set(:@board, nil) }
-  #     it { should_not be_valid }
-  #   end
-  # end
 
   describe "@robots" do
     subject { application.robots }
