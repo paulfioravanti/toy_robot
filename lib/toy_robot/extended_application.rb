@@ -33,7 +33,7 @@ module ToyRobot
     private
 
       def execute_instruction(instruction)
-        parse_instruction(instruction)
+        parse(instruction)
         if valid_command?
           find_or_create_robot if @command == :place
           send_command
@@ -42,7 +42,7 @@ module ToyRobot
         end
       end
 
-      def parse_instruction(instruction)
+      def parse(instruction)
         return false unless super(instruction)
         if @args.empty?
           determine_target
