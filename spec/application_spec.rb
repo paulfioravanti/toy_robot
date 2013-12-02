@@ -1,16 +1,16 @@
 require 'spec_helper'
-# require 'toy_robot'
 
 describe Application do
 
   let(:application) { Application.new }
 
-  it_behaves_like "an application"
+  it_behaves_like 'an application'
 
-  # describe "initial state" do
-  #   its(:permitted_commands) { should == permitted_commands }
-  #   its(:usage)              { should == usage_message }
-  # end
+  describe 'initial state' do
+    it 'has a single robot' do
+      expect(application.robot).to be_present
+    end
+  end
 
   describe "#route" do
     let(:response) { application.route(instruction) }

@@ -6,7 +6,6 @@ require 'usage'
 module ToyRobot
   # Main application class for standard Toy Robot app
   class Application
-    # include ActiveModel::Validations
 
     attr_reader   :board, :robot, :permitted_commands, :usage
     attr_accessor :command, :args
@@ -14,12 +13,12 @@ module ToyRobot
     def initialize
       @board = Board.new
       @robot = Robot.new(board)
-      @permitted_commands = CommandSet.new # TODO: Test this
+      @permitted_commands = CommandSet.new
       @usage = Usage.message
     end
 
     def route(instruction)
-      parse_instruction(instruction)
+      parse(instruction)
       if valid_command?
         robot.send(command, *args)
       else
@@ -29,11 +28,18 @@ module ToyRobot
 
     private
 
-    def parse_instruction(instruction)
+    def parse(instruction)
+      extract_args_from(instruction)
+      extract_command_from_args
+    end
+
+    def extract_args_from(instruction)
       @args = instruction.scan(%r{-?\w+})
-      if inputted_command = args.shift
-        @command = inputted_command.downcase.to_sym
-      end
+    end
+
+    def extract_command_from_args
+      first_arg = args.shift
+      @command = first_arg.downcase.to_sym if first_arg
     end
 
     def valid_command?

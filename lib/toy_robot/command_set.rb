@@ -11,17 +11,15 @@ module ToyRobot
         move: {
           args_size: 0,
           conditions: ['placed?']
-        },
-        left: {
-          alias_to: :move
-        },
-        right: {
-          alias_to: :move
-        },
-        report: {
-          alias_to: :move
         }
       }
+      @commands.merge!(
+        {
+          left: @commands[:move],
+          right: @commands[:move],
+          report: @commands[:move]
+        }
+      )
     end
 
     def contains?(command)
@@ -29,19 +27,11 @@ module ToyRobot
     end
 
     def args_size_for(command)
-      command = parse(command)
       commands[command][:args_size]
     end
 
     def conditions_for(command)
-      command = parse(command)
       commands[command][:conditions]
-    end
-
-    private
-
-    def parse(command)
-      commands[command][:alias_to] || command
     end
   end
 end

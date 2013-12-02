@@ -24,28 +24,6 @@ module Utilities
     ["MOVE", "LEFT", "RIGHT", "REPORT"]
   end
 
-  # def permitted_commands
-  #   {
-  #     place: {
-  #       args_size: 3,
-  #       conditions: ['coordinates_numerical?', 'valid_cardinal?']
-  #     },
-  #     move: {
-  #       args_size: 0,
-  #       conditions: ['placed?']
-  #     },
-  #     left: {
-  #       alias_to: :move
-  #     },
-  #     right: {
-  #       alias_to: :move
-  #     },
-  #     report: {
-  #       alias_to: :move
-  #     }
-  #   }
-  # end
-
   # def extended_permitted_commands
   #   {
   #     place: {
