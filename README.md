@@ -219,3 +219,6 @@ The `MAP [ROBOT_NAME] [BOARD]` command shows a visual map of the board from thre
 Copyright (c) 2013 Paul Fioravanti
 
 See [MIT LICENSE](./LICENSE.txt)  for details.
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/paulfioravanti/toy_robot/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
