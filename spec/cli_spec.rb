@@ -17,8 +17,10 @@ describe CLI do
 
   shared_examples_for "commands executed from a file" do |extended|
     before do
-      cli.stub(:options) { { extended: extended, file: default_file } }
-      File.stub(:readlines).with(default_file) do
+      allow(cli).to receive(:options).and_return(
+        { extended: extended, file: default_file }
+      )
+      allow(File).to receive(:readlines).with(default_file) do
         StringIO.new(input).map { |line| line.strip.chomp }
       end
     end
@@ -77,7 +79,11 @@ describe CLI do
         "Filename not specified or does not exist.\n"
       end
 
-      before { cli.stub(:options) { { file: default_file } } }
+      before do
+        allow(cli).to \
+          receive(:options).and_return({ file: default_file })
+      end
+
       subject { output.gsub(ansi_colors, '') }
       it { should == expected_output }
     end
@@ -85,15 +91,15 @@ describe CLI do
 
   shared_examples_for "commands executed from the command line" do |extended|
     before do
-      cli.stub(:options) { { extended: extended } }
-      cli.stub(:gets).and_return(*commands, "EXIT")
+      allow(cli).to receive(:options).and_return({ extended: extended })
+      allow(cli).to receive(:gets).and_return(*commands, "EXIT")
     end
 
     subject { output.gsub(ansi_colors, '') }
 
     it "outputs the result for each command" do
       expected_output.each do |value|
-        output.gsub(ansi_colors, '').should include(value)
+        expect(output.gsub(ansi_colors, '')).to include(value)
       end
     end
   end
@@ -102,32 +108,42 @@ describe CLI do
     let(:output) { capture(:stdout) { cli.execute } }
 
     describe "initial output" do
-      before { cli.stub(:gets) { "EXIT" } }
+      before { allow(cli).to receive(:gets).and_return("EXIT") }
 
       context "in standard mode" do
-        before { cli.stub(:options) { { extended: false } } }
+        before do
+          allow(cli).to receive(:options).and_return({ extended: false })
+        end
         subject { output.gsub(ansi_colors, '') }
         it { should == usage_message << prompt }
       end
 
       context "in extended mode" do
-        before { cli.stub(:options) { { extended: true } } }
+        before do
+          allow(cli).to receive(:options).and_return({ extended: true })
+        end
         subject { output.gsub(ansi_colors, '') }
         it { should == extended_usage_message << prompt }
       end
     end
 
     describe "HELP command" do
-      before { cli.stub(:gets).and_return("HELP", "EXIT") }
+      before do
+        allow(cli).to receive(:gets).and_return("HELP", "EXIT")
+      end
 
       context "in standard mode" do
-        before { cli.stub(:options) { { extended: false } } }
+        before do
+          allow(cli).to receive(:options).and_return({ extended: false })
+        end
         subject { output.gsub(ansi_colors, '') }
         it { should == usage_message << prompt << prompt }
       end
 
       context "in extended mode" do
-        before { cli.stub(:options) { { extended: true } } }
+        before do
+          allow(cli).to receive(:options).and_return({ extended: true })
+        end
         subject { output.gsub(ansi_colors, '') }
         it { should == (extended_usage_message << prompt) * 2 }
       end

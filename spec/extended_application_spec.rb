@@ -36,12 +36,18 @@ describe ExtendedApplication do
 
     context "after an unsuccessful PLACE" do
       before { application.route("PLACE -2,-2,NORTH") }
-      it { should have(0).items }
+
+      it 'has zero robots' do
+        expect(subject.size).to eq(0)
+      end
     end
 
     context "after a successful PLACE" do
       before { application.route("PLACE 2,2,NORTH") }
-      it { should have(1).items }
+
+      it 'has one robot' do
+        expect(subject.size).to eq(1)
+      end
     end
 
     context "after two successful PLACEs" do
@@ -49,7 +55,10 @@ describe ExtendedApplication do
         application.route("PLACE 2,2,NORTH")
         application.route("PLACE 1,1,NORTH")
       end
-      it { should have(2).items }
+
+      it 'has two robots' do
+        expect(subject.size).to eq(2)
+      end
     end
 
     context "after attempting to PLACE a robot on top of another robot" do
@@ -57,7 +66,10 @@ describe ExtendedApplication do
         application.route("PLACE 2,2,NORTH")
         application.route("PLACE 2,2,NORTH")
       end
-      it { should have(1).items }
+
+      it 'has only one robot' do
+        expect(subject.size).to eq(1)
+      end
     end
 
     context "after attempting to PLACE a robot on top of a block" do
@@ -66,7 +78,10 @@ describe ExtendedApplication do
         application.route("BLOCK")
         application.route("PLACE 2,3,NORTH")
       end
-      it { should have(1).items }
+
+      it 'has only one robot' do
+        expect(subject.size).to eq(1)
+      end
     end
   end
 

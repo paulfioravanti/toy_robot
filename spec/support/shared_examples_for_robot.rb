@@ -94,7 +94,7 @@ shared_examples_for "a robot" do
       let(:expected_cardinal) { nil }
 
       before do
-        robot.stub(:move) { false }
+        allow(robot).to receive(:move).and_return(false)
         robot.move
       end
 
@@ -224,7 +224,7 @@ shared_examples_for "a robot" do
       let(:expected_cardinal) { nil }
 
       before do
-        robot.stub(:left) { false }
+        allow(robot).to receive(:left).and_return(false)
         robot.left
       end
 
@@ -271,7 +271,7 @@ shared_examples_for "a robot" do
 
     context "before a #place" do
       let(:expected_report) { false }
-      before { robot.stub(:report) { false } }
+      before { allow(robot).to receive(:report).and_return(false) }
       it { should == expected_report }
     end
   end

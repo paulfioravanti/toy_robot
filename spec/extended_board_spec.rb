@@ -51,13 +51,13 @@ describe ExtendedBoard do
 
     context "when space is not empty" do
       subject { board.space_empty?(position) }
-      it { should be_false }
+      it { should be false }
     end
 
     context "when space is empty" do
       let(:empty_position) { Position.new(2, 1) }
       subject { board.space_empty?(empty_position) }
-      it { should be_true }
+      it { should be true }
     end
   end
 
@@ -68,7 +68,9 @@ describe ExtendedBoard do
 
     context "before a #place" do
       let(:expected_map) { false }
-      before { board.stub_chain(:map, :gsub) { false } }
+      before do
+        allow(board).to receive_message_chain(:map, :gsub).and_return(false)
+      end
       it { should == expected_map }
     end
 

@@ -33,7 +33,7 @@ describe ExtendedRobot do
       let(:expected_cardinal) { nil }
 
       before do
-        robot.stub(:spin) { false }
+        allow(robot).to receive(:spin).and_return(false)
         robot.spin
       end
 
@@ -139,7 +139,9 @@ describe ExtendedRobot do
 
     context "before a #place" do
       let(:expected_map) { false }
-      before { robot.stub_chain(:map, :gsub) { false } }
+      before do
+        allow(robot).to receive_message_chain(:map, :gsub).and_return(false)
+      end
       it { should == expected_map }
     end
 
@@ -153,11 +155,13 @@ describe ExtendedRobot do
   describe "#block" do
     context "before a #place" do
       before do
-        robot.stub(:block) { false }
+        allow(robot).to receive(:block).and_return(false)
         robot.block
       end
 
-      its(:blocks) { should have(0).items }
+      it "is not added to the robot's blocks" do
+        expect(robot.blocks.size).to eq(0)
+      end
     end
 
     context "in a valid position" do
@@ -166,7 +170,9 @@ describe ExtendedRobot do
         robot.block
       end
 
-      its(:blocks) { should have(1).items }
+      it "is added to the robot's blocks" do
+        expect(robot.blocks.size).to eq(1)
+      end
 
       context "in front of robot" do
         let(:block) { robot.blocks.last }
@@ -229,7 +235,9 @@ describe ExtendedRobot do
           robot.block
         end
 
-        its(:blocks) { should have(0).items }
+        it "is not added to the robot's blocks" do
+          expect(robot.blocks.size).to eq(0)
+        end
       end
 
       context "where a block already exists" do
@@ -238,7 +246,9 @@ describe ExtendedRobot do
           2.times { robot.block }
         end
 
-        its(:blocks) { should have(1).items }
+        it "is not added to the robot's blocks" do
+          expect(robot.blocks.size).to eq(1)
+        end
       end
     end
   end
