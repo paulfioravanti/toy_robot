@@ -13,3 +13,5 @@ require 'block'
 require 'mappable'
 require 'robot_map'
 require 'board_map'
+# Silence baffling deprecation notice
+I18n.enforce_available_locales = true
