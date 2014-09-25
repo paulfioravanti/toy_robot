@@ -17,7 +17,7 @@ Gem::Specification.new do |gem|
 
   gem.add_development_dependency 'bundler', '~> 1.6'
   gem.add_development_dependency 'rake', '~> 10.0'
-  gem.add_development_dependency 'rspec', '~> 3.0'
+  gem.add_development_dependency 'rspec', '~> 3.1'
   gem.add_development_dependency 'rspec-its' # re-test to get rid of this gem
   gem.add_development_dependency 'rspec-legacy_formatters'
   gem.add_development_dependency 'rubygems-tasks', '~> 0.2'
