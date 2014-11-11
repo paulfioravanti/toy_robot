@@ -2,6 +2,7 @@
 language: ruby
 rvm:
 - 2.1.2
-script:
+before_script:
 - gem update bundler
+script:
 - bundle exec rspec --no-drb --format progress
