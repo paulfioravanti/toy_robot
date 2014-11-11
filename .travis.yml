@@ -3,4 +3,5 @@ language: ruby
 rvm:
 - 2.1.2
 script:
+- gem install bundler -v 1.7.5
 - bundle exec rspec --no-drb --format progress
