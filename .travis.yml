@@ -1,6 +1,11 @@
----
 language: ruby
 rvm:
 - 2.1.2
 script:
 - bundle exec rspec --no-drb --format progress
+env:
+  global:
+  - secure: |-
+      dcN4p784cVCbAXVV9BW+VxViyGBPsbf+RaEjNh4i+0oTWSnlQfuE/+YbSKbYisxn4jd+E7VH7
+      /NKyNFdWl+Lxltmf5qyHxqDpHfJZFisQVPIg8DoAkH8TT8BFeohhSK7vY3qPvPTuRaKHJY4DE
+      9aOh6sKJMqcTP9FixIYFoYR18=

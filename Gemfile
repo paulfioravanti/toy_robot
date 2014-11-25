@@ -9,3 +9,7 @@ group :development do
   gem 'simplecov'
   gem 'reek'
 end
+
+group :test do
+  gem 'codeclimate-test-reporter', require: nil
+end
