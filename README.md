@@ -1,5 +1,5 @@
 # Toy Robot Simulator
-[![Build Status](https://travis-ci.org/paulfioravanti/toy_robot.png?branch=master)](https://travis-ci.org/paulfioravanti/toy_robot) [![Code Climate](https://codeclimate.com/github/paulfioravanti/toy_robot.png)](https://codeclimate.com/github/paulfioravanti/toy_robot) [![Coverage Status](https://coveralls.io/repos/paulfioravanti/toy_robot/badge.png?branch=master)](https://coveralls.io/r/paulfioravanti/toy_robot) [![Dependency Status](https://gemnasium.com/paulfioravanti/toy_robot.png)](https://gemnasium.com/paulfioravanti/toy_robot)
+[![Build Status](https://travis-ci.org/paulfioravanti/toy_robot.png?branch=master)](https://travis-ci.org/paulfioravanti/toy_robot) [![Code Climate](https://codeclimate.com/github/paulfioravanti/toy_robot.png)](https://codeclimate.com/github/paulfioravanti/toy_robot) [![Dependency Status](https://gemnasium.com/paulfioravanti/toy_robot.png)](https://gemnasium.com/paulfioravanti/toy_robot)
 
 ## Description
 
@@ -37,7 +37,7 @@ Run commands from a file in extended mode:
 
 ## Testing
 
-Code quality is attempted by using [RSpec](http://rspec.info/) for testing, [SimpleCov](https://github.com/colszowka/simplecov) for code test coverage, [Reek](https://github.com/troessner/reek) to fix code smells, as well as [Code Climate](https://codeclimate.com/) and [Coveralls](https://coveralls.io/) for quality metrics.
+Code quality is attempted by using [RSpec](http://rspec.info/) for testing, [SimpleCov](https://github.com/colszowka/simplecov) for code test coverage, [Reek](https://github.com/troessner/reek) to fix code smells, as well as [Code Climate](https://codeclimate.com/) for quality metrics.
 
 Run tests:
 
