@@ -1,5 +1,5 @@
 # Toy Robot Simulator
-[![Build Status](https://travis-ci.org/paulfioravanti/toy_robot.png?branch=master)](https://travis-ci.org/paulfioravanti/toy_robot) [![Code Climate](https://codeclimate.com/github/paulfioravanti/toy_robot.png)](https://codeclimate.com/github/paulfioravanti/toy_robot) [![Dependency Status](https://gemnasium.com/paulfioravanti/toy_robot.png)](https://gemnasium.com/paulfioravanti/toy_robot)
+[![Build Status](https://travis-ci.org/paulfioravanti/toy_robot.png?branch=master)](https://travis-ci.org/paulfioravanti/toy_robot) [![Code Climate](https://codeclimate.com/github/paulfioravanti/toy_robot.png)](https://codeclimate.com/github/paulfioravanti/toy_robot) [![Test Coverage](https://codeclimate.com/github/paulfioravanti/toy_robot/badges/coverage.svg)](https://codeclimate.com/github/paulfioravanti/toy_robot) [![Dependency Status](https://gemnasium.com/paulfioravanti/toy_robot.png)](https://gemnasium.com/paulfioravanti/toy_robot)
 
 ## Description
 
